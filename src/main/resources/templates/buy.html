@@ -1,0 +1,24 @@
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+    <form th:action="@{/mall/buyResult}" th:object="${buyDTO}" method="post" >
+        <table class="table">
+            <thead class="table-dark">
+            <tr class="text-center">
+                <th>상품구매.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="buy : ${buyDTO}">
+                <td th:text="|구매자: ${buy.siteUser.userId}|"></td>
+                <td th:text="|현재포인트: ${buy.siteUser.currentPoint}p|"></td>
+<!--                <td th:text="|상품명: ${buy.selectCouponDTO.couponName}|"></td>-->
+            </tr>
+            <tr>
+                <td><input type="submit" value="결제하기"></td>
+            </tr>
+            </tbody>
+        </table>
+
+    </form>
+</div>
+</html>
