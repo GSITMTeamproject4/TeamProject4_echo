@@ -12,4 +12,5 @@ public interface AuthBoardService {
     AuthBoard getAuthBoard(Long id);
     List<AuthBoard> getAllBoards();
     AuthBoard getBoardById(Long id);
+    String encodeImageToBase64(String filePath) throws IOException;
 }

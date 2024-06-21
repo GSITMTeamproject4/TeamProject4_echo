@@ -12,7 +12,7 @@
   <a href="/authBoard/list">목록으로 돌아가기</a>
 </div>
 <div>
-  <img th:if="${board.image != null}" th:src="'data:image/' + ${board.image.fileType} + ';base64,' + ${board.image.base64}" alt="Board Image"/>
+  <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="Board Image" width="200"/>
 </div>
 </body>
 </html>
