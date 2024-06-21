@@ -10,5 +10,4 @@ public class EchoProjectApplication {
         SpringApplication.run(EchoProjectApplication.class, args);
 
     }
-
 }
