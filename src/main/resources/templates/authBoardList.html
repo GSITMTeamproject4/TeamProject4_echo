@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>게시판 목록</title>
+</head>
+<body>
+<h1>게시판 목록</h1>
+<a href="/authBoard/post/new">새 게시글 작성</a>
+<table>
+    <thead>
+    <tr>
+        <th>번호</th>
+        <th>제목</th>
+        <th>작성일</th>
+        <th>작성자</th> <!-- 작성자 열 추가 -->
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="board : ${boards}">
+        <td th:text="${board.listId}"></td>
+        <td><a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a></td>
+        <td th:text="${board.postCreateDate}"></td>
+        <td th:text="${board.siteUser.userId}"></td> <!-- 작성자 정보 출력 -->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
