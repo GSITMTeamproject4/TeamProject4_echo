@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <title>게시판 목록</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
 <h1>게시판 목록</h1>
@@ -12,7 +15,9 @@
         <th>번호</th>
         <th>제목</th>
         <th>작성일</th>
-        <th>작성자</th> <!-- 작성자 열 추가 -->
+        <th>작성자</th>
+        <th>좋아요 수</th> <!-- 좋아요 수 열 추가 -->
+        <th>좋아요</th> <!-- 좋아요 버튼 열 추가 -->
     </tr>
     </thead>
     <tbody>
@@ -20,9 +25,37 @@
         <td th:text="${board.listId}"></td>
         <td><a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a></td>
         <td th:text="${board.postCreateDate}"></td>
-        <td th:text="${board.siteUser.userId}"></td> <!-- 작성자 정보 출력 -->
+        <td th:text="${board.siteUser.userId}"></td>
+        <td th:text="${board.likeCount}"></td> <!-- 좋아요 수 출력 -->
+        <td><button type="button" th:attr="data-board-id=${board.listId}" class="like-button">좋아요</button></td> <!-- 좋아요 버튼 추가 -->
     </tr>
     </tbody>
 </table>
+
+<script>
+    $(document).ready(function() {
+        var csrfToken = $('meta[name="_csrf"]').attr('content');
+        var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
+
+        $('.like-button').click(function() {
+            var button = $(this);
+            var boardId = button.data('board-id');
+            $.ajax({
+                url: '/likeBoard/toggle/' + boardId,
+                type: 'POST',
+                beforeSend: function(xhr) {
+                    xhr.setRequestHeader(csrfHeader, csrfToken);
+                },
+                success: function(response) {
+                    // 좋아요 수 업데이트
+                    button.closest('tr').find('td').eq(4).text(response.likeCount);
+                },
+                error: function(xhr, status, error) {
+                    alert('좋아요 처리 중 오류가 발생했습니다.');
+                }
+            });
+        });
+    });
+</script>
 </body>
 </html>
