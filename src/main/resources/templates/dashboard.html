@@ -1,17 +1,27 @@
-<!doctype html>
-<html lang="ko">
-
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-    <!-- sbb CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-    <title>환경 프로젝트</title>
+    <title>Spring Thymeleaf Axios Example</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
 <body>
-<h1>통계 보여주는 대쉬보드입니다.</h1>
+<h2>비동기 데이터 표시:</h2>
+<div id="asyncData"></div>
+
+<script th:inline="javascript">
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Axios GET request
+        axios.get('/dashboard/data') // /dashboard/data 경로로 변경
+            .then(function(response) {
+                // Success
+                document.getElementById('asyncData').textContent = response.data;
+            })
+            .catch(function(error) {
+                // errors
+                console.error('Error fetching data:', error);
+            });
+    });
+</script>
 </body>
 </html>

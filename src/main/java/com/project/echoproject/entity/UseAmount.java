@@ -9,7 +9,11 @@ import lombok.Setter;
 @Entity
 public class UseAmount {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "site_user_id")
     private SiteUser siteUser;
 
     @Column(columnDefinition = "LONG DEFAULT 0")
