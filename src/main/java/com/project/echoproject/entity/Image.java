@@ -20,9 +20,7 @@ public class Image {
 
     private String fileType;
 
-    @Lob
-    @Column(columnDefinition = "LONGBLOB")
-    private byte[] data;
+    private String filePath; // 파일 경로를 저장할 필드
 
     private LocalDateTime uploadTime;
 
