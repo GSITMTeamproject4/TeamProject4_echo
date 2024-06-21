@@ -6,6 +6,7 @@ import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -36,6 +37,9 @@ public class SiteUser {
     private Integer couponId;
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean couponUse;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<LikeBoard> likeBoards;
 
     @PrePersist
     protected void onCreate() {
