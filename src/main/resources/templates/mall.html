@@ -1,0 +1,21 @@
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+    <form th:action="@{/mall/buy}" method="post" th:object="${selectCouponDTO}" >
+    <table class="table">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>포인트를 사용해 쿠폰을 구매하는 쿠폰 mall입니다.</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="coupon : ${couponList}">
+            <td th:text="${coupon.couponName}"></td>
+            <td th:text="|필요포인트: ${coupon.couponPoint}p|"></td>
+            <td><input type="submit" value="구매하기"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    </form>
+</div>
+</html>
