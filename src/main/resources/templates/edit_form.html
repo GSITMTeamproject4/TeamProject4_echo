@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Personal Info</title>
+    <style>
+        /*프로필 이미지 파일 업로드 시 미리보기*/
+        .preview-image {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>개인정보 수정</h4>
+        </div>
+    </div>
+    <form action="/user/edit/{userId}" method="post" th:object="${user}">
+        <div class="mb-3">
+            <label for="profileImage" class="form-label">프로필 이미지</label>
+            <input type="file" id="profileImage" name="profileImage" class="form-control-file" onchange="previewImage(event)">
+            <img id="preview" class="preview-image" th:src="${user.imgUrl}" alt="프로필 이미지 미리 보기">
+        </div>
+
+        <div class="mb-3">
+            <label for="name" class="form-label">이름 : </label>
+            <input type="text" id="name" name="userName" class="form-control" th:value="${user.userName}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="userId" class="form-label">아이디 : </label>
+            <input type="text" name="userId" id="userId" class="form-control" th:value="${user.userId}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="password" class="form-label">비밀번호 : </label>
+            <input type="password" id="password" name="password" class="form-control" th:value="${user.password}">
+        </div>
+
+        <div class="mb-3">
+            <label for="phone" class="form-label">전화번호 : </label>
+            <input type="tel" id="phone" name="phoneNum" class="form-control" th:value="${user.phoneNum}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="email" class="form-label">이메일 : </label>
+            <input type="email" id="email" name="email" class="form-control" th:value="${user.email}" required>
+        </div>
+
+        <div class="mb-3">
+            <label>성별</label><br>
+            <label>
+                <input type="radio" name="gender" value="남성" th:checked="${user.gender == '남성'}">남성
+            </label>
+            <label>
+                <input type="radio" name="gender" value="여성" th:checked="${user.gender == '여성'}">여성
+            </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary">수정</button>
+    </form>
+</div>
+</body>
+</html>
+
+<script>
+    // 파일 선택 시 미리 보기 기능을 수행하는 JavaScript 함수
+    function previewImage(event) {
+        var reader = new FileReader();
+        reader.onload = function(){
+            var output = document.getElementById('preview');
+            output.src = reader.result;
+        };
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
