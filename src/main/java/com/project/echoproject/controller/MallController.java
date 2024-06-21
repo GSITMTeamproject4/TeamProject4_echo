@@ -35,7 +35,7 @@ public class MallController {
 
     @PostMapping("/buy")
     public String buyCoupon(Coupon selectCouponDTO, Model model ) { //selectCouponDTO 가 null
-        SiteUser siteUser = this.userService.getUser();
+//        SiteUser siteUser = this.userService.getUser();
 
 //        UserCoupon userCoupon = new UserCoupon();
 //        userCoupon.setSiteUser(siteUser);
