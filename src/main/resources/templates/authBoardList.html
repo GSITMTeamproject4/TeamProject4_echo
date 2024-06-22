@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>게시판 목록</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -8,7 +8,11 @@
 </head>
 <body>
 <h1>게시판 목록</h1>
-<a href="/authBoard/post/new">새 게시글 작성</a>
+<p>현재 로그인한 사용자: <span th:text="${userName}"></span></p> <!-- 현재 로그인한 사용자 정보 표시 -->
+<a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+<a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+<a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+<a href="/authBoard/create">새 게시글 작성</a>
 <table>
     <thead>
     <tr>
@@ -27,7 +31,7 @@
         <td th:text="${board.postCreateDate}"></td>
         <td th:text="${board.siteUser.userId}"></td>
         <td th:text="${board.likeCount}"></td> <!-- 좋아요 수 출력 -->
-        <td><button type="button" th:attr="data-board-id=${board.listId}" class="like-button">좋아요</button></td> <!-- 좋아요 버튼 추가 -->
+        <td><button type="button" th:attr="data-board-id=${board.listId}" sec:authorize="isAuthenticated()" class="like-button">좋아요</button></td> <!-- 좋아요 버튼 추가 -->
     </tr>
     </tbody>
 </table>

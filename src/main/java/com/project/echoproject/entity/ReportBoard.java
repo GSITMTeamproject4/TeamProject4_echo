@@ -9,6 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @Entity
+@Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"listId", "userId"})}) // 유니크 제약 추가
 public class ReportBoard {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

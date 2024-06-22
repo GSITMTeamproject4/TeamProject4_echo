@@ -20,6 +20,16 @@
 <div>
   <p>좋아요 수: <span id="likeCount" th:text="${board.likeCount}"></span></p>
   <button type="button" id="likeButton" th:attr="data-board-id=${board.listId}">좋아요</button>
+  <div th:if="${#authentication.name != board.siteUser.userId}">
+    <a th:href="@{/authBoard/report/{id}(id=${board.listId})}">신고</a>
+  </div>
+</div>
+
+<div th:if="${#authentication.name == board.siteUser.userId}">
+  <a th:href="@{/authBoard/modify/{id}(id=${board.listId})}">수정</a>
+  <form th:action="@{/authBoard/delete/{id}(id=${board.listId})}" method="post">
+    <button type="submit">삭제</button>
+  </form>
 </div>
 
 <script>
@@ -37,7 +47,6 @@
           xhr.setRequestHeader(csrfHeader, csrfToken);
         },
         success: function(response) {
-          // 좋아요 수 업데이트
           $('#likeCount').text(response.likeCount);
         },
         error: function(xhr, status, error) {

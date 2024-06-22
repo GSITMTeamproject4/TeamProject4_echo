@@ -1,6 +1,10 @@
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<div layout:fragment="content" class="container my-3">
-    <form th:action="@{/mall/buy}" method="post" th:object="${selectCouponDTO}" >
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Mall</title>
+</head>
+<body>
+<div class="container my-3">
     <table class="table">
         <thead class="table-dark">
         <tr class="text-center">
@@ -11,11 +15,17 @@
         <tr th:each="coupon : ${couponList}">
             <td th:text="${coupon.couponName}"></td>
             <td th:text="|필요포인트: ${coupon.couponPoint}p|"></td>
-            <td><input type="submit" value="구매하기"></td>
+            <td>
+                <form th:action="@{/mall/buy}" method="post" th:object="${coupon}">
+                    <input type="hidden" th:field="*{couponIdHL}" th:value="${coupon.couponIdHL}" />
+                    <input type="hidden" th:field="*{couponName}" th:value="${coupon.couponName}" />
+                    <input type="hidden" th:field="*{couponPoint}" th:value="${coupon.couponPoint}" />
+                    <input type="submit" value="구매하기">
+                </form>
+            </td>
         </tr>
         </tbody>
     </table>
-
-    </form>
 </div>
+</body>
 </html>
