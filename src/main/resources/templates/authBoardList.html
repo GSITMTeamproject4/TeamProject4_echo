@@ -12,7 +12,7 @@
 <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
 <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
 <a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
-<a href="/authBoard/create">새 게시글 작성</a>
+<a sec:authorize="isAuthenticated()" th:href="@{/authBoard/create}">새 게시글 작성</a>
 <table>
     <thead>
     <tr>
