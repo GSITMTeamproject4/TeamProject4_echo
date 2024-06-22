@@ -14,6 +14,6 @@ public class CouponService {
     private final CouponRepository couponRepository;
 
     public List<Coupon> getList() {
-        return this.couponRepository.findAll();
+        return couponRepository.findAll();
     }
 }
