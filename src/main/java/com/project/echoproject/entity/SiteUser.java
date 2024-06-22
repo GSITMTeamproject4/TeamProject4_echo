@@ -48,4 +48,6 @@ public class SiteUser {
         this.modifyDate = LocalDateTime.now();
     }
 
+    private Long currentPoint;
+
 }
