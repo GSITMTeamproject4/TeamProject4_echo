@@ -69,8 +69,6 @@
         <button type="button" class="btn btn-danger" onclick="deleteUser()">탈퇴</button>
     </form>
 
-
-
     <form id="deleteForm" th:action="@{/mypage/delete/{userId}(userId=${user.userId})}" method="post" style="display: none;">
     </form>
 </div>

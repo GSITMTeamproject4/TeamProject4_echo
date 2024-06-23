@@ -1,24 +1,26 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.service.ChangePasswordServiceImpl;
 import com.project.echoproject.service.MypageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("/mypage")
 public class MypageController {
 
     private final MypageService mypageService;
+    private final ChangePasswordServiceImpl changePasswordServiceImpl;
 
     @Autowired
-    public MypageController(MypageService mypageService) {
+    public MypageController(MypageService mypageService, ChangePasswordServiceImpl changePasswordServiceImpl) {
         this.mypageService = mypageService;
+        this.changePasswordServiceImpl = changePasswordServiceImpl;
     }
 
     @GetMapping("/edit/{userId}")
@@ -41,12 +43,41 @@ public class MypageController {
         return "mypage";
     }
 
-    @PostMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable String userId) {
-        mypageService.deleteUser(userId);
-        return "redirect:/"; // 임시로 홈으로 리다이렉트 처리
+    @GetMapping("/edit/{userId}/password")
+    public String changeUserPassword(@PathVariable String userId, Model model) {
+        SiteUser user = mypageService.getUserById(userId);
+        model.addAttribute("user", user);
+        model.addAttribute("changePasswordService", changePasswordServiceImpl); // ChangePasswordService 객체를 주입
+        return "change_password_form";
     }
 
+    @PostMapping("/edit/{userId}/password")
+    public String processChangePassword(@PathVariable String userId,
+                                        @ModelAttribute("changePasswordService") @Validated ChangePasswordServiceImpl changePasswordService,
+                                        BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("error", "입력 값에 문제가 있습니다.");
+            return "change_password_form";
+        }
+
+        try {
+            mypageService.changePasswordForm(userId, changePasswordService);
+        } catch (IllegalArgumentException e) {
+            model.addAttribute("error", e.getMessage());
+            return "change_password_form";
+        }
+
+        return "redirect:/mypage/" + userId;
+    }
+
+
+
+
+    @PostMapping("/delete/{userId}")
+    public String deleteUser(@PathVariable String userId, SiteUser user) {
+        mypageService.deleteUser(userId, user);
+        return "redirect:/";
+    }
 
     @GetMapping("/point")
     public String myPoint(Model model) {
