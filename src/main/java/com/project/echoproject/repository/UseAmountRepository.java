@@ -7,3 +7,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface UseAmountRepository extends JpaRepository<UseAmount, Long> {
     UseAmount findBySiteUser(SiteUser siteUser);
 }
+
+

@@ -9,7 +9,11 @@ import lombok.Setter;
 @Entity
 public class UseAmount {
     @Id
-    @OneToOne(fetch = FetchType.EAGER)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
     private SiteUser siteUser;
 
     @Column(columnDefinition = "LONG DEFAULT 0")
@@ -19,7 +23,7 @@ public class UseAmount {
     private long useEleYear;
 
     @Column(columnDefinition = "LONG DEFAULT 0")
-    private long useEleMoth;
+    private long useEleMonth;
 
     @Column(columnDefinition = "LONG DEFAULT 0")
     private long useGas;
@@ -28,5 +32,5 @@ public class UseAmount {
     private long useGasYear;
 
     @Column(columnDefinition = "LONG DEFAULT 0")
-    private long useGasMoth;
+    private long useGasMonth;
 }

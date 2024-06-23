@@ -34,9 +34,21 @@
             <span class="text-danger" th:if="${#fields.hasErrors('newPasswordConfirm')}" th:errors="*{newPasswordConfirm}"></span>
         </div>
 
-        <button type="submit" class="btn btn-primary">변경</button>
+        <button type="submit" class="btn btn-primary" onclick="changePwConfirm()" >변경</button>
     </form>
 
 </div>
+
+<script th:inline="javascript">
+
+    function changePwConfirm() {
+        if (confirm("정말 변경하시겠습니까?")) {
+            document.getElementById("editForm").submit();
+        }
+    }
+
+</script>
 </body>
 </html>
+
+

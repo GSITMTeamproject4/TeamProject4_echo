@@ -39,3 +39,5 @@ public class UseAmountServiceImpl implements UseAmountService {
         useAmountRepository.save(useAmount);
     }
 }
+
+
