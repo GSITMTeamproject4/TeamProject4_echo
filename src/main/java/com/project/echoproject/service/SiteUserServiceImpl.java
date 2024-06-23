@@ -8,6 +8,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Service
 public class SiteUserServiceImpl implements SiteUserService {
@@ -37,5 +39,18 @@ public class SiteUserServiceImpl implements SiteUserService {
         siteUser.setPassword(passwordEncoder.encode(password));
         this.siteUserRepository.save(siteUser);
         return siteUser;
+    }
+
+    public SiteUser buyCoupon(String userId, Long balance) {
+        Optional<SiteUser> _siteUser = this.siteUserRepository.findByUserId(userId);
+        if (_siteUser.isEmpty()) {
+            throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
+        }
+        else {
+            SiteUser siteUser = _siteUser.get();
+            siteUser.setCurrentPoint(balance);
+            siteUserRepository.save(siteUser);
+            return siteUser;
+        }
     }
 }
