@@ -1,7 +1,5 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.dto.BuyDTO;
-import com.project.echoproject.dto.selectCouponDTO;
 import com.project.echoproject.entity.Coupon;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UserCoupon;

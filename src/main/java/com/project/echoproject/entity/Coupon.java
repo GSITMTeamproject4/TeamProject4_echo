@@ -10,7 +10,7 @@ import lombok.Setter;
 public class Coupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long couponIdHL;
+    private Long couponId;
 
     @Column(length = 50, nullable = false)
     private Long couponPoint;
