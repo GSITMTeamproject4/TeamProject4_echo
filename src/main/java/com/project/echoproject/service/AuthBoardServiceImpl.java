@@ -39,7 +39,7 @@ public class AuthBoardServiceImpl implements AuthBoardService {
             authBoard.setCheckImg(image.getFilePath()); // checkImg 필드 설정
             authBoard.setSiteUser(siteUser); // siteUser 설정
         } else {
-            throw new IOException("File is empty");
+            throw new IOException("파일 없음");
         }
 
         return authBoardRepository.save(authBoard);
@@ -72,6 +72,39 @@ public class AuthBoardServiceImpl implements AuthBoardService {
     @Override
     public AuthBoard getBoardById(Long id) {
         return authBoardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Invalid board Id:" + id));
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 board Id:" + id));
+    }
+
+    @Override
+    public AuthBoard modifyBoard(Long boardId, String title, String content, MultipartFile file, SiteUser siteUser) throws IOException {
+        AuthBoard authBoard = authBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 board Id:" + boardId));
+
+        if (!authBoard.getSiteUser().getUserId().equals(siteUser.getUserId())) {
+            throw new SecurityException("권한 없음");
+        }
+
+        authBoard.setBoardTitle(title);
+        authBoard.setBoardContent(content);
+
+        if (!file.isEmpty()) {
+            Image image = imageService.saveImage(file);
+            authBoard.setImage(image);
+            authBoard.setCheckImg(image.getFilePath());
+        }
+
+        return authBoardRepository.save(authBoard);
+    }
+
+    @Override
+    public void deleteBoard(Long boardId, SiteUser siteUser) {
+        AuthBoard authBoard = authBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("잘못된 board Id:" + boardId));
+
+        if (!authBoard.getSiteUser().getUserId().equals(siteUser.getUserId())) {
+            throw new SecurityException("권한 없음");
+        }
+
+        authBoardRepository.delete(authBoard);
     }
 }

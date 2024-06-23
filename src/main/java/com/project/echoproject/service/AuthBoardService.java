@@ -13,4 +13,6 @@ public interface AuthBoardService {
     List<AuthBoard> getAllBoards();
     AuthBoard getBoardById(Long id);
     String encodeImageToBase64(String filePath) throws IOException;
+    AuthBoard modifyBoard(Long boardId, String title, String content, MultipartFile file, SiteUser siteUser) throws IOException;
+    void deleteBoard(Long boardId, SiteUser siteUser);
 }
