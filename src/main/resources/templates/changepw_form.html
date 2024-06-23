@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Change Password</title>
+</head>
+<body>
+<div class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>비밀번호 변경</h4>
+        </div>
+    </div>
+
+    <!-- 비밀번호 변경 폼 -->
+    <form id="changePwForm" th:action="@{/mypage/change-password/{userId}(userId=${userId})}" method="post" th:object="${changePasswordForm}">
+        <input type="hidden" name="userId" th:value="${userId}">
+        <div class="mb-3">
+            <label for="currentPassword" class="form-label">현재 비밀번호 : </label>
+            <input type="password" id="currentPassword" name="currentPassword" class="form-control" th:field="*{currentPassword}" required>
+            <!-- 필드 에러 표시 -->
+            <span class="text-danger" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}"></span>
+        </div>
+
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">새 비밀번호 : </label>
+            <input type="password" id="newPassword" name="newPassword" class="form-control" th:field="*{newPassword}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="newPasswordConfirm" class="form-label">새 비밀번호 확인 : </label>
+            <input type="password" id="newPasswordConfirm" name="newPasswordConfirm" class="form-control" th:field="*{newPasswordConfirm}" required>
+            <!-- 필드 에러 표시 -->
+            <span class="text-danger" th:if="${#fields.hasErrors('newPasswordConfirm')}" th:errors="*{newPasswordConfirm}"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary">변경</button>
+    </form>
+
+</div>
+</body>
+</html>

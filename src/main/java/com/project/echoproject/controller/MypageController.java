@@ -1,5 +1,6 @@
 package com.project.echoproject.controller;
 
+import com.project.echoproject.dto.ChangePasswordForm;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.ChangePasswordServiceImpl;
 import com.project.echoproject.service.MypageService;
@@ -43,35 +44,35 @@ public class MypageController {
         return "mypage";
     }
 
-    @GetMapping("/edit/{userId}/password")
-    public String changeUserPassword(@PathVariable String userId, Model model) {
-        SiteUser user = mypageService.getUserById(userId);
-        model.addAttribute("user", user);
-        model.addAttribute("changePasswordService", changePasswordServiceImpl); // ChangePasswordService 객체를 주입
-        return "change_password_form";
+    // 비밀번호 변경 폼을 표시하는 메소드
+    @GetMapping("/change-password/{userId}")
+    public String changePasswordPage(@PathVariable String userId, Model model) {
+        model.addAttribute("userId", userId);
+        model.addAttribute("changePasswordForm", new ChangePasswordForm());
+        return "changepw_form";
     }
 
-    @PostMapping("/edit/{userId}/password")
-    public String processChangePassword(@PathVariable String userId,
-                                        @ModelAttribute("changePasswordService") @Validated ChangePasswordServiceImpl changePasswordService,
-                                        BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("error", "입력 값에 문제가 있습니다.");
-            return "change_password_form";
+
+    // 비밀번호 변경 요청을 처리하는 메소드
+    @PostMapping("/change-password/{userId}")
+    public String changePassword(@PathVariable String userId,
+                                 @ModelAttribute("changePasswordForm") @Validated ChangePasswordForm changePwForm,
+                                 BindingResult result, Model model) {
+        if (result.hasErrors()) {
+            model.addAttribute("userId", userId);
+            return "changepw_form";
         }
 
         try {
-            mypageService.changePasswordForm(userId, changePasswordService);
+            changePasswordServiceImpl.changePassword(userId, changePwForm);
         } catch (IllegalArgumentException e) {
-            model.addAttribute("error", e.getMessage());
-            return "change_password_form";
+            result.rejectValue("currentPassword", "error.form", e.getMessage());
+            model.addAttribute("userId", userId);
+            return "changepw_form";
         }
 
         return "redirect:/mypage/" + userId;
     }
-
-
-
 
     @PostMapping("/delete/{userId}")
     public String deleteUser(@PathVariable String userId, SiteUser user) {

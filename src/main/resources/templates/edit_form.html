@@ -64,17 +64,17 @@
 
         <button type="submit" class="btn btn-primary" onclick="confirmUpdate()">수정</button>
 
-        <button type="submit" formaction="/mypage/edit/{userId}(userId=${user.userId})" class="btn btn-primary">비밀번호 변경</button>
+        <button type="button" class="btn btn-primary" onclick="changePassword()">비밀번호 변경</button>
 
         <button type="button" class="btn btn-danger" onclick="deleteUser()">탈퇴</button>
     </form>
+
 
     <form id="deleteForm" th:action="@{/mypage/delete/{userId}(userId=${user.userId})}" method="post" style="display: none;">
     </form>
 </div>
 
-<script th:fragment="script" type="text/javascript">
-    // 파일 선택 시 미리 보기 기능을 수행하는 JavaScript 함수
+<script th:inline="javascript">
     function previewImage(event) {
         var reader = new FileReader();
         reader.onload = function(){
@@ -88,6 +88,11 @@
         if (confirm("정말 수정하시겠습니까?")) {
             document.getElementById("editForm").submit();
         }
+    }
+
+    function changePassword() {
+        var userId = [[${user.userId}]];
+        window.location.href = '/mypage/change-password/' + userId;
     }
 
     function deleteUser(){
