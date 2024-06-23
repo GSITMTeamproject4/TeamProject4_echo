@@ -1,9 +1,12 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.ChangePasswordForm;
+import com.project.echoproject.dto.UseAmountForm;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.ChangePasswordServiceImpl;
 import com.project.echoproject.service.MypageService;
+import com.project.echoproject.service.UseAmountService;
+import com.project.echoproject.service.UseAmountServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,11 +20,15 @@ public class MypageController {
 
     private final MypageService mypageService;
     private final ChangePasswordServiceImpl changePasswordServiceImpl;
+    private final UseAmountService useAmountService;
 
     @Autowired
-    public MypageController(MypageService mypageService, ChangePasswordServiceImpl changePasswordServiceImpl) {
+    public MypageController(MypageService mypageService,
+                            ChangePasswordServiceImpl changePasswordServiceImpl,
+                            UseAmountService useAmountService) {
         this.mypageService = mypageService;
         this.changePasswordServiceImpl = changePasswordServiceImpl;
+        this.useAmountService = useAmountService;
     }
 
     @GetMapping("/edit/{userId}")
@@ -80,9 +87,17 @@ public class MypageController {
         return "redirect:/";
     }
 
-    @GetMapping("/point")
-    public String myPoint(Model model) {
-        return "point_status";
+    @GetMapping("/input-useamount")
+    public String showUsageForm(Model model) {
+        model.addAttribute("useAmountForm", new UseAmountForm());
+        return "useAmount_form";
+    }
+
+    @PostMapping("/input-useamount")
+    public String processUsageForm(@ModelAttribute("useAmountForm") UseAmountForm useAmountForm,
+                                   @SessionAttribute("user") SiteUser user) {
+        useAmountService.saveUseAmount(user.getUserId(), useAmountForm);
+        return "redirect:/mypage/" + user.getUserId();
     }
 
     @GetMapping("/challenge")
@@ -95,8 +110,4 @@ public class MypageController {
         return "coupon_status";
     }
 
-    @GetMapping("/usage")
-    public String myUsage(Model model) {
-        return "usage_form";
-    }
 }

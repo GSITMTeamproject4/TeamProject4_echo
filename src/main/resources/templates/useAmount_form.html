@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Input Usage</title>
+</head>
+<body>
+<div class="container my-3">
+    <div class="my-3 border-bottom">
+        <div>
+            <h4>전기/가스 사용량 입력</h4>
+        </div>
+    </div>
+
+    <!-- 사용량 입력 폼 -->
+    <form id="useAmount" th:action="@{/mypage/input-useamount}" method="post" th:object="${useAmountForm}">
+        <div class="mb-3">
+            <label for="useElectricity" class="form-label">전기 사용량 : </label>
+            <input type="number" id="useElectricity" name="useElectricity" class="form-control" th:field="*{useElectricity}">
+        </div>
+
+        <div class="mb-3">
+            <label for="useGas" class="form-label">가스 사용량 : </label>
+            <input type="number" id="useGas" name="useGas" class="form-control" th:field="*{useGas}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">저장</button>
+    </form>
+</div>
+</body>
+</html>
