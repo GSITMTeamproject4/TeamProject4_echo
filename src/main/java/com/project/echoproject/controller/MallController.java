@@ -64,6 +64,7 @@ public class MallController {
             // 포인트 차감
             SiteUser updateUser = siteUserService.buyCoupon(siteUser.getUserId(),balance);
             // 포인트내역 update
+
             // 쿠폰내역 update
             UserCoupon addCoupon = new UserCoupon();
             addCoupon.setUserId(updateUser);
