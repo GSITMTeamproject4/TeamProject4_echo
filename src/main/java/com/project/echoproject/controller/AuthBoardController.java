@@ -38,7 +38,7 @@ public class AuthBoardController {
     }
 
     @GetMapping("/create")
-    public String newPostForm() {
+    public String createPost() {
         return "createAuthBoardPost";
     }
 
@@ -119,6 +119,7 @@ public class AuthBoardController {
                          @RequestParam("reason") String reason,
                          @RequestParam("reportContent") String reportContent,
                          @RequestParam("userId") String userId) {
+
         reportBoardService.reportBoard(id, userId, reason, reportContent);
         return "redirect:/authBoard/detail/" + id;
     }
