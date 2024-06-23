@@ -53,8 +53,7 @@ public class MallController {
         Coupon coupon = couponService.getCoupon(id);
         model.addAttribute("coupon", coupon);
 
-        //SiteUser siteUser = siteUserService.findByUserId(principal.getName());
-        SiteUser siteUser = siteUserService.findByUserId("user1");
+        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
 
         Long balance = siteUser.getCurrentPoint() - coupon.getCouponPoint();
 
