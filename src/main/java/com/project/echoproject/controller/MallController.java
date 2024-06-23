@@ -2,7 +2,6 @@ package com.project.echoproject.controller;
 
 import com.project.echoproject.entity.Coupon;
 import com.project.echoproject.entity.SiteUser;
-import com.project.echoproject.entity.UserCoupon;
 import com.project.echoproject.service.CouponService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
