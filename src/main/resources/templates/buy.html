@@ -1,0 +1,19 @@
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+    <table class="table">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>구매정보</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td th:text="${buyCoupon.couponName}"></td>
+            <td th:text="|필요포인트: ${buyCoupon.couponPoint}p|"></td>
+            <td th:text="|유저포인트: ${buyCoupon.currentPoint}p|"></td>
+            <td><a th:href="@{mall/buy/{id}(id=${buyCoupon.balance})}">결제하기</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</html>
