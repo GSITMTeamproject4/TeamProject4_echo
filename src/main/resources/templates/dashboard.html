@@ -9,16 +9,15 @@
 <div id="asyncData"></div>
 
 <script th:inline="javascript">
-
     document.addEventListener('DOMContentLoaded', function() {
         // Axios GET request
-        axios.get('/dashboard/data') // /dashboard/data 경로로 변경
+        axios.get('/dashboard/data')
             .then(function(response) {
-                // Success
-                document.getElementById('asyncData').textContent = response.data;
+                // Success: Pretty-print JSON data
+                document.getElementById('asyncData').innerHTML = '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
             })
             .catch(function(error) {
-                // errors
+                // Error handling
                 console.error('Error fetching data:', error);
             });
     });
