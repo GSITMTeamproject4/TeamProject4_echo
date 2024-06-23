@@ -34,9 +34,11 @@ public class MallController {
         Coupon coupon = couponService.getCoupon(id);
         model.addAttribute("coupon", coupon);
 
-        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
+        //SiteUser siteUser = siteUserService.findByUserId(principal.getName());
+        SiteUser siteUser = siteUserService.findByUserId("user1");
 
         CouponDTO buyCoupon = new CouponDTO();
+        buyCoupon.setCouponId(coupon.getCouponId());
         buyCoupon.setCouponPoint(coupon.getCouponPoint());
         buyCoupon.setCouponName(coupon.getCouponName());
         buyCoupon.setCurrentPoint(siteUser.getCurrentPoint());
@@ -44,5 +46,29 @@ public class MallController {
 
         model.addAttribute("buyCoupon",buyCoupon);
         return "buy";
+    }
+
+    @GetMapping("/pay")
+    public String payCoupon(@RequestParam Long id, Model model,Principal principal ) {
+        Coupon coupon = couponService.getCoupon(id);
+        model.addAttribute("coupon", coupon);
+
+        //SiteUser siteUser = siteUserService.findByUserId(principal.getName());
+        SiteUser siteUser = siteUserService.findByUserId("user1");
+
+        Long balance = siteUser.getCurrentPoint() - coupon.getCouponPoint();
+
+        if(balance < 0) {
+            return "error/payment_failed";
+        }else {
+            // 포인트 차감
+            // 쿠폰개수 증가
+            // 포인트내역 update
+            // 쿠폰내역 update
+            SiteUser updateUser = siteUserService.buyCoupon(siteUser.getUserId(),balance);
+            model.addAttribute("updateUser",updateUser);
+            return "pay";
+        }
+
     }
 }

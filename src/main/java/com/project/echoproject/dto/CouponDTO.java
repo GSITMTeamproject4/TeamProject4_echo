@@ -12,7 +12,7 @@ import java.util.List;
 @Setter
 public class CouponDTO {
 
-
+    private Long couponId;
     private String couponName;
     private Long couponPoint;
 
