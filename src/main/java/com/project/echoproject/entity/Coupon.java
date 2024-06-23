@@ -17,4 +17,5 @@ public class Coupon {
 
     @Column(length = 50, nullable = false)
     private String couponName;
+
 }
