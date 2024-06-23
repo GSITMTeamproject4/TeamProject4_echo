@@ -7,5 +7,6 @@
 <body>
 <h1>결제가 완료되었습니다.</h1>
 <h2 th:text="|현재포인트: ${updateUser.currentPoint}p|"></h2>
+<div><button type="button" th:onclick="|location.href='@{/mall}'|">mall으로 이동</button></div>
 </body>
 </html>
