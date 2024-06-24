@@ -79,7 +79,8 @@
       </nav>
 
       <a class="btn-getstarted" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-      <a class="btn-getstarted" sec:authorize="isAuthenticated()" th:href="@{/user/login}">로그아웃</a>
+      <a class="btn-getstarted" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+      <a class="btn-getstarted" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
 
     </div>
   </header>
@@ -101,7 +102,7 @@
       <nav class="breadcrumbs">
         <div class="container">
           <ol>
-            <ol><li class="current">그린라이프 인증</li>
+            <li class="current">그린라이프 인증</li>
             <li><a sec:authorize="isAuthenticated()" th:href="@{/authBoard/create}">새 게시글 작성</a></li>
           </ol>
         </div>
