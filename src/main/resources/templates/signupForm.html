@@ -6,11 +6,10 @@
     <title>로그인 폼</title>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        /* 추가적인 스타일링은 여기에 추가할 수 있습니다ㅇㅇㅇ모냐*/
+        /* 추가적인 스타일링은 여기에 추가할 수 있습니다 */
     </style>
 </head>
 <body>
-<div><h3>회원가입</h3></div>
 <div class="container">
     <form id="loginForm" onsubmit="return validateForm()">
         <div class="mb-3">
@@ -24,7 +23,7 @@
             <div id="passwordHelpBlock" class="form-text text-danger"></div>
         </div>
         <div class="mb-3">
-            <label for="password2" class="password2">비밀번호 재확인</label>
+            <label for="password2" class="password2">비밀번호재확인</label>
             <input type="password" name="password2" id="password2" class="form-control form-password2" required>
             <div id="password2HelpBlock" class="form-text text-danger"></div>
         </div>
@@ -36,18 +35,18 @@
         <div class="mb-3">
             <label>성별</label><br>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="male" value="Male">
+                <input class="form-check-input" type="checkbox" name="gender" id="male" value="Male">
                 <label class="form-check-label" for="male">남자</label>
             </div>
             <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="gender" id="female" value="Female">
+                <input class="form-check-input" type="checkbox" name="gender" id="female" value="Female">
                 <label class="form-check-label" for="female">여자</label>
             </div>
             <div id="genderHelpBlock" class="form-text text-danger"></div>
         </div>
         <div class="mb-3">
             <label for="phone_num" class="phone_num">핸드폰 번호 - '-' 없이 숫자로만 입력하세요</label>
-            <input type="text" name="phone_num" id="phone_num" class="form-control form-phone_num" required>
+            <input type="number" name="phone_num" id="phone_num" class="form-control form-phone_num" required>
             <div id="phone_numHelpBlock" class="form-text text-danger"></div>
         </div>
         <div class="mb-3">
@@ -55,7 +54,7 @@
             <input type="file" class="form-control-file" id="imageUpload" accept=".png" onchange="validateImage()">
             <div id="imageHelpBlock" class="form-text text-danger"></div>
         </div>
-        <button type="submit" class="btn btn-primary">로그인</button>
+        <button type="submit" class="btn btn-primary">회원가입</button>
     </form>
 </div>
 
@@ -65,54 +64,59 @@
         var userId = document.getElementById('userid').value.trim();
         var password = document.getElementById('password').value.trim();
         var password2 = document.getElementById('password2').value.trim();
+        var username = document.getElementById('username').value.trim();
         var phone_num = document.getElementById('phone_num').value.trim();
-        var username= document.getElementById('username').value.trim();
 
         var maleChecked = document.getElementById('male').checked;
         var femaleChecked = document.getElementById('female').checked;
+        var gender = maleChecked ? 'M' : (femaleChecked ? 'F' : '');
 
-        // 정규 표현식을 사용하여 각각 8자리 영어와 숫자로만 구성되었는지 확인
+        // 정규 표현식을 사용하여 각각 8자리 이상의 영어와 숫자로만 구성되었는지 확인
         var userIdPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,15}$/;
         var passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,15}$/;
         var phonePattern = /^\d{11}$/;
-        var username =/^\d{4}$/;
+        var usernamePattern = /^[가-힣]{2,4}$/;
 
-        var isValidUserId = userIdPattern.test(username);
+        var isValidUserId = userIdPattern.test(userId);
         var isValidPassword = passwordPattern.test(password);
-        var isValidPhone_num=phonePattern.test(phone_num);
+        var isValidPhone_num = phonePattern.test(phone_num);
         var isValidUsername = usernamePattern.test(username);
 
         if (!isValidUserId) {
-            document.getElementById('useridHelpBlock').innerText = '사용자 ID는 8자리이상의 영어와 숫자로만 구성되어야 합니다.';
+            document.getElementById('useridHelpBlock').innerText = '사용자 ID는 8자리 이상의 영어와 숫자로만 구성되어야 합니다.';
             return false;
         } else {
             document.getElementById('useridHelpBlock').innerText = '';
         }
 
         if (!isValidPassword) {
-            document.getElementById('passwordHelpBlock').innerText = '비밀번호는 8자리이상의 영어와 숫자로만 구성되어야 합니다.';
+            document.getElementById('passwordHelpBlock').innerText = '비밀번호는 8자리 이상의 영어와 숫자로만 구성되어야 합니다.';
             return false;
         } else {
             document.getElementById('passwordHelpBlock').innerText = '';
         }
+
         if (password !== password2) {
             document.getElementById('password2HelpBlock').innerText = '비밀번호 값이 일치하지 않습니다.';
             return false;
         } else {
             document.getElementById('password2HelpBlock').innerText = '';
         }
-        if(isValidUsername){
-            document.getElementById('usernameHelpBlock').innterText ='이름을 입력하세요';
+
+        if (!isValidUsername) {
+            document.getElementById('usernameHelpBlock').innerText = '사용자 이름 입력하세요.';
             return false;
         } else {
-            document.getElementById('phone_numHelpBlock').innerText = '';
+            document.getElementById('usernameHelpBlock').innerText = '';
         }
+
         if (!maleChecked && !femaleChecked) {
             document.getElementById('genderHelpBlock').innerText = '성별을 선택해주세요.';
             return false;
         } else {
             document.getElementById('genderHelpBlock').innerText = '';
         }
+
         if (maleChecked && femaleChecked) {
             document.getElementById('genderHelpBlock').innerText = '한 가지 성별만 선택해주세요.';
             return false;
@@ -129,6 +133,7 @@
 
         return true;
     }
+
     function validateImage() {
         var fileInput = document.getElementById('imageUpload');
         var imageHelpBlock = document.getElementById('imageHelpBlock');

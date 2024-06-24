@@ -1,6 +1,7 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.SiteUserCreateForm;
+import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.SiteUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/user")
@@ -29,16 +31,17 @@ public class SiteUserController {
             return "signupForm";
         }
 
-        if (!siteUserCreateForm.getPassword1().equals(siteUserCreateForm.getPassword2())) {
+        if (!siteUserCreateForm.getPassword().equals(siteUserCreateForm.getPassword2())) {
             // 필드명, 오류코드, 오류 메시지
             bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
             return "signupForm";
         }
 
+
         try {
             siteUserService.create(siteUserCreateForm.getUserId(), siteUserCreateForm.getUserName(),
-                    siteUserCreateForm.getPhoneNum(), siteUserCreateForm.getGender(),
-                    siteUserCreateForm.getPassword1(), siteUserCreateForm.getEmail());
+                    siteUserCreateForm.getPhone_num(), siteUserCreateForm.getGender(),
+                    siteUserCreateForm.getPassword(), siteUserCreateForm.getEmail(),siteUserCreateForm.getImgUrl());
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             // 필드, 오류 메시지

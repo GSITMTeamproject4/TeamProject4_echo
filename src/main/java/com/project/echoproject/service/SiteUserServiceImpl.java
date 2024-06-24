@@ -23,18 +23,15 @@ public class SiteUserServiceImpl implements SiteUserService {
     }
 
     @Override
-    public SiteUser create(String userId, String userName, String phoneNum, String gender, String password, String email) {
+    public SiteUser create(String userId, String userName, String password, String email, String phone_num, String gender ,String imgUrl) {
         SiteUser siteUser = new SiteUser();
         siteUser.setUserId(userId);
         siteUser.setUserName(userName);
         siteUser.setEmail(email);
-        siteUser.setPhoneNum(phoneNum);
-        // Gender 값을 줄임
-        if ("male".equalsIgnoreCase(gender)) {
-            siteUser.setGender("M");
-        } else if ("female".equalsIgnoreCase(gender)) {
-            siteUser.setGender("F");
-        }
+        siteUser.setPhoneNum(phone_num);
+        siteUser.setGender(gender);
+        siteUser.setPassword(password);
+        siteUser.setImgUrl(imgUrl);
         BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
         siteUser.setPassword(passwordEncoder.encode(password));
         this.siteUserRepository.save(siteUser);
