@@ -14,6 +14,15 @@ public class CouponService {
     private final CouponRepository couponRepository;
 
     public List<Coupon> getList() {
-        return this.couponRepository.findAll();
+        return couponRepository.findAll();
+    }
+
+    public Coupon getCoupon(Long id) {
+        Optional<Coupon> coupon = couponRepository.findById(id);
+        if(coupon.isPresent()) {
+            return coupon.get();
+        }else {
+            throw new IllegalArgumentException("Coupon not found");
+        }
     }
 }

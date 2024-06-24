@@ -1,21 +1,21 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>New Post</title>
+  <title>게시글 작성</title>
 </head>
 <body>
-<h1>Create New Post</h1>
-<form action="#" th:action="@{/authBoard/post}" method="post" enctype="multipart/form-data">
-  <label for="title">Title:</label>
+<h1>게시글 작성</h1>
+<form th:action="@{/authBoard/create}" method="post" enctype="multipart/form-data">
+  <label for="title">제목:</label>
   <input type="text" id="title" name="title" required>
   <br>
-  <label for="content">Content:</label>
+  <label for="content">내용:</label>
   <textarea id="content" name="content" required></textarea>
   <br>
-  <label for="file">Select Image:</label>
+  <label for="file">이미지 업로드:</label>
   <input type="file" id="file" name="file" required>
   <br>
-  <button type="submit">Create Post</button>
+  <button type="submit">게시글 작성</button>
 </form>
 <div th:if="${error}">
   <p th:text="${error}"></p>
