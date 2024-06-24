@@ -1,17 +1,18 @@
-<!doctype html>
-<html lang="ko">
-
-<head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/bootstrap.min.css}">
-    <!-- sbb CSS -->
-    <link rel="stylesheet" type="text/css" th:href="@{/style.css}">
-    <title>Hello, sbb!</title>
-</head>
-<body>
-<h1>포인트를 사용해 쿠폰을 구매하는 쿠폰 mall입니다.</h1>
-</body>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+    <table class="table">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>포인트를 사용해 쿠폰을 구매하는 쿠폰 mall입니다.</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="coupon : ${couponList}">
+            <td th:text="${coupon.couponName}"></td>
+            <td th:text="|필요포인트: ${coupon.couponPoint}p|"></td>
+            <td><a th:href="@{mall/buy/{id}(id=${coupon.couponId})}">구매하기</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </html>

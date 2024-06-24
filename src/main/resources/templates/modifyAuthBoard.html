@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>게시글 수정</title>
+</head>
+<body>
+<h1>게시글 수정</h1>
+<form th:action="@{/authBoard/modify/{id}(id=${board.listId})}" method="post" enctype="multipart/form-data">
+  <div>
+    <label for="title">제목</label>
+    <input type="text" id="title" name="title" th:value="${board.boardTitle}" />
+  </div>
+  <div>
+    <label for="content">내용</label>
+    <textarea id="content" name="content" th:text="${board.boardContent}"></textarea>
+  </div>
+  <div>
+    <label for="file">파일</label>
+    <input type="file" id="file" name="file" />
+  </div>
+  <div>
+    <label>현재 이미지:</label>
+    <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="Board Image" width="200"/>
+  </div>
+  <div>
+    <button type="submit">수정</button>
+  </div>
+</form>
+<a th:href="@{/authBoard/detail/{id}(id=${board.listId})}">취소</a>
+</body>
+</html>
