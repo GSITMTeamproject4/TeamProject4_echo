@@ -38,8 +38,7 @@ public class MallController {
         Coupon coupon = couponService.getCoupon(id);
         model.addAttribute("coupon", coupon);
 
-//        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
-        SiteUser siteUser = siteUserService.findByUserId("user1");
+        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
 
         CouponDTO buyCoupon = new CouponDTO();
         buyCoupon.setCouponId(coupon.getCouponId());
@@ -57,8 +56,7 @@ public class MallController {
         Coupon coupon = couponService.getCoupon(id);
         model.addAttribute("coupon", coupon);
 
-//        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
-        SiteUser siteUser = siteUserService.findByUserId("user1");
+       SiteUser siteUser = siteUserService.findByUserId(principal.getName());
 
         Long balance = siteUser.getCurrentPoint() - coupon.getCouponPoint();
 
@@ -72,6 +70,7 @@ public class MallController {
             Point addPoint = new Point();
             addPoint.setUserId(updateUser);
             addPoint.setPointInfo("coupon");
+            addPoint.setPoint(coupon.getCouponPoint());
             pointService.addPointHistory(addPoint);
 
             // 쿠폰내역 update
