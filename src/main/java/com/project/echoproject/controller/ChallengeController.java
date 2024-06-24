@@ -19,9 +19,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
-//@Controller
-//@RequestMapping("/challenge")
-//@RequiredArgsConstructor
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/challenge")
@@ -31,15 +28,17 @@ public class ChallengeController {
 
     private static final Logger log = LoggerFactory.getLogger(ChallengeController.class);
 
-    //private final ScheduleService scheduleService;
-
     @GetMapping("")
     public String start(Model model) {
         model.addAttribute("challenge", new Challenge());
         return "challenge";
     }
-    @GetMapping("/calendar-admin")
+    @GetMapping("/state")
     public @ResponseBody List<Map<String, Object>> monthPlan() {
             return challengeService.getEventList();
+    }
+    @GetMapping("/add")
+    public String add() {
+        return "challengeAdd";
     }
 }
