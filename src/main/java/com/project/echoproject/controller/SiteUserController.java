@@ -50,7 +50,7 @@ public class SiteUserController {
             return "signupForm";
         }
 
-        return "authBoardList";
+        return "listTest";
     }
 
     @GetMapping("/login")
