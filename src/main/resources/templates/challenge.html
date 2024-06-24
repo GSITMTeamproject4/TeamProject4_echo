@@ -1,0 +1,98 @@
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+
+    <div id="challenge">
+        <div>이달의 챌린지 현황</div>
+        <!--&lt;!&ndash;<h2 th:text="|챌린지 달성 개수 : ${userChallenge.challengeCnt}|"></h2>&ndash;&gt;-->
+        <!--<h2 th:text="|챌린지 달성 개수 : 2|"></h2>-->
+        <div id='calendar' style='width: 1500px;'></div>
+    </div>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<!--    <script>-->
+
+<!--        document.addEventListener('DOMContentLoaded', function() {-->
+
+<!--            var calendarEl = document.getElementById('calendar');-->
+<!--            var calendar = new FullCalendar.Calendar(calendarEl, {-->
+<!--                initialView: 'dayGridMonth',-->
+<!--                height: 800-->
+<!--            });-->
+<!--            calendar.render();-->
+<!--        });-->
+
+<!--    </script>-->
+<!--    <script>-->
+<!--        var calendarEl = document.getElementById('calendar');-->
+<!--        var request = $.ajax({-->
+<!--            url: "/challenge/calendar-admin",-->
+<!--            method: "GET",-->
+<!--        });-->
+<!--        request.done(function(data){-->
+<!--            var calendar = new FullCalendar.Calendar(calendarEl, {-->
+<!--                initialView: 'dayGridMonth'-->
+
+<!--            });-->
+<!--            calendar.render();-->
+<!--        });-->
+<!--    </script>-->
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+
+                var calendarEl = document.getElementById('calendar');
+
+                    var request = $.ajax({
+                        url: "/challenge/calendar-admin",
+                        type: "GET",
+                        dataType: "json"
+                    });
+                request.done(function(data){
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        height: 800,
+                        events: data
+                    });
+
+                    var startdate = "";
+
+                    $.each(data,function(key, value){
+                        startdate="";
+                        for(let i=0; i<value.start.length; i++) {
+                                if(i == 0) {
+                                    startdate += value.start[i];
+                                }
+                                else if(i == 1){
+                                    // if(value.start[i].length == 1) {
+                                    //     startdate += "-0"+value.start[i];
+                                    // }
+                                    // else {
+                                    //     startdate += "-"+value.start[i];
+                                    // }
+                                    startdate += "-0"+value.start[i];
+                                }
+                                else {
+                                    startdate += "-"+value.start[i];
+                                }
+
+                        }
+
+                        console.log(startdate)
+
+                        calendar.addEvent({
+                            title : value.title, // 이벤트 제목
+                            // start : "2024-6-24", //달력 날짜에 매핑
+                            start: startdate,
+                            color: "#f7e600"
+                        })
+
+                    });
+                    calendar.render();
+
+                });
+
+            });
+
+        </script>
+</div>
+</html>
