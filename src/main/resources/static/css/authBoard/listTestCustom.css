@@ -1,0 +1,25 @@
+.img-fluid {
+    width: 100%;
+}
+
+.heart-button {
+    font-size: 1.25rem;
+    color: gray;
+    cursor: pointer;
+    border: none;
+    background: none;
+}
+.heart-button.filled {
+    color: red;
+}
+
+.heart-sec {
+    display: flex;
+    align-items: baseline;
+    margin-left: auto;
+}
+
+.heart-count {
+    padding: 0 0.375rem 0 0.375rem;
+    font-size: 1.25rem;
+}
