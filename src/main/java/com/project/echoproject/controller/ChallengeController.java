@@ -1,6 +1,6 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.dto.ChallengeDTO;
+import com.project.echoproject.DTO.ChallengeDTO;
 import com.project.echoproject.entity.Challenge;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.ChallengeService;

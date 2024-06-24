@@ -1,26 +1,139 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Spring Thymeleaf Axios Example</title>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <meta charset="UTF-8">
+    <title>강원도 시군구별 전기 및 가스 사용량</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <style>
+        canvas {
+            max-width: 800px;
+            margin: 20px auto;
+            display: block;
+        }
+    </style>
 </head>
 <body>
-<h2>비동기 데이터 표시:</h2>
-<div id="asyncData"></div>
+<h2>강원도 시군구별 전기 및 가스 사용량</h2>
+<canvas id="usageChart"></canvas>
 
 <script th:inline="javascript">
+    /*<![CDATA[*/
+    var jsonData = /*[[${jsonData}]]*/ {};
+
     document.addEventListener('DOMContentLoaded', function() {
-        // Axios GET request
-        axios.get('/dashboard/data')
-            .then(function(response) {
-                // Success: Pretty-print JSON data
-                document.getElementById('asyncData').innerHTML = '<pre>' + JSON.stringify(response.data, null, 2) + '</pre>';
-            })
-            .catch(function(error) {
-                // Error handling
-                console.error('Error fetching data:', error);
+        try {
+            var parsedData = jsonData;
+            if (!parsedData || !parsedData.eleUsageBySIGUNGU_CD || !parsedData.gasUsageBySIGUNGU_CD) {
+                throw new Error('Invalid data format or empty data.');
+            }
+
+            var labels = Object.keys(parsedData.eleUsageBySIGUNGU_CD).map(function(sigungu) {
+                return getLabelBySIGUNGU_CD(sigungu);
             });
+
+            var eleData = labels.map(function(label, index) {
+                var sigunguCd = Object.keys(parsedData.eleUsageBySIGUNGU_CD)[index];
+                return parsedData.eleUsageBySIGUNGU_CD[sigunguCd];
+            });
+
+            var gasData = labels.map(function(label, index) {
+                var sigunguCd = Object.keys(parsedData.gasUsageBySIGUNGU_CD)[index];
+                return parsedData.gasUsageBySIGUNGU_CD[sigunguCd] || 0;
+            });
+
+            var ctx = document.getElementById('usageChart').getContext('2d');
+            var usageChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: '전기 사용량',
+                            data: eleData,
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: '가스 사용량',
+                            data: gasData,
+                            borderColor: 'rgba(255, 99, 132, 1)',
+                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: '강원도 시군구별 전기 및 가스 사용량'
+                        }
+                    }
+                }
+            });
+
+        } catch (error) {
+            console.error('Error:', error.message);
+            showError('Error fetching or processing data: ' + error.message);
+        }
     });
+
+    function getLabelBySIGUNGU_CD(sigungu_cd) {
+        switch (sigungu_cd) {
+            case '51150':
+                return '강릉시';
+            case '51820':
+                return '고성군';
+            case '51170':
+                return '동해시';
+            case '51230':
+                return '삼척시';
+            case '51210':
+                return '속초시';
+            case '51800':
+                return '양구군';
+            case '51830':
+                return '양양군';
+            case '51750':
+                return '영월군';
+            case '51130':
+                return '원주시';
+            case '51810':
+                return '인제군';
+            case '51770':
+                return '정선군';
+            case '51780':
+                return '철원군';
+            case '51110':
+                return '춘천시';
+            case '51190':
+                return '태백시';
+            case '51760':
+                return '평창군';
+            case '51720':
+                return '홍천군';
+            case '51790':
+                return '화천군';
+            case '51730':
+                return '횡성군';
+            default:
+                return 'Unknown';
+        }
+    }
+
+    function showError(message) {
+        console.error(message);
+        var errorDiv = document.createElement('div');
+        errorDiv.textContent = message;
+        errorDiv.style.color = 'red';
+        document.body.appendChild(errorDiv);
+    }
+    /*]]>*/
 </script>
 </body>
 </html>

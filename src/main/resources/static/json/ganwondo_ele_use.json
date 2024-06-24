@@ -1,0 +1,118 @@
+{
+  "Description": {
+    "PLAT_PLC": "대지_위치",
+    "SIGUNGU_CD": "시군구_코드",
+    "BJDONG_CD": "법정동_코드",
+    "totalUseEle": "사용_량(KWh)"
+  },
+  "Data": [
+    {
+      "BJDONG_CD": "37029",
+      "PLAT_PLC": "강원특별자치도 강릉시",
+      "SIGUNGU_CD": "51150",
+      "totalUseEle": "72311467"
+    },
+    {
+      "BJDONG_CD": "33037",
+      "PLAT_PLC": "강원특별자치도 고성군",
+      "SIGUNGU_CD": "51820",
+      "totalUseEle": "13549679"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "강원특별자치도 동해시",
+      "SIGUNGU_CD": "51170",
+      "totalUseEle": "35053345"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "강원특별자치도 삼척시",
+      "SIGUNGU_CD": "51230",
+      "totalUseEle": "28088946"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "강원특별자치도 속초시",
+      "SIGUNGU_CD": "51210",
+      "totalUseEle": "36907229"
+    },
+    {
+      "BJDONG_CD": "25021",
+      "PLAT_PLC": "강원특별자치도 양구군",
+      "SIGUNGU_CD": "51800",
+      "totalUseEle": "6631194"
+    },
+    {
+      "BJDONG_CD": "25021",
+      "PLAT_PLC": "강원특별자치도 양양군",
+      "SIGUNGU_CD": "51830",
+      "totalUseEle": "14460039"
+    },
+    {
+      "BJDONG_CD": "38025",
+      "PLAT_PLC": "강원특별자치도 영월군",
+      "SIGUNGU_CD": "51750",
+      "totalUseEle": "11888652"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "강원특별자치도 원주시",
+      "SIGUNGU_CD": "51130",
+      "totalUseEle": "126605916"
+    },
+    {
+      "BJDONG_CD": "25021",
+      "PLAT_PLC": "강원특별자치도 인제군",
+      "SIGUNGU_CD": "51810",
+      "totalUseEle": "11887828"
+    },
+    {
+      "BJDONG_CD": "25021",
+      "PLAT_PLC": "강원특별자치도 정선군",
+      "SIGUNGU_CD": "51770",
+      "totalUseEle": "24708826"
+    },
+    {
+      "BJDONG_CD": "25021",
+      "PLAT_PLC": "강원특별자치도 철원군",
+      "SIGUNGU_CD": "51780",
+      "totalUseEle": "14908951"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "강원특별자치도 춘천시",
+      "SIGUNGU_CD": "51110",
+      "totalUseEle": "94295750"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "강원특별자치도 태백시",
+      "SIGUNGU_CD": "51190",
+      "totalUseEle": "15071712"
+    },
+    {
+      "BJDONG_CD": "38026",
+      "PLAT_PLC": "강원특별자치도 평창군",
+      "SIGUNGU_CD": "51760",
+      "totalUseEle": "28971844"
+    },
+    {
+      "BJDONG_CD": "39026",
+      "PLAT_PLC": "강원특별자치도 홍천군",
+      "SIGUNGU_CD": "51720",
+      "totalUseEle": "26457295"
+    },
+    {
+      "BJDONG_CD": "34025",
+      "PLAT_PLC": "강원특별자치도 화천군",
+      "SIGUNGU_CD": "51790",
+      "totalUseEle": "7808487"
+    },
+    {
+      "BJDONG_CD": "38023",
+      "PLAT_PLC": "강원특별자치도 횡성군",
+      "SIGUNGU_CD": "51730",
+      "totalUseEle": "17569161"
+    }
+  ]
+}

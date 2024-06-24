@@ -1,0 +1,88 @@
+{
+  "Description": {
+    "PLAT_PLC": "대지_위치",
+    "SIGUNGU_CD": "시군구_코드",
+    "BJDONG_CD": "법정동_코드",
+    "totalUseGas": "사용_량(KWh)"
+  },
+  "Data": [
+    {
+      "BJDONG_CD": "37022",
+      "PLAT_PLC": "강원특별자치도 강릉시",
+      "SIGUNGU_CD": "51150",
+      "totalUseGas": "66891233"
+    },
+    {
+      "BJDONG_CD": "25021",
+      "PLAT_PLC": "강원특별자치도 고성군",
+      "SIGUNGU_CD": "51820",
+      "totalUseGas": "5717372"
+    },
+    {
+      "BJDONG_CD": "11800",
+      "PLAT_PLC": "강원특별자치도 동해시",
+      "SIGUNGU_CD": "51170",
+      "totalUseGas": "39911757"
+    },
+    {
+      "BJDONG_CD": "25326",
+      "PLAT_PLC": "강원특별자치도 삼척시",
+      "SIGUNGU_CD": "51230",
+      "totalUseGas": "6989151"
+    },
+    {
+      "BJDONG_CD": "11300",
+      "PLAT_PLC": "강원특별자치도 속초시",
+      "SIGUNGU_CD": "51210",
+      "totalUseGas": "44430563"
+    },
+    {
+      "BJDONG_CD": "35040",
+      "PLAT_PLC": "강원특별자치도 양양군",
+      "SIGUNGU_CD": "51830",
+      "totalUseGas": "4575367"
+    },
+    {
+      "BJDONG_CD": "25029",
+      "PLAT_PLC": "강원특별자치도 영월군",
+      "SIGUNGU_CD": "51750",
+      "totalUseGas": "25816980"
+    },
+    {
+      "BJDONG_CD": "38022",
+      "PLAT_PLC": "강원특별자치도 원주시",
+      "SIGUNGU_CD": "51130",
+      "totalUseGas": "195379769"
+    },
+    {
+      "BJDONG_CD": "25622",
+      "PLAT_PLC": "강원특별자치도 정선군",
+      "SIGUNGU_CD": "51770",
+      "totalUseGas": "21235054"
+    },
+    {
+      "BJDONG_CD": "40022",
+      "PLAT_PLC": "강원특별자치도 춘천시",
+      "SIGUNGU_CD": "51110",
+      "totalUseGas": "128543496"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "강원특별자치도 태백시",
+      "SIGUNGU_CD": "51190",
+      "totalUseGas": "978459"
+    },
+    {
+      "BJDONG_CD": "38037",
+      "PLAT_PLC": "강원특별자치도 홍천군",
+      "SIGUNGU_CD": "51720",
+      "totalUseGas": "978459"
+    },
+    {
+      "BJDONG_CD": "31024",
+      "PLAT_PLC": "강원특별자치도 횡성군",
+      "SIGUNGU_CD": "51730",
+      "totalUseGas": "6784206"
+    }
+  ]
+}
