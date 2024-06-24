@@ -28,6 +28,7 @@ public class SiteUser {
 
     private String imgUrl;
 
+
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 
@@ -39,6 +40,9 @@ public class SiteUser {
 
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<LikeBoard> likeBoards;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<UseAmount> useAmounts;
 
     @PrePersist
     protected void onCreate() {

@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<div layout:fragment="content" class="container my-3">
 <head>
     <meta charset="UTF-8">
     <title>Edit Personal Info</title>
@@ -20,10 +22,10 @@
         </div>
     </div>
 
-    <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${user}">
+    <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${user}" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="profileImage" class="form-label">프로필 이미지</label>
-            <input type="file" id="profileImage" name="profileImage" class="form-control-file" onchange="previewImage(event)">
+            <input type="file" id="profileImage" name="profileImage" class="form-control-file" onchange="previewImage(event)" th:object="${user}">
             <img id="preview" class="preview-image" th:src="${user.imgUrl}" alt="프로필 이미지 미리 보기">
         </div>
 
@@ -35,11 +37,6 @@
         <div class="mb-3">
             <label for="userId" class="form-label">아이디 : </label>
             <input type="text" name="userId" id="userId" class="form-control" th:value="*{userId}" readonly>
-        </div>
-
-        <div class="mb-3">
-            <label for="password" class="form-label">비밀번호 : </label>
-            <input type="password" id="password" name="password" class="form-control" th:value="*{password}" readonly>
         </div>
 
         <div class="mb-3">
@@ -115,6 +112,7 @@
     });
 </script>
 </body>
+</div>
 </html>
 
 

@@ -1,34 +1,46 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Input Usage</title>
 </head>
 <body>
-<div class="container my-3">
+<div layout:fragment="content" class="container my-3">
     <div class="my-3 border-bottom">
         <div>
             <h4>전기/가스 사용량 입력</h4>
         </div>
     </div>
 
-    <!-- 사용량 입력 폼 -->
-    <form id="useAmount" th:action="@{/mypage/input-useamount}" method="post" th:object="${useAmountForm}">
+    <form id="useAmount" th:action="@{/mypage/input-useamount/{userId}(userId=${userId})}" th:object="${useAmountForm}" method="post">
+        <div class="mb-3">
+            <input type="date" id="useDate" th:field="*{useDate}" class="form-control" >
+        </div>
+
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <p th:text="${errorMessage}"></p>
+        </div>
+
         <div class="mb-3">
             <label for="useElectricity" class="form-label">전기 사용량 : </label>
-            <input type="number" id="useElectricity" name="useElectricity" class="form-control" th:field="*{useElectricity}">
+            <input type="number" id="useElectricity" th:field="*{useElectricity}" class="form-control">
         </div>
 
         <div class="mb-3">
             <label for="useGas" class="form-label">가스 사용량 : </label>
-            <input type="number" id="useGas" name="useGas" class="form-control" th:field="*{useGas}">
+            <input type="number" id="useGas" th:field="*{useGas}" class="form-control">
         </div>
 
         <button type="submit" class="btn btn-primary">저장</button>
     </form>
+
+    <script th:inline="javascript">
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById('useDate').value = today;
+        });
+    </script>
+
 </div>
 </body>
 </html>
-
-
-

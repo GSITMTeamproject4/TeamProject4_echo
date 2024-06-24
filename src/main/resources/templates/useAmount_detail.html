@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>전기/가스 사용량 상세</title>
+</head>
+<body>
+<div layout:fragment="content" class="container my-3">
+    <h2 th:text="${year} + '년 전기/가스 사용량 상세'"></h2>
+
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>월</th>
+            <th>전기 사용량 (kWh)</th>
+            <th>가스 사용량 (m³)</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="month : ${#numbers.sequence(1, 12)}">
+            <td th:text="${month} + '월'"></td>
+            <td th:text="${useAmounts.containsKey(month) ? useAmounts.get(month).useElectricity : '-'}"></td>
+            <td th:text="${useAmounts.containsKey(month) ? useAmounts.get(month).useGas : '-'}"></td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a th:href="@{/mypage/input-useamount/{userId}(userId=${userId})}" class="btn btn-primary">사용량 입력</a>
+    </div>
+
+
+
+</div>
+</body>
+</html>
