@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chat Application</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script>
+    var stompClient = null;
+
+    function setConnected(connected) {
+      $("#send").prop("disabled", !connected);
+      if (connected) {
+        $("#conversation").show();
+      }
+      else {
+        $("#conversation").hide();
+      }
+      $("#msg").html("");
+    }
+
+    function connect() {
+      var socket = new SockJS('/ws');
+      stompClient = Stomp.over(socket);
+      stompClient.connect({}, function (frame) {
+        setConnected(true);
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/public', function (message) {
+          showMessage("받은 메시지: " + message.body);
+        });
+
+        var welcomeMessage = "안녕하세요! 무엇을 도와드릴까요?";
+        showMessage("보낸 메시지: " + welcomeMessage);
+        stompClient.send("/app/sendMessage", {}, JSON.stringify(welcomeMessage));
+      });
+    }
+
+    function disconnect() {
+      if (stompClient !== null) {
+        stompClient.disconnect();
+      }
+      setConnected(false);
+      console.log("Disconnected");
+    }
+
+    function sendMessage() {
+      let message = $("#msg").val();
+      showMessage("보낸 메시지: " + message);
+
+      stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
+    }
+
+    function showMessage(message) {
+      $("#communicate").append("<tr><td>" + message + "</td></tr>");
+    }
+
+    $(function () {
+      $("form").on('submit', function (e) {
+        e.preventDefault();
+      });
+      $("#send").click(function() { sendMessage(); });
+
+      // 채팅 시작 버튼을 누르면 자동으로 연결
+      $("#chatModal").on("shown.bs.modal", function () {
+        connect();
+      });
+
+      // 모달을 닫을 때 연결 해제
+      $("#chatModal").on("hidden.bs.modal", function () {
+        disconnect();
+      });
+    });
+  </script>
+</head>
+<body>
+<div class="container">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#chatModal">
+    채팅 시작
+  </button>
+
+  <!-- 모달 -->
+  <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="chatModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="chatModalLabel">Chat Application</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div id="main-content" class="container">
+            <div class="row">
+              <div class="col-md-6">
+                <form class="form-inline">
+                  <div class="form-group">
+                    <label for="msg">문의사항</label>
+                    <input type="text" id="msg" class="form-control" placeholder="내용을 입력하세요....">
+                  </div>
+                  <button id="send" class="btn btn-default" disabled type="submit">보내기</button>
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-12">
+                <table id="conversation" class="table table-striped">
+                  <thead>
+                  <tr>
+                    <th>메세지</th>
+                  </tr>
+                  </thead>
+                  <tbody id="communicate">
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
