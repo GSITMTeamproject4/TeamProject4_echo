@@ -1,27 +1,14 @@
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div layout:fragment="content" class="container my-3">
-    <table class="table">
-        <thead class="table-dark">
-        <tr class="text-center">
-            <th>구매정보</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${buyCoupon.couponName}"></td>
-            <td th:text="|필요포인트: ${buyCoupon.couponPoint}p|"></td>
-            <td th:text="|유저포인트: ${buyCoupon.currentPoint}p|"></td>
-            <td><button type="button" th:onclick="|location.href='@{/mall/pay?id={id}(id=${buyCoupon.couponId})}'|">결제하기</button></td>
-            <td><input type="button" value="뒤로가기" th:onclick="|location.href='@{/mall}'|"></td>
-            <td><a href="#" onclick="goBack(); return false;">취소</a></td>
-
-            <script th:inline="javascript">
-                function goBack() {
-                    window.history.back();
-                }
-            </script>
-        </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <thead class="table-dark">
+            <tr class="text-center">
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            </tr>
+            </tbody>
+        </table>
 </div>
 </html>
