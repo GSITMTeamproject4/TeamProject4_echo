@@ -4,6 +4,7 @@ import com.project.echoproject.dto.CouponDTO;
 import com.project.echoproject.entity.Coupon;
 import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.entity.UserCoupon;
 import com.project.echoproject.service.CouponService;
 import com.project.echoproject.service.PointService;
 import com.project.echoproject.service.SiteUserService;
