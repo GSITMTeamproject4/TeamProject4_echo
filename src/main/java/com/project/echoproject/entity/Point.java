@@ -15,5 +15,7 @@ public class Point {
     @ManyToOne
     private SiteUser userId;
 
+    private Long point;
+
     private String pointInfo;
 }
