@@ -33,7 +33,7 @@
           showMessage("받은 메시지: " + message.body);
         });
 
-        var welcomeMessage = "안녕하세요! 무엇을 도와드릴까요?";
+        var welcomeMessage = "안녕하세요!! 반갑습니다!!";
         showMessage("보낸 메시지: " + welcomeMessage);
         stompClient.send("/app/sendMessage", {}, JSON.stringify(welcomeMessage));
       });
