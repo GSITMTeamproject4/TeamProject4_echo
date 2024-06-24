@@ -11,7 +11,15 @@
             <td th:text="${buyCoupon.couponName}"></td>
             <td th:text="|필요포인트: ${buyCoupon.couponPoint}p|"></td>
             <td th:text="|유저포인트: ${buyCoupon.currentPoint}p|"></td>
-            <td><a th:href="@{mall/buy/{id}(id=${buyCoupon.balance})}">결제하기</a></td>
+            <td><button type="button" th:onclick="|location.href='@{/mall/pay?id={id}(id=${buyCoupon.couponId})}'|">결제하기</button></td>
+            <td><input type="button" value="뒤로가기" th:onclick="|location.href='@{/mall}'|"></td>
+            <td><a href="#" onclick="goBack(); return false;">취소</a></td>
+
+            <script th:inline="javascript">
+                function goBack() {
+                    window.history.back();
+                }
+            </script>
         </tr>
         </tbody>
     </table>
