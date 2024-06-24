@@ -33,8 +33,8 @@ public class SiteUser {
     private LocalDateTime modifyDate;
     @Column(columnDefinition = "INT DEFAULT 0")
     private Integer reportCnt;
-    @Column(nullable = false)
-    private Integer couponId;
+//    @Column(nullable = false)
+//    private Integer couponId;
     @Column(columnDefinition = "TINYINT(1) DEFAULT 0")
     private boolean couponUse;
 
@@ -50,5 +50,7 @@ public class SiteUser {
     protected void onUpdate() {
         this.modifyDate = LocalDateTime.now();
     }
+
+    private Long currentPoint;
 
 }

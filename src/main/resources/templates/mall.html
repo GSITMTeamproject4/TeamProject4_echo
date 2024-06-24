@@ -1,6 +1,5 @@
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
 <div layout:fragment="content" class="container my-3">
-    <form th:action="@{/mall/buy}" method="post" th:object="${selectCouponDTO}" >
     <table class="table">
         <thead class="table-dark">
         <tr class="text-center">
@@ -11,11 +10,9 @@
         <tr th:each="coupon : ${couponList}">
             <td th:text="${coupon.couponName}"></td>
             <td th:text="|필요포인트: ${coupon.couponPoint}p|"></td>
-            <td><input type="submit" value="구매하기"></td>
+            <td><a th:href="@{mall/buy/{id}(id=${coupon.couponId})}">구매하기</a></td>
         </tr>
         </tbody>
     </table>
-
-    </form>
 </div>
 </html>

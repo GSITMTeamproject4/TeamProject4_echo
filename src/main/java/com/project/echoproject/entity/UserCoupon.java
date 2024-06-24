@@ -7,15 +7,16 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Coupon {
+public class UserCoupon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long couponId;
+    Long userCouponId;
 
-    @Column(length = 50, nullable = false)
-    private Long couponPoint;
+    @ManyToOne
+    @JoinColumn(name = "userId")
+    SiteUser userId;
 
-    @Column(length = 50, nullable = false)
-    private String couponName;
-
+    @ManyToOne
+    @JoinColumn(name = "couponId")
+    Coupon couponId;
 }
