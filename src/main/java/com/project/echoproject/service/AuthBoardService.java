@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.List;
 
 public interface AuthBoardService {
-    AuthBoard saveBoard(String title, String content, MultipartFile file, SiteUser siteUser) throws IOException;
+    AuthBoard createBoard(String title, String content, MultipartFile file, SiteUser siteUser) throws IOException;
     AuthBoard getAuthBoard(Long id);
     List<AuthBoard> getAllBoards();
     AuthBoard getBoardById(Long id);

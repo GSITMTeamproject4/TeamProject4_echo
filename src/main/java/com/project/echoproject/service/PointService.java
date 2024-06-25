@@ -11,6 +11,6 @@ public class PointService {
     private final PointRepository pointRepository;
 
     public void addPointHistory(Point point) {
-       pointRepository.save(point);
+        pointRepository.save(point);
     }
 }

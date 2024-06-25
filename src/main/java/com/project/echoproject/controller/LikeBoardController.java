@@ -27,20 +27,20 @@ public class LikeBoardController {
 
     @PostMapping("/likeBoard/toggle/{boardId}")
     public Map<String, Object> toggleLike(@PathVariable Long boardId, Principal principal) {
-        // 로그인 구현 안되어있어서 임시로 만든 것-------
-        if (principal == null) {
-            principal = new Principal() {
-                @Override
-                public String getName() {
-                    return "test";
-                }
-            };
-        }
-        //----------------
         SiteUser siteUser = siteUserService.findByUserId(principal.getName()); // 유저 서비스로 SiteUser 조회
         likeBoardService.toggleLike(boardId, siteUser);
         Map<String, Object> result = new HashMap<>();
         result.put("likeCount", likeBoardService.getLikeCount(boardId));
         return result;
     }
+
+    @GetMapping("/likeBoard/status/{boardId}")
+    public Map<String, Object> getLikeStatus(@PathVariable Long boardId, Principal principal) {
+        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
+        boolean isLiked = likeBoardService.isLikedByUser(boardId, siteUser);
+        Map<String, Object> result = new HashMap<>();
+        result.put("isLiked", isLiked);
+        return result;
+    }
+
 }
