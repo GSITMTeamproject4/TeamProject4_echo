@@ -147,7 +147,7 @@ h6 {
   --background-color: rgba(255, 255, 255, 0);
   --heading-color: #ffffff;
   --nav-color: rgba(255, 255, 255, 0.5);
-  --nav-hover-color: #ffffff;
+  --nav-hover-color: var(--accent-color);
 }
 
 /* Index Page Header on Scroll
@@ -185,7 +185,7 @@ h6 {
     color: var(--nav-color);
     padding: 18px 15px;
     font-size: 16px;
-    font-family: var(--nav-font);
+    font-family: "Noto Sans KR";
     font-weight: 400;
     display: flex;
     align-items: center;
@@ -210,6 +210,8 @@ h6 {
   .navmenu .active,
   .navmenu .active:focus {
     color: var(--nav-hover-color);
+    font-size: 16px;
+    font-family: "Noto Sans KR";
   }
 
   .navmenu .dropdown ul {
@@ -304,7 +306,7 @@ h6 {
     color: var(--nav-dropdown-color);
     padding: 10px 20px;
     font-family: var(--nav-font);
-    font-size: 17px;
+    font-size: 16px;
     font-weight: 500;
     display: flex;
     align-items: center;
@@ -2847,4 +2849,12 @@ section,
 
 .user-btn .btn-getstarted {
   margin: 0 10px 0 10px;
+}
+
+.main {
+  margin-top: 100px;
+}
+
+.header a , .header .logo h1 {
+  color: black;
 }

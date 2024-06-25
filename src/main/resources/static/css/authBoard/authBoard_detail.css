@@ -39,3 +39,7 @@
 .heart-button.filled i {
     color: red;
 }
+
+.col-lg-8 h1 {
+    margin-bottom: 30px;
+}
