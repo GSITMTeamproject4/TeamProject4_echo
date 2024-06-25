@@ -4,12 +4,12 @@ import com.project.echoproject.dto.SiteUserCreateForm;
 import com.project.echoproject.service.SiteUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @RequestMapping("/user")
 @RequiredArgsConstructor
@@ -40,12 +40,12 @@ public class SiteUserController {
                     siteUserCreateForm.getPhoneNum(), siteUserCreateForm.getGender(),
                     siteUserCreateForm.getPassword1(), siteUserCreateForm.getEmail());
         } catch (DataIntegrityViolationException e) {
-            e.printStackTrace();
+
             // 필드, 오류 메시지
             bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
             return "signupForm";
         } catch (Exception e) {
-            e.printStackTrace();
+
             bindingResult.reject("signupFailed", e.getMessage());
             return "signupForm";
         }
