@@ -1,0 +1,66 @@
+<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
+<div layout:fragment="content" class="container my-3">
+
+    <div id="challenge">
+        <div>이달의 챌린지 현황</div>
+        <!--&lt;!&ndash;<h2 th:text="|챌린지 달성 개수 : ${userChallenge.challengeCnt}|"></h2>&ndash;&gt;-->
+        <!--<h2 th:text="|챌린지 달성 개수 : 2|"></h2>-->
+        <ul><li>receipt</li><li>email</li></ul>
+        <div id='calendar' style='width: 1500px;'></div>
+    </div>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+        <script>
+
+            document.addEventListener('DOMContentLoaded', function() {
+
+                var calendarEl = document.getElementById('calendar');
+
+                    var request = $.ajax({
+                        url: "/challenge/state",
+                        type: "GET",
+                        dataType: "json"
+                    });
+                request.done(function(data){
+                    var calendar = new FullCalendar.Calendar(calendarEl, {
+                        initialView: 'dayGridMonth',
+                        height: 800,
+                        //events: data
+                    });
+
+
+                    console.log(data)
+
+                    $.each(data,function(key, value){
+                        if(value.title == 'receipt') {
+                            calendar.addEvent({
+                                //backgroundColor : "#8800f7",
+                                title: value.title, // 이벤트 제목
+                                // start : "2024-6-24", //달력 날짜에 매핑
+                                start: value.start,
+                                end: value.end,
+                                color: "#8800f7",
+                                //textColor: "#8400f7"
+                                //rendering : "background"
+                            })
+                        }
+                        else if(value.title == 'email') {
+                            calendar.addEvent({
+                                title: value.title, // 이벤트 제목
+                                // start : "2024-6-24", //달력 날짜에 매핑
+                                start: value.start,
+                                end: value.end,
+                                color: "#06fb36",
+                            })
+                        }
+                    });
+                    calendar.render();
+
+                });
+
+            });
+
+        </script>
+</div>
+</html>

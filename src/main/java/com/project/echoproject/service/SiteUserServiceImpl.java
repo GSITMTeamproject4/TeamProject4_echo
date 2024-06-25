@@ -3,6 +3,7 @@ package com.project.echoproject.service;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,6 +25,10 @@ public class SiteUserServiceImpl implements SiteUserService {
 
     @Override
     public SiteUser create(String userId, String userName, String phoneNum, String gender, String password, String email) {
+        Optional<SiteUser> existingUser = siteUserRepository.findByUserId(userId);
+        if (existingUser.isPresent()) {
+            throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
+        }
         SiteUser siteUser = new SiteUser();
         siteUser.setUserId(userId);
         siteUser.setUserName(userName);
@@ -54,4 +59,3 @@ public class SiteUserServiceImpl implements SiteUserService {
         }
     }
 }
-

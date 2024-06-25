@@ -34,7 +34,7 @@ public class AuthBoardController {
             model.addAttribute("userName", userDetails.getUsername());
         }
         model.addAttribute("boards", boards);
-        return "authBoardList";
+        return "listTest";
     }
 
     @GetMapping("/create")
@@ -52,7 +52,7 @@ public class AuthBoardController {
             String userId = principal.getName(); // 현재 로그인한 사용자의 ID를 가져옴
             SiteUser siteUser = siteUserService.findByUserId(userId); // 사용자 정보를 조회
 
-            authBoardService.saveBoard(title, content, file, siteUser);
+            authBoardService.createBoard(title, content, file, siteUser);
             return "redirect:/authBoard/list"; // 게시판 목록으로 리다이렉트
         } catch (IOException e) {
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
@@ -65,6 +65,9 @@ public class AuthBoardController {
         AuthBoard authBoard = authBoardService.getAuthBoard(id);
         model.addAttribute("board", authBoard);
 
+        List<AuthBoard> boards = authBoardService.getAllBoards();
+        model.addAttribute("boards", boards);
+
         // principal이 null인지 확인하고, null이 아니면 사용자 ID를 가져옴
         if (principal != null) {
             String currentUserId = principal.getName();
@@ -73,7 +76,7 @@ public class AuthBoardController {
             model.addAttribute("currentUserId", null);
         }
 
-        return "authBoardDetail";
+        return "authBoardDetailTest";
     }
 
     @GetMapping("/modify/{id}")
