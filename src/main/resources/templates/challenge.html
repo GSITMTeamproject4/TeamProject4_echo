@@ -16,11 +16,24 @@
             document.addEventListener('DOMContentLoaded', function() {
 
                 var calendarEl = document.getElementById('calendar');
+                var csrfToken = $('meta[name="_csrf"]').attr('content');
+                var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
                     var request = $.ajax({
                         url: "/challenge/state",
                         type: "GET",
-                        dataType: "json"
+                        dataType: "json",
+                    //     헤더에
+                    //     <meta name="_csrf" th:content="${_csrf.token}"/>
+                    // <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+                    // 써야되서 다른곳에 하기
+                        // beforeSend: function(xhr) {
+                        //     xhr.setRequestHeader(csrfHeader, csrfToken);
+                        // },
+                        // error: function(xhr, status, error) {
+                        //     console.error('좋아요 처리 중 오류가 발생했습니다:', status, error);
+                        //     alert('로그인 후 이용하시기 바랍니다.');
+                        // }
                     });
                 request.done(function(data){
                     var calendar = new FullCalendar.Calendar(calendarEl, {
@@ -58,6 +71,22 @@
                                 start: value.start,
                                 end: value.end,
                                 color: "#06fb36",
+                            })
+                        }
+                        else if(value.title == 'multiuse') {
+                            calendar.addEvent({
+                                title: value.title,
+                                start: value.start,
+                                end: value.end,
+                                color: "#fb4f06",
+                            })
+                        }
+                        else if(value.title == 'tumbler') {
+                            calendar.addEvent({
+                                title: value.title,
+                                start: value.start,
+                                end: value.end,
+                                color: "#de51fd",
                             })
                         }
                     });
