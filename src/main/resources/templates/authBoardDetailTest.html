@@ -148,7 +148,7 @@
                         </li>
                         <li class="d-flex align-items-center">
                           <div th:if="${#authentication.name == board.siteUser.userId}">
-                            <form th:action="@{/authBoard/delete/{id}(id=${board.listId})}" method="post">
+                            <form th:id="${'deleteForm' + board.listId}" th:action="@{/authBoard/delete/{id}(id=${board.listId})}" method="post" onsubmit="return confirmDelete(this)">
                               <button type="submit" class="delete-button"><i class="fa-solid fa-trash-can group-icon"></i></button>
                             </form>
                           </div>
