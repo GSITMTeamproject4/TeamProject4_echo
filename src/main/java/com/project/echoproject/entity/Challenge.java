@@ -24,10 +24,6 @@ public class Challenge {
     @Column(length = 200, nullable = false)
     private String checkImg;
 
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
-    private SiteUser siteUser;
-
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "imageId", referencedColumnName = "id")
     private Image image;

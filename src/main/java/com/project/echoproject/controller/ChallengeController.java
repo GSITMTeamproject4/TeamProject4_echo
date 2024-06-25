@@ -29,13 +29,15 @@ public class ChallengeController {
     private static final Logger log = LoggerFactory.getLogger(ChallengeController.class);
 
     @GetMapping("")
-    public String start(Model model) {
+    public String start(Model model,Principal principal) {
+        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
         model.addAttribute("challenge", new Challenge());
         return "challenge";
     }
     @GetMapping("/state")
-    public @ResponseBody List<Map<String, Object>> monthPlan() {
-            return challengeService.getEventList();
+    public @ResponseBody List<Map<String, Object>> monthPlan(Principal principal) {
+        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
+            return challengeService.getChallengeList(siteUser);
     }
     @GetMapping("/add")
     public String add() {
