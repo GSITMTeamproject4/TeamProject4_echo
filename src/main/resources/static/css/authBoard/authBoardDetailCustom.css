@@ -1,0 +1,41 @@
+.blog-details .meta-top p {
+    color: color-mix(in srgb, var(--default-color), transparent 40%);
+    font-size: 14px;
+    display: inline-block;
+    line-height: 1;
+    margin: 14px 0 14px 0;
+}
+
+.img-fluid {
+    width: 100%;
+}
+
+.post-item img {
+    height: 60px;
+}
+
+.delete-button {
+    padding: 0;
+    background-color: transparent;
+    border: none;
+}
+
+.right-group {
+    display: flex;
+    margin-left: auto; /* 오른쪽 그룹을 오른쪽 끝으로 정렬 */
+}
+
+.blog-details .meta-top .right-group i:hover {
+    transition: 0.3s;
+    color: var(--accent-color);
+}
+
+.heart-button {
+    background-color: transparent;
+    padding: 0;
+    border: none;
+}
+
+.heart-button.filled i {
+    color: red;
+}
