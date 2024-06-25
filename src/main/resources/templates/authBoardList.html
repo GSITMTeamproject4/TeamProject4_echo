@@ -36,6 +36,23 @@
     </tbody>
 </table>
 
+<!-- Pagination -->
+<div class="pagination">
+    <ul>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/authBoard/list(page=${currentPage - 1})}">&laquo; 이전</a>
+        </li>
+        <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+            th:classappend="${pageNum == currentPage} ? 'active'">
+            <a th:href="@{/authBoard/list(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/authBoard/list(page=${currentPage + 1})}">다음 &raquo;</a>
+        </li>
+    </ul>
+</div>
+<!-- End Pagination -->
+
 <script>
     $(document).ready(function() {
         var csrfToken = $('meta[name="_csrf"]').attr('content');

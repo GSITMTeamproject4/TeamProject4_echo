@@ -13,7 +13,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
   <!-- font-awesome -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script src="https://kit.fontawesome.com/bc604c01cc.js" crossorigin="anonymous"></script>
 
   <!-- Favicons -->
   <link href="assets/img/favicon.png" rel="icon">
@@ -157,14 +157,16 @@
       <div class="container">
         <div class="d-flex justify-content-center">
           <ul>
-            <li><a href="#"><i class="bi bi-chevron-left"></i></a></li>
-            <li><a href="#">1</a></li>
-            <li><a href="#" class="active">2</a></li>
-            <li><a href="#">3</a></li>
-            <li><a href="#">4</a></li>
-            <li>...</li>
-            <li><a href="#">10</a></li>
-            <li><a href="#"><i class="bi bi-chevron-right"></i></a></li>
+            <li th:if="${currentPage > 0}">
+              <a th:href="@{/authBoard/list(page=${currentPage - 1})}"><i class="fa-solid fa-chevron-left"></i></a>
+            </li>
+            <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                th:classappend="${pageNum == currentPage} ? 'active'">
+              <a th:href="@{/authBoard/list(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+            </li>
+            <li th:if="${currentPage < totalPages - 1}">
+              <a th:href="@{/authBoard/list(page=${currentPage + 1})}"><i class="fa-solid fa-chevron-right"></i></a>
+            </li>
           </ul>
         </div>
       </div>

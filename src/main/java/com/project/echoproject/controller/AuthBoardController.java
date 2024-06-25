@@ -6,6 +6,7 @@ import com.project.echoproject.service.AuthBoardService;
 import com.project.echoproject.service.ReportBoardService;
 import com.project.echoproject.service.SiteUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
@@ -27,13 +28,19 @@ public class AuthBoardController {
     private final ReportBoardService reportBoardService;
 
     @GetMapping("/list")
-    public String authBoardList(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        List<AuthBoard> boards = authBoardService.getAllBoards();
-        // 임시로 로그인한 유저 데이터 보내기
+    public String authBoardList(@AuthenticationPrincipal UserDetails userDetails, Model model,
+                                @RequestParam(defaultValue = "0") int page) {
+
+        int size = 9; // 한 페이지에 보여줄 게시글 수
+        Page<AuthBoard> authBoardPage = authBoardService.getAuthBoards(page, size);
+        model.addAttribute("boards", authBoardPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", authBoardPage.getTotalPages());
+
+        // 로그인한 유저 데이터 보내기
         if (userDetails != null) {
             model.addAttribute("userName", userDetails.getUsername());
         }
-        model.addAttribute("boards", boards);
         return "listTest";
     }
 
