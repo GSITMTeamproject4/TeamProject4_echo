@@ -44,4 +44,11 @@ public class LikeBoardServiceImpl implements LikeBoardService {
                 .orElseThrow(() -> new IllegalArgumentException("Invalid board Id:" + boardId));
         return authBoard.getLikeCount();
     }
+
+    public boolean isLikedByUser(Long boardId, SiteUser siteUser) {
+        AuthBoard authBoard = authBoardRepository.findById(boardId)
+                .orElseThrow(() -> new IllegalArgumentException("Invalid board Id:" + boardId));
+        LikeBoard likeBoard = likeBoardRepository.findByAuthBoardAndSiteUser(authBoard, siteUser);
+        return likeBoard != null;
+    }
 }
