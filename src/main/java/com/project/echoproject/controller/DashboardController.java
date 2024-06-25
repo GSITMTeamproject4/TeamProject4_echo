@@ -19,13 +19,30 @@ public class DashboardController {
     @GetMapping("/dashboard")
     public String dashboard(Model model) {
         try {
-            // 여기서 "seoul" 또는 "gyeonggi"를 region 파라미터로 전달합니다.
-            Map<String, Object> jsonData = dataController.getData("seoul"); // 데이터를 가져옵니다.
-            model.addAttribute("jsonData", jsonData); // 모델에 JSON 데이터를 추가합니다.
+            // 서울 지역의 "gangnam" 서브지역 데이터를 가져옵니다.
+            Map<String, Object> seoulGangnamData = dataController.getData("seoul", "gangnam");
+            model.addAttribute("seoulGangnamData", seoulGangnamData);
+
+            // 서울 지역의 "gangbuk" 서브지역 데이터를 가져옵니다.
+            Map<String, Object> seoulGangbukData = dataController.getData("seoul", "gangbuk");
+            model.addAttribute("seoulGangbukData", seoulGangbukData);
+
+            // 경기 북부 지역 데이터를 가져옵니다.
+            Map<String, Object> gyeonggiNorthData = dataController.getData("gyeonggi", "gyeongginorth");
+            model.addAttribute("gyeonggiNorthData", gyeonggiNorthData);
+
+            // 경기 중부 지역 데이터를 가져옵니다.
+            Map<String, Object> gyeonggiCentralData = dataController.getData("gyeonggi", "gyeonggicentral");
+            model.addAttribute("gyeonggiCentralData", gyeonggiCentralData);
+
+            // 경기 남부 지역 데이터를 가져옵니다.
+            Map<String, Object> gyeonggiSouthData = dataController.getData("gyeonggi", "gyeonggisouth");
+            model.addAttribute("gyeonggiSouthData", gyeonggiSouthData);
+
         } catch (Exception e) {
             e.printStackTrace();
             // 예외 처리: 데이터를 가져오는 과정에서 문제가 발생할 경우 처리합니다.
-            model.addAttribute("jsonData", new HashMap<>()); // 빈 객체로 처리할 수도 있습니다.
+            model.addAttribute("errorMessage", "데이터를 가져오는 중 오류가 발생했습니다.");
         }
 
         return "dashboard";

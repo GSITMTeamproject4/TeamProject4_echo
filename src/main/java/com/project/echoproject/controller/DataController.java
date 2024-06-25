@@ -25,23 +25,21 @@ public class DataController {
     }
 
     @GetMapping("/data")
-    public Map<String, Object> getData(@RequestParam String region) {
+    public Map<String, Object> getData(@RequestParam String region, @RequestParam(required = false) String subregion) {
         try {
             // 데이터를 저장할 맵
             Map<String, Integer> eleUsageBySIGUNGU_CD = new HashMap<>();
             Map<String, Integer> gasUsageBySIGUNGU_CD = new HashMap<>();
             Map<String, String> labelsBySIGUNGU_CD = new HashMap<>();
 
-            // 서울 또는 경기 데이터 선택
-            String eleDataPath = region.equals("seoul") ? "static/json/seoul_ele_use.json" : "static/json/gyeonggi_ele_use.json";
-            String gasDataPath = region.equals("seoul") ? "static/json/seoul_gas_use.json" : "static/json/gyeonggi_gas_use.json";
-
             // 전기 사용량 데이터 읽기
+            String eleDataPath = getEleDataPath(region, subregion);
             InputStream eleInputStream = new ClassPathResource(eleDataPath).getInputStream();
             Map<String, Object> eleData = objectMapper.readValue(eleInputStream, new TypeReference<Map<String, Object>>() {});
             processUsageData(eleData, eleUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseEle");
 
             // 가스 사용량 데이터 읽기
+            String gasDataPath = getGasDataPath(region, subregion);
             InputStream gasInputStream = new ClassPathResource(gasDataPath).getInputStream();
             Map<String, Object> gasData = objectMapper.readValue(gasInputStream, new TypeReference<Map<String, Object>>() {});
             processUsageData(gasData, gasUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseGas");
@@ -55,7 +53,55 @@ public class DataController {
             return responseData;
         } catch (IOException e) {
             e.printStackTrace();
-            throw new RuntimeException("Error reading JSON file: " + e.getMessage());
+            throw new RuntimeException("JSON 파일을 읽는 중 오류가 발생했습니다: " + e.getMessage());
+        }
+    }
+
+    private String getEleDataPath(String region, String subregion) {
+        if (region.equals("seoul")) {
+            if (subregion.equals("gangnam")) {
+                return "static/json/seoul_ele_use_South.json";
+            } else if (subregion.equals("gangbuk")) {
+                return "static/json/seoul_ele_use_North.json";
+            } else {
+                throw new IllegalArgumentException("올바르지 않은 서브지역입니다.");
+            }
+        } else if (region.equals("gyeonggi")) {
+            if (subregion.equals("gyeongginorth")) {
+                return "static/json/gyeonggi_ele_use_North.json";
+            } else if (subregion.equals("gyeonggicentral")) {
+                return "static/json/gyeonggi_ele_use_Center.json";
+            } else if (subregion.equals("gyeonggisouth")) {
+                return "static/json/gyeonggi_ele_use_South.json";
+            } else {
+                throw new IllegalArgumentException("올바르지 않은 서브지역입니다.");
+            }
+        } else {
+            throw new IllegalArgumentException("올바르지 않은 지역입니다.");
+        }
+    }
+
+    private String getGasDataPath(String region, String subregion) {
+        if (region.equals("seoul")) {
+            if (subregion.equals("gangnam")) {
+                return "static/json/seoul_gas_use_South.json";
+            } else if (subregion.equals("gangbuk")) {
+                return "static/json/seoul_gas_use_North.json";
+            } else {
+                throw new IllegalArgumentException("올바르지 않은 서브지역입니다.");
+            }
+        } else if (region.equals("gyeonggi")) {
+            if (subregion.equals("gyeongginorth")) {
+                return "static/json/gyeonggi_gas_use_North.json";
+            } else if (subregion.equals("gyeonggicentral")) {
+                return "static/json/gyeonggi_gas_use_Center.json";
+            } else if (subregion.equals("gyeonggisouth")) {
+                return "static/json/gyeonggi_gas_use_South.json";
+            } else {
+                throw new IllegalArgumentException("올바르지 않은 서브지역입니다.");
+            }
+        } else {
+            throw new IllegalArgumentException("올바르지 않은 지역입니다.");
         }
     }
 

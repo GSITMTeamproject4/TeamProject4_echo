@@ -12,6 +12,20 @@
     <option value="seoul">서울</option>
     <option value="gyeonggi">경기도</option>
 </select>
+
+<!-- 서울 지역 시군구 선택 -->
+<select id="seoulSubSelect" style="display: none;">
+    <option value="gangnam">강남</option>
+    <option value="gangbuk">강북</option>
+</select>
+
+<!-- 경기도 지역 시군구 선택 -->
+<select id="gyeonggiSubSelect" style="display: none;">
+    <option value="gyeongginorth">경기 북부</option>
+    <option value="gyeonggicentral">경기 중부</option>
+    <option value="gyeonggisouth">경기 남부</option>
+</select>
+
 <canvas id="usageChart"></canvas>
 
 <script th:inline="javascript">
@@ -20,8 +34,13 @@
         var ctx = document.getElementById('usageChart').getContext('2d');
         var usageChart;
 
-        function updateChart(region) {
-            fetch('/dashboard/data?region=' + region)
+        function updateChart(region, subregion) {
+            var fetchDataUrl = '/dashboard/data?region=' + region;
+            if (subregion) {
+                fetchDataUrl += '&subregion=' + subregion;
+            }
+
+            fetch(fetchDataUrl)
                 .then(response => response.json())
                 .then(data => {
                     var labels = Object.keys(data.labelsBySIGUNGU_CD).map(function(sigungu) {
@@ -75,16 +94,38 @@
                 })
                 .catch(error => {
                     console.error('Error:', error.message);
-                    showError('Error fetching or processing data: ' + error.message);
+                    showError('데이터를 가져오는 도중 오류가 발생했습니다: ' + error.message);
                 });
         }
 
         document.getElementById('regionSelect').addEventListener('change', function(event) {
-            updateChart(event.target.value);
+            var region = event.target.value;
+            var subregionSelect = document.getElementById(region + 'SubSelect');
+            var subregion = subregionSelect ? subregionSelect.value : null;
+            updateChart(region, subregion);
+
+            // 지역 선택에 따라서 시군구 선택 옵션 변경
+            if (region === 'seoul') {
+                document.getElementById('seoulSubSelect').style.display = 'inline-block';
+                document.getElementById('gyeonggiSubSelect').style.display = 'none';
+            } else if (region === 'gyeonggi') {
+                document.getElementById('seoulSubSelect').style.display = 'none';
+                document.getElementById('gyeonggiSubSelect').style.display = 'inline-block';
+            }
         });
 
-        // 기본값으로 서울 그래프 표시
-        updateChart('seoul');
+        document.getElementById('seoulSubSelect').addEventListener('change', function(event) {
+            var subregion = event.target.value;
+            updateChart('seoul', subregion);
+        });
+
+        document.getElementById('gyeonggiSubSelect').addEventListener('change', function(event) {
+            var subregion = event.target.value;
+            updateChart('gyeonggi', subregion);
+        });
+
+        // 기본값으로 서울 강남 지역 그래프 표시
+        updateChart('seoul', 'gangnam');
 
         function showError(message) {
             console.error(message);
