@@ -5,37 +5,12 @@
         <div>이달의 챌린지 현황</div>
         <!--&lt;!&ndash;<h2 th:text="|챌린지 달성 개수 : ${userChallenge.challengeCnt}|"></h2>&ndash;&gt;-->
         <!--<h2 th:text="|챌린지 달성 개수 : 2|"></h2>-->
+        <ul><li>receipt</li><li>email</li></ul>
         <div id='calendar' style='width: 1500px;'></div>
     </div>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<!--    <script>-->
 
-<!--        document.addEventListener('DOMContentLoaded', function() {-->
-
-<!--            var calendarEl = document.getElementById('calendar');-->
-<!--            var calendar = new FullCalendar.Calendar(calendarEl, {-->
-<!--                initialView: 'dayGridMonth',-->
-<!--                height: 800-->
-<!--            });-->
-<!--            calendar.render();-->
-<!--        });-->
-
-<!--    </script>-->
-<!--    <script>-->
-<!--        var calendarEl = document.getElementById('calendar');-->
-<!--        var request = $.ajax({-->
-<!--            url: "/challenge/calendar-admin",-->
-<!--            method: "GET",-->
-<!--        });-->
-<!--        request.done(function(data){-->
-<!--            var calendar = new FullCalendar.Calendar(calendarEl, {-->
-<!--                initialView: 'dayGridMonth'-->
-
-<!--            });-->
-<!--            calendar.render();-->
-<!--        });-->
-<!--    </script>-->
         <script>
 
             document.addEventListener('DOMContentLoaded', function() {
@@ -43,7 +18,7 @@
                 var calendarEl = document.getElementById('calendar');
 
                     var request = $.ajax({
-                        url: "/challenge/calendar-admin",
+                        url: "/challenge/state",
                         type: "GET",
                         dataType: "json"
                     });
@@ -51,41 +26,40 @@
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: 'dayGridMonth',
                         height: 800,
-                        events: data
+                        //events: data
+                        eventTimeFormat: { // like '14:30:00'
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            //second: '2-digit',
+                            hour12: false,
+                            //meridiem: 'short'
+                        }
                     });
 
-                    var startdate = "";
+
+                    console.log(data)
 
                     $.each(data,function(key, value){
-                        startdate="";
-                        for(let i=0; i<value.start.length; i++) {
-                                if(i == 0) {
-                                    startdate += value.start[i];
-                                }
-                                else if(i == 1){
-                                    // if(value.start[i].length == 1) {
-                                    //     startdate += "-0"+value.start[i];
-                                    // }
-                                    // else {
-                                    //     startdate += "-"+value.start[i];
-                                    // }
-                                    startdate += "-0"+value.start[i];
-                                }
-                                else {
-                                    startdate += "-"+value.start[i];
-                                }
-
+                        if(value.title == 'receipt') {
+                            calendar.addEvent({
+                                //backgroundColor : "#8800f7",
+                                title: value.title, // 이벤트 제목
+                                // start : "2024-6-24", //달력 날짜에 매핑
+                                start: value.start,
+                                end: value.end,
+                                color: "#8800f7",
+                                //textColor: "#8400f7"
+                                //rendering : "background"
+                            })
                         }
-
-                        console.log(startdate)
-
-                        calendar.addEvent({
-                            title : value.title, // 이벤트 제목
-                            // start : "2024-6-24", //달력 날짜에 매핑
-                            start: startdate,
-                            color: "#f7e600"
-                        })
-
+                        else if(value.title == 'email') {
+                            calendar.addEvent({
+                                title: value.title,
+                                start: value.start,
+                                end: value.end,
+                                color: "#06fb36",
+                            })
+                        }
                     });
                     calendar.render();
 
