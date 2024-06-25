@@ -55,7 +55,13 @@ public class AuthBoardController {
                              @RequestParam("file") MultipartFile file,
                              Principal principal,
                              Model model) {
+
         try {
+            if (principal == null) {
+                // 인증되지 않은 경우 접근 거부 예외 발생
+                return "redirect:/access_denied";
+            }
+
             String userId = principal.getName(); // 현재 로그인한 사용자의 ID를 가져옴
             SiteUser siteUser = siteUserService.findByUserId(userId); // 사용자 정보를 조회
 
@@ -94,7 +100,7 @@ public class AuthBoardController {
         }
         SiteUser siteUser = siteUserService.findByUserId(principal.getName());
         if (!authBoard.getSiteUser().equals(siteUser)) {
-            return "accessDenied"; // 권한이 없는 경우 접근 거부 페이지로 이동
+            return "error/access_denied"; // 권한이 없는 경우 접근 거부 페이지로 이동
         }
         model.addAttribute("board", authBoard);
         return "authBoard/authBoard_modify"; // 수정 폼 페이지로 이동
@@ -120,7 +126,7 @@ public class AuthBoardController {
     @GetMapping("/report/{id}")
     public String reportPage(@PathVariable("id") Long id, Model model) {
         model.addAttribute("board", authBoardService.getBoardById(id)); // 게시글 정보를 모델에 추가
-        return "reportAuthBoard";
+        return "authBoard/reportAuthBoard";
     }
 
     // 게시글 신고 처리
