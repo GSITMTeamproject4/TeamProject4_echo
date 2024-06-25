@@ -70,8 +70,8 @@ public class ChallengeService {
             // ImageService를 사용하여 이미지 저장
             Image image = imageService.saveImage(file);
             Challenge challenge = new Challenge();
-            challenge.setImage(image);
-            challenge.setCheckImg(image.getFilePath()); // checkImg 필드 설정
+//            challenge.setImage(image);
+//            challenge.setCheckImg(image.getFilePath()); // checkImg 필드 설정
             challenge.setUserId(siteUser); // siteUser 설정
         }else {
             throw new IOException("파일 없음");

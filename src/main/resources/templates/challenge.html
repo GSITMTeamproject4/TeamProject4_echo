@@ -27,6 +27,13 @@
                         initialView: 'dayGridMonth',
                         height: 800,
                         //events: data
+                        eventTimeFormat: { // like '14:30:00'
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            //second: '2-digit',
+                            hour12: false,
+                            //meridiem: 'short'
+                        }
                     });
 
 
@@ -47,8 +54,7 @@
                         }
                         else if(value.title == 'email') {
                             calendar.addEvent({
-                                title: value.title, // 이벤트 제목
-                                // start : "2024-6-24", //달력 날짜에 매핑
+                                title: value.title,
                                 start: value.start,
                                 end: value.end,
                                 color: "#06fb36",
