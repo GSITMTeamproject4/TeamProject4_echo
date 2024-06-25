@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -18,4 +20,6 @@ public class Point {
     private Long point;
 
     private String pointInfo;
+
+    private LocalDateTime insertDate;
 }
