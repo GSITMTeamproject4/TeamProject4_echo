@@ -65,6 +65,9 @@ public class AuthBoardController {
         AuthBoard authBoard = authBoardService.getAuthBoard(id);
         model.addAttribute("board", authBoard);
 
+        List<AuthBoard> boards = authBoardService.getAllBoards();
+        model.addAttribute("boards", boards);
+
         // principal이 null인지 확인하고, null이 아니면 사용자 ID를 가져옴
         if (principal != null) {
             String currentUserId = principal.getName();
@@ -73,7 +76,7 @@ public class AuthBoardController {
             model.addAttribute("currentUserId", null);
         }
 
-        return "authBoardDetail";
+        return "authBoardDetailTest";
     }
 
     @GetMapping("/modify/{id}")
