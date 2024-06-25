@@ -22,7 +22,7 @@
 
     document.addEventListener('DOMContentLoaded', function() {
         try {
-            var parsedData = jsonData;
+            var parsedData = JSON.parse(jsonData);
             if (!parsedData || !parsedData.eleUsageBySIGUNGU_CD || !parsedData.gasUsageBySIGUNGU_CD) {
                 throw new Error('Invalid data format or empty data.');
             }
