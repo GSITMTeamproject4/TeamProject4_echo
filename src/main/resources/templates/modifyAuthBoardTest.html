@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org">
 
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Blog Details - Append Bootstrap Template</title>
+  <title>Index - Append Bootstrap Template</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <meta name="_csrf" th:content="${_csrf.token}"/>
@@ -33,22 +33,24 @@
 
   <!-- Main CSS File -->
   <link rel="stylesheet" th:href="@{/css/authBoard/authBoard.css}">
-  <link rel="stylesheet" th:href="@{/css/authBoard/authBoardDetailCustom.css}">
+  <link rel="stylesheet" th:href="@{/css/authBoard/createAuthBoardTestCustom.css}">
 
 </head>
 
-<body class="blog-details-page">
+<body class="index-page">
 
-  <header id="header" class="header d-flex align-items-center sticky-top">
+  <header id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
 
       <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <!-- Uncomment the line below if you also wish to use an image logo -->
+        <!-- <img src="assets/img/logo.png" alt=""> -->
         <h1 class="sitename">Append</h1><span>.</span>
       </a>
 
       <nav id="navmenu" class="navmenu">
         <ul>
-          <li><a href="index.html#hero">Home</a></li>
+          <li><a href="index.html#hero" class="active">Home</a></li>
           <li><a href="index.html#about">About</a></li>
           <li><a href="index.html#services">Services</a></li>
           <li><a href="index.html#portfolio">Portfolio</a></li>
@@ -84,116 +86,64 @@
 
   <main class="main">
 
-    <!-- Page Title -->
-    <div class="page-title" data-aos="fade">
-      <div class="heading">
-        <div class="container">
-          <div class="row d-flex justify-content-center text-center">
-            <div class="col-lg-8">
-              <h1>Blog Details</h1>
-              <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-      <nav class="breadcrumbs">
-        <div class="container">
-          <ol>
-            <li class="current">상세 글 보기</li>
-            <li><a th:href="@{/authBoard/list}">목록으로</a></li>
-          </ol>
-        </div>
-      </nav>
-    </div><!-- End Page Title -->
+    <!-- Contact Section -->
+    <section id="contact" class="contact section">
 
-    <div class="container">
-      <div class="row">
+      <!-- Section Title -->
+      <div class="container section-title" data-aos="fade-up">
+        <h2>글 수정하기</h2>
+        <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+      </div><!-- End Section Title -->
 
-        <div class="col-lg-8">
+      <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-          <!-- Blog Details Section -->
-          <div id="blog-details" class="blog-details section">
-            <div class="container">
+        <div class="row gy-4">
 
-              <article class="article">
+          <div class="col-lg-6">
 
-                <div class="post-img">
-                  <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="img-fluid">
+            <div class="row gy-4">
+              <div class="col-md-6">
+                <div class="info-item" data-aos="fade" data-aos-delay="200" >
+                  <div class="post-img">
+                    <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="Board Image" id="preview" class="img-preview"/>
+                  </div>
                 </div>
-
-                <h2 class="title" th:text="${board.boardTitle}"></h2>
-
-                <div class="meta-top">
-                  <ul>
-                    <li class="d-flex align-items-center"><i class="fa-regular fa-user"></i> <p th:text="${board.siteUser.userId}"></p></li>
-                    <li class="d-flex align-items-center"><i class="fa-regular fa-clock"></i> <p><time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time></p></li>
-<!--                    <li class="d-flex align-items-center"><i class="fa-regular fa-heart"></i> <p th:text="${board.likeCount}"></p></li>-->
-                    <li class="d-flex align-items-center">
-                      <div class="heart-sec">
-                        <button class="heart-button" id="heartButton" th:attr="data-board-id=${board.listId}"><i class="fas fa-heart"></i></button>
-                        <p th:text="${board.likeCount}" class="heart-count"></p>
-                      </div>
-                    </li>
-                    <li class="right-group">
-                      <ul>
-                        <li class="d-flex align-items-center">
-                          <div th:if="${#authentication.name != board.siteUser.userId}">
-                            <a th:href="@{/authBoard/report/{id}(id=${board.listId})}" sec:authorize="isAuthenticated()"><i class="fa-solid fa-ban group-icon"></i></a>
-                          </div>
-                        </li>
-                        <li class="d-flex align-items-center">
-                          <div th:if="${#authentication.name == board.siteUser.userId}">
-                            <a th:href="@{/authBoard/modify/{id}(id=${board.listId})}"><i class="fa-solid fa-pen group-icon"></i></a>
-                          </div>
-                        </li>
-                        <li class="d-flex align-items-center">
-                          <div th:if="${#authentication.name == board.siteUser.userId}">
-                            <form th:action="@{/authBoard/delete/{id}(id=${board.listId})}" method="post">
-                              <button type="submit" class="delete-button"><i class="fa-solid fa-trash-can group-icon"></i></button>
-                            </form>
-                          </div>
-                        </li>
-                      </ul>
-                    </li>
-
-                  </ul>
-                </div><!-- End meta top -->
-
-                <div class="content">
-                  <p th:text="${board.boardContent}"></p>
-                </div><!-- End post content -->
-              </article>
+              </div><!-- End Info Item -->
 
             </div>
-          </div><!-- /Blog Details Section -->
-
-        </div>
-
-        <div class="col-lg-4 sidebar">
-
-          <div class="widgets-container">
-
-            <!-- Recent Posts Widget -->
-            <div class="recent-posts-widget widget-item">
-
-              <h3 class="widget-title">Recent Posts</h3>
-
-              <div class="post-item" th:each="board, iterStat : ${boards}" th:if="${iterStat.count <= 5}">
-                <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="flex-shrink-0">
-                <div>
-                  <h4><a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a></h4>
-                  <time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time>
-                </div>
-              </div><!-- End recent post item-->
-
-            </div><!--/Recent Posts Widget -->
 
           </div>
+
+          <div class="col-lg-6">
+
+            <form th:action="@{/authBoard/modify/{id}(id=${board.listId})}" method="post" class="php-email-form" enctype="multipart/form-data">
+              <div class="row gy-4">
+
+                <div class="col-md-12">
+                  <input type="text" name="title" class="form-control" th:value="${board.boardTitle}" placeholder="제목을 입력하세요" required>
+                </div>
+
+                <div class="col-md-12">
+                  <textarea class="form-control" name="content" rows="10" th:text="${board.boardContent}" placeholder="내용을 입력하세요" required></textarea>
+                </div>
+                <input type="file" id="file" name="file" accept="image/*"  required>
+                <div class="col-md-12 text-center">
+                  <div class="error-message"></div>
+
+                  <button type="submit">게시글 수정하기</button>
+                  <button type="button" id="cancelButton">취소</button>
+                </div>
+
+              </div>
+            </form>
+
+          </div><!-- End Contact Form -->
 
         </div>
 
       </div>
-    </div>
+
+    </section><!-- /Contact Section -->
 
   </main>
 
@@ -263,7 +213,6 @@
   <!-- Vendor JS Files -->
   <script th:src="@{/js/authBoard/aos.js}"></script>
   <script th:src="@{/js/authBoard/bootstrap.bundle.min.js}"></script>
-  <script th:src="@{/js/authBoard/validate.js}"></script>
   <script th:src="@{/js/authBoard/glightbox.min.js}"></script>
   <script th:src="@{/js/authBoard/purecounter_vanilla.js}"></script>
   <script th:src="@{/js/authBoard/imagesloaded.pkgd.min.js}"></script>
@@ -272,7 +221,7 @@
 
   <!-- Main JS File -->
   <script th:src="@{/js/authBoard/authBoard.js}"></script>
-  <script th:src="@{/js/authBoard/authBoardCustom.js}"></script>
+  <script th:src="@{/js/authBoard/createAuthBoardTestCustom.js}"></script>
 
 </body>
 

@@ -2255,7 +2255,7 @@ section,
 }
 
 .blog-posts .post-img {
-  max-height: 240px;
+  height: 240px;
   margin: -30px -30px 15px -30px;
   overflow: hidden;
 }

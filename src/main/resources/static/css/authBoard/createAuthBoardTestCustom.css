@@ -1,0 +1,35 @@
+.col-md-6 {
+    width: 80%;
+}
+.info-item {
+    height: 31.25rem;
+}
+.post-img {
+    height: 100%;
+}
+.img-preview {
+    width: 28.125rem;
+    height: 100%;
+}
+
+.contact .php-email-form button[type=button] {
+    background: var(--bs-gray);
+    color: var(--contrast-color);
+    border: 0;
+    padding: 10px 30px;
+    transition: 0.4s;
+    border-radius: 4px;
+}
+
+.col-md-12 {
+    display: flex;
+    justify-content: center;
+}
+
+.col-md-12 button {
+    margin: 0 5px 0 5px;
+}
+
+.form-control {
+    resize: none;
+}
