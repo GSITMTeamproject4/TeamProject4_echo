@@ -20,4 +20,5 @@ public class Challenge {
     private String challengeInfo;
 
     private Date challengeDate;
+
 }
