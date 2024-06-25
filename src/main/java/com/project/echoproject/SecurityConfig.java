@@ -21,10 +21,10 @@ public class SecurityConfig {
                 .formLogin(formLogin -> formLogin
                         .loginPage("/user/login")
                         //임시 주소
-                        .defaultSuccessUrl("/authBoard/list"))
+                        .defaultSuccessUrl("/"))
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                        .logoutSuccessUrl("/authBoard/list")
+                        .logoutSuccessUrl("/")
                         .invalidateHttpSession(true));
         return http.build();
     }

@@ -7,6 +7,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
+<div th:replace="layout :: header"></div>
 <h1>게시판 목록</h1>
 <p>현재 로그인한 사용자: <span th:text="${userName}"></span></p> <!-- 현재 로그인한 사용자 정보 표시 -->
 <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>

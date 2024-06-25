@@ -41,12 +41,12 @@ public class AuthBoardController {
         if (userDetails != null) {
             model.addAttribute("userName", userDetails.getUsername());
         }
-        return "listTest";
+        return "authBoard/authBoard_list";
     }
 
     @GetMapping("/create")
     public String createPost() {
-        return "createAuthBoardPostTest";
+        return "authBoard/authBoard_create";
     }
 
     @PostMapping("/create")
@@ -63,7 +63,7 @@ public class AuthBoardController {
             return "redirect:/authBoard/list"; // 게시판 목록으로 리다이렉트
         } catch (IOException e) {
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
-            return "createAuthBoardPostTest";
+            return "authBoard/authBoard_create";
         }
     }
 
@@ -83,7 +83,7 @@ public class AuthBoardController {
             model.addAttribute("currentUserId", null);
         }
 
-        return "authBoardDetailTest";
+        return "authBoard/authBoard_detail";
     }
 
     @GetMapping("/modify/{id}")
@@ -97,7 +97,7 @@ public class AuthBoardController {
             return "accessDenied"; // 권한이 없는 경우 접근 거부 페이지로 이동
         }
         model.addAttribute("board", authBoard);
-        return "modifyAuthBoardTest"; // 수정 폼 페이지로 이동
+        return "authBoard/authBoard_modify"; // 수정 폼 페이지로 이동
     }
 
     @PostMapping("/modify/{id}")

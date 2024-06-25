@@ -2839,3 +2839,12 @@ section,
   color: color-mix(in srgb, var(--default-color), transparent 60%);
   font-size: 14px;
 }
+
+/*-------------------custom 수정----------------------*/
+.user-btn {
+  display: flex;
+}
+
+.user-btn .btn-getstarted {
+  margin: 0 10px 0 10px;
+}
