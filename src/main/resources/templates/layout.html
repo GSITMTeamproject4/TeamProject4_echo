@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 
 <head>
   <meta charset="utf-8">
@@ -33,6 +33,9 @@
 
   <!-- Main CSS File -->
   <link rel="stylesheet" th:href="@{/css/common/main.css}">
+
+  <!-- 개별 css 삽입 -->
+  <th:block layout:fragment="css"></th:block>
 
 </head>
 
@@ -76,9 +79,9 @@
     </div>
   </header>
 
-  <main th:fragment="content">
+  <th:block layout:fragment="content">
     <!-- 메인 컨텐츠 삽입 -->
-  </main>
+  </th:block>
 
   <footer th:fragment="footer">
     <div id="footer" class="footer position-relative">
@@ -152,6 +155,9 @@
 
   <!-- Main JS File -->
   <script th:src="@{/js/common/main.js}"></script>
+
+  <!-- 개별 js 삽입 -->
+  <th:block layout:fragment="script"></th:block>
 
 </body>
 </html>
