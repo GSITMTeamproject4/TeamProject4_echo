@@ -51,7 +51,7 @@ public class ChallengeController {
             SiteUser siteUser = siteUserService.findByUserId(userId); // 사용자 정보를 조회
 
             challengeService.createBoard(challenge_info, file, siteUser);
-            return "challenge"; // 게시판 목록으로 리다이렉트
+            return "redirect:/challenge"; // 게시판 목록으로 리다이렉트
         } catch (IOException e) {
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
             return "createAuthBoardPost";
