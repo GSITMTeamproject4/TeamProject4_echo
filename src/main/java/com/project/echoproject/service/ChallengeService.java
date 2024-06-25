@@ -1,5 +1,6 @@
 package com.project.echoproject.service;
 
+import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.Challenge;
 import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.SiteUser;
@@ -11,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -70,11 +72,32 @@ public class ChallengeService {
             // ImageService를 사용하여 이미지 저장
             Image image = imageService.saveImage(file);
             Challenge challenge = new Challenge();
-            challenge.setImage(image);
-            challenge.setCheckImg(image.getFilePath()); // checkImg 필드 설정
+//            challenge.setImage(image);
+//            challenge.setCheckImg(image.getFilePath()); // checkImg 필드 설정
             challenge.setUserId(siteUser); // siteUser 설정
         }else {
             throw new IOException("파일 없음");
         }
+    }
+
+
+    public Challenge createBoard(String title,  MultipartFile file, SiteUser siteUser) throws IOException {
+
+        Challenge challenge = new Challenge();
+        Date date = new Date();
+        challenge.setChallengeDate(date);
+        challenge.setChallengeInfo(title);
+
+        if (!file.isEmpty()) {
+            // ImageService를 사용하여 이미지 저장
+            Image image = imageService.saveImage(file);
+            challenge.setImage(image);
+            challenge.setCheckImg(image.getFilePath()); // checkImg 필드 설정
+            challenge.setUserId(siteUser); // siteUser 설정
+        } else {
+            throw new IOException("파일 없음");
+        }
+
+        return challengeRepository.save(challenge);
     }
 }

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
+
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_list.css}">
+  </th:block>
+
+  <th:block layout:fragment="script">
+    <script th:src="@{/js/authBoard/authBoard_list.js}"></script>
+  </th:block>
+
+  <div layout:fragment="content">
+    <body class="blog-page">
+      <main class="main">
+
+        <!-- Page Title -->
+        <div class="page-title" data-aos="fade">
+          <div class="heading">
+            <div class="container">
+              <div class="row d-flex justify-content-center text-center">
+                <div class="col-lg-8">
+                  <h1>그린라이프 인증</h1>
+                  <p class="mb-0">그린라이프 인증은 쓰레기를 재활용하여 멋지게 활용한 모습을 인증하고 자랑하는 게시판입니다<br>
+                    마음껏 자랑하여 좋아요를 받아보세요 </p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <nav class="breadcrumbs">
+            <div class="container">
+              <ol>
+                <li class="current">그린라이프 인증</li>
+                <li><a sec:authorize="isAuthenticated()" th:href="@{/authBoard/create}">새 게시글 작성</a></li>
+              </ol>
+            </div>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <!-- Blog Posts Section -->
+        <section id="blog-posts" class="blog-posts section">
+
+          <div class="container">
+            <div class="row gy-4">
+
+              <div th:each="board : ${boards}" class="col-lg-4">
+                <article>
+
+                  <div class="post-img">
+                    <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="Board Image" class="img-fluid"/>
+                  </div>
+
+                  <p class="post-category">Entertainment</p>
+
+                  <h2 class="title">
+                    <a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a>
+                  </h2>
+
+                  <div class="d-flex align-items-center">
+                    <img src="assets/img/blog/blog-author-6.jpg" alt="" class="img-fluid post-author-img flex-shrink-0">
+                    <div class="post-meta">
+                      <p th:text="${board.siteUser.userId}" class="post-author"></p>
+                      <p class="post-date">
+                        <time th:text="${#temporals.format(board.postCreateDate, 'yyyy.MM.dd')}"></time>
+                      </p>
+                    </div>
+                    <div class="heart-sec">
+                      <button class="heart-button" id="heartButton" th:attr="data-board-id=${board.listId}"><i class="fas fa-heart"></i></button>
+                      <p th:text="${board.likeCount}" class="heart-count"></p>
+                    </div>
+                  </div>
+
+                </article>
+              </div><!-- End post list item -->
+
+            </div>
+          </div>
+
+        </section><!-- /Blog Posts Section -->
+
+        <!-- Blog Pagination Section -->
+        <section id="blog-pagination" class="blog-pagination section">
+
+          <div class="container">
+            <div class="d-flex justify-content-center">
+              <ul>
+                <li th:if="${currentPage > 0}">
+                  <a th:href="@{/authBoard/list(page=${currentPage - 1})}"><i class="fa-solid fa-chevron-left"></i></a>
+                </li>
+                <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                    th:classappend="${pageNum == currentPage} ? 'active'">
+                  <a th:href="@{/authBoard/list(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+                </li>
+                <li th:if="${currentPage < totalPages - 1}">
+                  <a th:href="@{/authBoard/list(page=${currentPage + 1})}"><i class="fa-solid fa-chevron-right"></i></a>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+        </section><!-- /Blog Pagination Section -->
+
+      </main>
+
+    </body>
+  </div>
+</layout:html>

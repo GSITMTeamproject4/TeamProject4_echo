@@ -7,6 +7,7 @@
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 </head>
 <body>
+<div th:replace="layout :: header"></div>
 <h1>게시판 목록</h1>
 <p>현재 로그인한 사용자: <span th:text="${userName}"></span></p> <!-- 현재 로그인한 사용자 정보 표시 -->
 <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
@@ -35,6 +36,23 @@
     </tr>
     </tbody>
 </table>
+
+<!-- Pagination -->
+<div class="pagination">
+    <ul>
+        <li th:if="${currentPage > 0}">
+            <a th:href="@{/authBoard/list(page=${currentPage - 1})}">&laquo; 이전</a>
+        </li>
+        <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+            th:classappend="${pageNum == currentPage} ? 'active'">
+            <a th:href="@{/authBoard/list(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+        </li>
+        <li th:if="${currentPage < totalPages - 1}">
+            <a th:href="@{/authBoard/list(page=${currentPage + 1})}">다음 &raquo;</a>
+        </li>
+    </ul>
+</div>
+<!-- End Pagination -->
 
 <script>
     $(document).ready(function() {

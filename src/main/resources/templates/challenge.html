@@ -5,7 +5,7 @@
         <div>이달의 챌린지 현황</div>
         <!--&lt;!&ndash;<h2 th:text="|챌린지 달성 개수 : ${userChallenge.challengeCnt}|"></h2>&ndash;&gt;-->
         <!--<h2 th:text="|챌린지 달성 개수 : 2|"></h2>-->
-        <ul><li>receipt</li><li>email</li></ul>
+        <ul><li>전자영수증</li><li>메일함비우기</li><li>다회용기사용</li><li>텀블러사용</li></ul>
         <div id='calendar' style='width: 1500px;'></div>
     </div>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
@@ -16,24 +16,44 @@
             document.addEventListener('DOMContentLoaded', function() {
 
                 var calendarEl = document.getElementById('calendar');
+                var csrfToken = $('meta[name="_csrf"]').attr('content');
+                var csrfHeader = $('meta[name="_csrf_header"]').attr('content');
 
                     var request = $.ajax({
                         url: "/challenge/state",
                         type: "GET",
-                        dataType: "json"
+                        dataType: "json",
+                    //     헤더에
+                    //     <meta name="_csrf" th:content="${_csrf.token}"/>
+                    // <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+                    // 써야되서 다른곳에 하기
+                        // beforeSend: function(xhr) {
+                        //     xhr.setRequestHeader(csrfHeader, csrfToken);
+                        // },
+                        // error: function(xhr, status, error) {
+                        //     console.error('좋아요 처리 중 오류가 발생했습니다:', status, error);
+                        //     alert('로그인 후 이용하시기 바랍니다.');
+                        // }
                     });
                 request.done(function(data){
                     var calendar = new FullCalendar.Calendar(calendarEl, {
                         initialView: 'dayGridMonth',
                         height: 800,
                         //events: data
+                        eventTimeFormat: { // like '14:30:00'
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            //second: '2-digit',
+                            hour12: false,
+                            //meridiem: 'short'
+                        }
                     });
 
 
                     console.log(data)
 
                     $.each(data,function(key, value){
-                        if(value.title == 'receipt') {
+                        if(value.title == '전자영수증') {
                             calendar.addEvent({
                                 //backgroundColor : "#8800f7",
                                 title: value.title, // 이벤트 제목
@@ -45,13 +65,28 @@
                                 //rendering : "background"
                             })
                         }
-                        else if(value.title == 'email') {
+                        else if(value.title == '메일함비우기') {
                             calendar.addEvent({
-                                title: value.title, // 이벤트 제목
-                                // start : "2024-6-24", //달력 날짜에 매핑
+                                title: value.title,
                                 start: value.start,
                                 end: value.end,
                                 color: "#06fb36",
+                            })
+                        }
+                        else if(value.title == '다회용기사용') {
+                            calendar.addEvent({
+                                title: value.title,
+                                start: value.start,
+                                end: value.end,
+                                color: "#fb4f06",
+                            })
+                        }
+                        else if(value.title == '텀블러사용') {
+                            calendar.addEvent({
+                                title: value.title,
+                                start: value.start,
+                                end: value.end,
+                                color: "#de51fd",
                             })
                         }
                     });
