@@ -22,8 +22,9 @@
             <div class="container">
               <div class="row d-flex justify-content-center text-center">
                 <div class="col-lg-8">
-                  <h1>Blog Details</h1>
-                  <p class="mb-0">Odio et unde deleniti. Deserunt numquam exercitationem. Officiis quo odio sint voluptas consequatur ut a odio voluptatem. Sit dolorum debitis veritatis natus dolores. Quasi ratione sint. Sit quaerat ipsum dolorem.</p>
+                  <h1>그린라이프 인증</h1>
+                  <p class="mb-0">그린라이프 인증은 쓰레기를 재활용하여 멋지게 활용한 모습을 인증하고 자랑하는 게시판입니다<br>
+                    마음껏 자랑하여 좋아요를 받아보세요 </p>
                 </div>
               </div>
             </div>
@@ -111,11 +112,11 @@
                   <h3 class="widget-title">Recent Posts</h3>
 
                   <div class="post-item" th:each="board, iterStat : ${boards}" th:if="${iterStat.count <= 5}">
-                    <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="flex-shrink-0">
-                    <div>
-                      <h4><a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a></h4>
-                      <time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time>
-                    </div>
+                      <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="flex-shrink-0">
+                      <div>
+                        <h4><a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a></h4>
+                        <time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time>
+                      </div>
                   </div><!-- End recent post item-->
 
                 </div><!--/Recent Posts Widget -->

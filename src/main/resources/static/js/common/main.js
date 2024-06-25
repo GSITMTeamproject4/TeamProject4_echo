@@ -16,11 +16,12 @@
     const selectBody = document.querySelector('body');
     const selectHeader = document.querySelector('#header');
     if (!selectHeader.classList.contains('scroll-up-sticky') && !selectHeader.classList.contains('sticky-top') && !selectHeader.classList.contains('fixed-top')) return;
-    window.scrollY > 100 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
+    window.scrollY > 0 ? selectBody.classList.add('scrolled') : selectBody.classList.remove('scrolled');
   }
 
   document.addEventListener('scroll', toggleScrolled);
   window.addEventListener('load', toggleScrolled);
+  console.log('toggleScrolled called, scroll position:', window.scrollY); // 디버그 메시지 추가
 
   /**
    * Mobile nav toggle

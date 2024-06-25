@@ -1,5 +1,6 @@
 package com.project.echoproject.controller;
 
+import com.project.echoproject.DuplicateReportException;
 import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.AuthBoardService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -124,9 +126,19 @@ public class AuthBoardController {
 
     // 게시글 신고 페이지
     @GetMapping("/report/{id}")
-    public String reportPage(@PathVariable("id") Long id, Model model) {
+    public String reportPage(@PathVariable("id") Long id, Model model, Principal principal,
+                             @RequestParam(value = "alertMessage", required = false) String alertMessage) {
+        if (principal == null) {
+            return "redirect:/access_denied";
+        }
+
         model.addAttribute("board", authBoardService.getBoardById(id)); // 게시글 정보를 모델에 추가
-        return "authBoard/reportAuthBoard";
+
+        if (alertMessage != null) {
+            model.addAttribute("alertMessage", alertMessage);
+        }
+
+        return "authBoard/authBoard_report";
     }
 
     // 게시글 신고 처리
@@ -134,10 +146,19 @@ public class AuthBoardController {
     public String report(@PathVariable("id") Long id,
                          @RequestParam("reason") String reason,
                          @RequestParam("reportContent") String reportContent,
-                         @RequestParam("userId") String userId) {
+                         Principal principal, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            if (principal == null) {
+                return "redirect:/access_denied";
+            }
 
-        reportBoardService.reportBoard(id, userId, reason, reportContent);
-        return "redirect:/authBoard/detail/" + id;
+            String userId = principal.getName();
+            reportBoardService.reportBoard(id, userId, reason, reportContent);
+            return "redirect:/authBoard/detail/" + id;
+        } catch (DuplicateReportException e) {
+            redirectAttributes.addFlashAttribute("alertMessage", e.getMessage());
+            return "redirect:/authBoard/report/" + id; // 신고 폼 페이지로 돌아가기
+        }
     }
 
 }
