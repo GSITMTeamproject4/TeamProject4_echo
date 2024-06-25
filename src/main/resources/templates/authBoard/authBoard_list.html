@@ -4,15 +4,15 @@
              layout:decorate="~{layout}">
 
   <th:block layout:fragment="css">
-    <link rel="stylesheet" th:href="@{/css/authBoard/authBoardCustom.css}">
+    <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_list.css}">
   </th:block>
 
   <th:block layout:fragment="script">
-    <script th:src="@{/js/authBoard/authBoardCustom.js}"></script>
+    <script th:src="@{/js/authBoard/authBoard_list.js}"></script>
   </th:block>
 
   <div layout:fragment="content">
-    <div class="blog-page">
+    <body class="blog-page">
       <main class="main">
 
         <!-- Page Title -->
@@ -103,6 +103,6 @@
 
       </main>
 
-    </div>
+    </body>
   </div>
 </layout:html>
