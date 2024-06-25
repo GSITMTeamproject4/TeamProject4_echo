@@ -29,3 +29,7 @@
     height: 24px;
     transform: translateY(20%);
 }
+
+.col-lg-8 h1 {
+    margin-bottom: 30px;
+}

@@ -33,3 +33,7 @@
 .form-control {
     resize: none;
 }
+
+.section-title h2 {
+    margin-bottom: 30px;
+}

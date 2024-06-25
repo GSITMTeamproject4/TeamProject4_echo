@@ -1,0 +1,56 @@
+.mt-lg-n10 .col-lg-5 {
+    width: 60%;
+    margin-bottom: 3.125rem;
+}
+
+.main-content {
+    margin-top: 100px;
+}
+
+.report-title {
+    letter-spacing: 5px;
+    font-family: "Noto Sans KR";
+    font-weight: bold;
+}
+
+.form-check:not(.form-switch) .form-check-input[type=radio]:checked {
+    padding: 4.5px;
+}
+
+.form-control {
+    resize: none;
+}
+
+.btn-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 40px 0 20px 0;
+}
+
+.cancel-btn, .report-btn {
+    color: var(--contrast-color);
+    border: 0;
+    padding: 10px 30px;
+    transition: 0.4s;
+    border-radius: 4px;
+    margin: 0 10px 0 10px;
+}
+
+.cancel-btn {
+    background: var(--bs-gray);
+}
+
+.report-btn {
+    background: var(--accent-color);
+}
+
+.error-message {
+    background: #df1529;
+    color: #ffffff;
+    text-align: center;
+    padding: 15px;
+    margin-bottom: 24px;
+    font-weight: 600;
+    border-radius: 10px;
+}
