@@ -26,7 +26,7 @@ public class AuthBoardServiceImpl implements AuthBoardService {
     private static final Logger logger = LoggerFactory.getLogger(AuthBoardServiceImpl.class);
 
     @Override
-    public AuthBoard saveBoard(String title, String content, MultipartFile file, SiteUser siteUser) throws IOException {
+    public AuthBoard createBoard(String title, String content, MultipartFile file, SiteUser siteUser) throws IOException {
         AuthBoard authBoard = new AuthBoard();
         authBoard.setBoardTitle(title);
         authBoard.setBoardContent(content);

@@ -13,27 +13,37 @@
         <tr class="text-center">
             <th>번호</th>
             <th style="width: 50%">제목</th>
-            <th>글쓴이</th>
+            <th>작성자</th>
             <th>작성일시</th>
         </tr>
         </thead>
+
         <tbody>
-        <!--            <tr th:each="question, loop : ${questionList}">-->
-        <!--                <td th:text="${loop.count}"></td>-->
-        <!--                <td class="text-start">-->
-        <!--                    <a th:href="@{|/question/detail/${question.id}|}"-->
-        <!--                       th:text="${question.subject}"></a>-->
-        <!--                </td>-->
-        <!--                <td><span th:if="${question.author !=null}"-->
-        <!--                          th:text="${question.author.username}"></span></td>-->
-        <!--                <td th:text="${#temporals.format(question.createDate,'yyyy-MM-dd HH:mm')}"></td>-->
-        <!--            </tr>-->
+        <!-- noticeList를 반복하여 테이블 행 생성 -->
+        <tr th:each="notice, loop : ${noticeList}">
+            <!-- loop.count를 사용하여 현재 항목의 번호를 표시 -->
+            <td th:text="${loop.count}"></td>
+            <!-- 제목 열 -->
+            <td class="text-start">
+                <!-- 제목을 링크로 표시하며, 링크는 질문 상세 페이지로 연결 -->
+                <a th:href="@{|/notice/list/detail/${notice.notice_id}|}"
+                   th:text="${notice.notice_title}"></a>
+            </td>
+            <!-- 작성자 열 -->
+            <td>
+                <!-- 06.24_작성자 데이터 보여주려고 Notice 엔티티에 @ManyToOne 외래키 설정  -->
+                <!-- 글쓴이가 null이 아닌 경우 글쓴이의 사용자 이름을 표시 -->
+                <span th:if="${notice.siteUser !=null}"
+                      th:text="${notice.siteUser.userId}"></span>
+            </td>
+            <!-- 작성일시 열 -->
+            <td th:text="${#temporals.format(notice.createDate,'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
         </tbody>
+
     </table>
-    <a th:href="@{/question/create}" class = "btn btn-primary">질문 등록하기</a>
+    <a th:href="@{/notice/create}" class = "btn btn-primary">게시글 등록하기</a>
 </div>
-
-
 
 </body>
 </html>
