@@ -1,0 +1,75 @@
+{
+  "Description": {
+    "PLAT_PLC": "대지_위치",
+    "SIGUNGU_CD": "시군구_코드",
+    "BJDONG_CD": "법정동_코드",
+    "totalUseGas": "사용_량(KWh)"
+  },
+  "Data": [
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "과천시",
+      "SIGUNGU_CD": "41290",
+      "totalUseGas": "14502523"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "광명시",
+      "SIGUNGU_CD": "41210",
+      "totalUseGas": "92127621"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "군포시",
+      "SIGUNGU_CD": "41410",
+      "totalUseGas": "37230886"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "김포시",
+      "SIGUNGU_CD": "41570",
+      "totalUseGas": "121737610"
+    },
+
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "부천시",
+      "SIGUNGU_CD": "41192",
+      "totalUseGas": "189146688"
+    },
+
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "시흥시",
+      "SIGUNGU_CD": "41390",
+      "totalUseGas": "181802331"
+    },
+    {
+      "BJDONG_CD": "11500",
+      "PLAT_PLC": "안산시",
+      "SIGUNGU_CD": "41271",
+      "totalUseGas": "131760289"
+    },
+
+    {
+      "BJDONG_CD": "10300",
+      "PLAT_PLC": "안양시",
+      "SIGUNGU_CD": "41171",
+      "totalUseGas": "128456291"
+    },
+
+    {
+      "BJDONG_CD": "41033",
+      "PLAT_PLC": "양평군",
+      "SIGUNGU_CD": "41830",
+      "totalUseGas": "20664300"
+    },
+
+    {
+      "BJDONG_CD": "11100",
+      "PLAT_PLC": "의왕시",
+      "SIGUNGU_CD": "41430",
+      "totalUseGas": "44341912"
+    }
+  ]
+}
