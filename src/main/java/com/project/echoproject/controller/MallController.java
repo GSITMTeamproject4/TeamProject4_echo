@@ -16,6 +16,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RequestMapping("/mall")
@@ -68,10 +70,12 @@ public class MallController {
             SiteUser updateUser = siteUserService.buyCoupon(siteUser.getUserId(),balance);
 
             // 포인트내역 update
+            LocalDateTime now = LocalDateTime.now();
             Point addPoint = new Point();
             addPoint.setUserId(updateUser);
             addPoint.setPointInfo("coupon");
             addPoint.setPoint(coupon.getCouponPoint());
+            addPoint.setInsertDate(now);
             pointService.addPointHistory(addPoint);
 
             // 쿠폰내역 update
