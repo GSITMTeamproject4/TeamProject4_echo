@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<div layout:fragment="content" class="container my-3">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>게시글 작성</title>
 </head>
 <body>
-<h1>챌린지 인증 사진 업로드</h1>
-
-</body>
+<h1>저탄소 실천 Challenge</h1>
+<form th:action="@{/challenge/add}" method="post" enctype="multipart/form-data">
+    <label for="challenge_info">챌린지 종류:</label>
+    <select name="challenge_info" id="challenge_info">
+        <option value="receipt">전자영수증</option>
+        <option value="email">메일함비우기</option>
+        <option value="multiuse">다회용기사용</option>
+        <option value="tumbler">텀블러사용</option>
+    </select>
+    <br>
+    <label for="content">내용:</label>
+    <textarea id="content" name="content" required></textarea>
+    <br>
+    <label for="file">인증 이미지 업로드:</label>
+    <input type="file" id="file" name="file" required>
+    <br>
+    <button type="submit">인증 사진 업로드</button>
+</form>
+<div th:if="${error}">
+    <p th:text="${error}"></p>
 </div>
+</body>
 </html>
