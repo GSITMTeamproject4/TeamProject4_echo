@@ -20,4 +20,11 @@ public class Challenge {
     private String challengeInfo;
 
     private Date challengeDate;
+
+    @Column(length = 200, nullable = false)
+    private String checkImg;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "imageId", referencedColumnName = "id")
+    private Image image;
 }
