@@ -16,16 +16,16 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests((authorizeHttpRequests) ->
-                authorizeHttpRequests.requestMatchers(new AntPathRequestMatcher("/**")).permitAll())
-                .formLogin(formLogin -> formLogin
+        http.formLogin(formLogin -> formLogin
                         .loginPage("/user/login")
-                        //임시 주소
-                        .defaultSuccessUrl("/"))
+                        .defaultSuccessUrl("/index"))
                 .logout(logout -> logout
                         .logoutRequestMatcher(new AntPathRequestMatcher("/user/logout"))
-                        .logoutSuccessUrl("/")
-                        .invalidateHttpSession(true));
+                        .logoutSuccessUrl("/index")
+                        .invalidateHttpSession(true))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/access-denied")); // 접근 거부 시 이동할 페이지 설정
+
         return http.build();
     }
 
