@@ -26,30 +26,31 @@ public class DataController {
     @GetMapping("/data")
     public String getData() {
         try {
-            // JSON 데이터 구조에 맞게 Map으로 읽기
+            // 강원도 전기 사용량 데이터를 읽기
             InputStream eleInputStream = new ClassPathResource("static/json/ganwondo_ele_use.json").getInputStream();
             Map<String, Object> eleData = objectMapper.readValue(eleInputStream, new TypeReference<Map<String, Object>>() {});
 
+            // 강원도 가스 사용량 데이터를 읽기
             InputStream gasInputStream = new ClassPathResource("static/json/ganwondo_gas_use.json").getInputStream();
             Map<String, Object> gasData = objectMapper.readValue(gasInputStream, new TypeReference<Map<String, Object>>() {});
 
+            // 세종 전기 사용량 데이터를 읽기
+            InputStream sejjoungEleInputStream = new ClassPathResource("static/json/sejjoung_ele_use.json").getInputStream();
+            Map<String, Object> sejjoungEleData = objectMapper.readValue(sejjoungEleInputStream, new TypeReference<Map<String, Object>>() {});
+
+            // 세종 가스 사용량 데이터를 읽기
+            InputStream sejjoungGasInputStream = new ClassPathResource("static/json/sejjoung_gas_use.json").getInputStream();
+            Map<String, Object> sejjoungGasData = objectMapper.readValue(sejjoungGasInputStream, new TypeReference<Map<String, Object>>() {});
+
             // 전기 사용량 데이터를 시군구 코드 기준으로 맵으로 변환
             Map<String, Integer> eleUsageBySIGUNGU_CD = new HashMap<>();
-            List<Map<String, String>> eleDataList = (List<Map<String, String>>) eleData.get("Data");
-            for (Map<String, String> eleItem : eleDataList) {
-                String sigunguCd = eleItem.get("SIGUNGU_CD");
-                int totalUseEle = Integer.parseInt(eleItem.get("totalUseEle"));
-                eleUsageBySIGUNGU_CD.put(sigunguCd, eleUsageBySIGUNGU_CD.getOrDefault(sigunguCd, 0) + totalUseEle);
-            }
+            processUsageData(eleData, eleUsageBySIGUNGU_CD, "totalUseEle");
+            processUsageData(sejjoungEleData, eleUsageBySIGUNGU_CD, "totalUseEle");
 
             // 가스 사용량 데이터를 시군구 코드 기준으로 맵으로 변환
             Map<String, Integer> gasUsageBySIGUNGU_CD = new HashMap<>();
-            List<Map<String, String>> gasDataList = (List<Map<String, String>>) gasData.get("Data");
-            for (Map<String, String> gasItem : gasDataList) {
-                String sigunguCd = gasItem.get("SIGUNGU_CD");
-                int totalUseGas = Integer.parseInt(gasItem.get("totalUseGas"));
-                gasUsageBySIGUNGU_CD.put(sigunguCd, gasUsageBySIGUNGU_CD.getOrDefault(sigunguCd, 0) + totalUseGas);
-            }
+            processUsageData(gasData, gasUsageBySIGUNGU_CD, "totalUseGas");
+            processUsageData(sejjoungGasData, gasUsageBySIGUNGU_CD, "totalUseGas");
 
             // JSON 응답으로 합친 데이터 반환
             Map<String, Object> responseData = new HashMap<>();
@@ -60,6 +61,15 @@ public class DataController {
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error reading JSON file: " + e.getMessage());
+        }
+    }
+
+    private void processUsageData(Map<String, Object> data, Map<String, Integer> usageBySIGUNGU_CD, String usageKey) {
+        List<Map<String, String>> dataList = (List<Map<String, String>>) data.get("Data");
+        for (Map<String, String> item : dataList) {
+            String sigunguCd = item.get("SIGUNGU_CD");
+            int totalUsage = Integer.parseInt(item.get(usageKey));
+            usageBySIGUNGU_CD.put(sigunguCd, usageBySIGUNGU_CD.getOrDefault(sigunguCd, 0) + totalUsage);
         }
     }
 }
