@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
+
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
+  </th:block>
+
+  <th:block layout:fragment="script">
+    <script th:src="@{/js/authBoard/authBoard_create.js}"></script>
+  </th:block>
+
+
+
+
+  <div layout:fragment="content">
+    <body class="index-page">
+
+      <main class="main">
+
+        <!-- Contact Section -->
+        <section id="contact" class="contact section">
+
+          <!-- Section Title -->
+          <div class="container section-title" data-aos="fade-up">
+            <h2>글 수정하기</h2>
+            <p>Necessitatibus eius consequatur ex aliquid fuga eum quidem sint consectetur velit</p>
+          </div><!-- End Section Title -->
+
+          <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+            <div class="row gy-4">
+
+              <div class="col-lg-6">
+
+                <div class="row gy-4">
+                  <div class="col-md-6">
+                    <div class="info-item" data-aos="fade" data-aos-delay="200" >
+                      <div class="post-img">
+                        <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="Board Image" id="preview" class="img-preview"/>
+                      </div>
+                    </div>
+                  </div><!-- End Info Item -->
+
+                </div>
+
+              </div>
+
+              <div class="col-lg-6">
+
+                <form th:action="@{/authBoard/modify/{id}(id=${board.listId})}" method="post" class="php-email-form" enctype="multipart/form-data">
+                  <div class="row gy-4">
+
+                    <div class="col-md-12">
+                      <input type="text" name="title" class="form-control" th:value="${board.boardTitle}" placeholder="제목을 입력하세요" required>
+                    </div>
+
+                    <div class="col-md-12">
+                      <textarea class="form-control" name="content" rows="10" th:text="${board.boardContent}" placeholder="내용을 입력하세요" required></textarea>
+                    </div>
+                    <input type="file" id="file" name="file" accept="image/*"  required>
+                    <div class="col-md-12 text-center">
+                      <div class="error-message"></div>
+
+                      <button type="submit">게시글 수정하기</button>
+                      <button type="button" id="cancelButton">취소</button>
+                    </div>
+
+                  </div>
+                </form>
+
+              </div><!-- End Contact Form -->
+
+            </div>
+
+          </div>
+
+        </section><!-- /Contact Section -->
+
+      </main>
+
+    </body>
+  </div>
+</layout:html>

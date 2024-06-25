@@ -4,10 +4,8 @@ import com.project.echoproject.dto.SiteUserCreateForm;
 import com.project.echoproject.service.SiteUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,7 +48,7 @@ public class SiteUserController {
             return "signupForm";
         }
 
-        return "listTest";
+        return "index";
     }
 
     @GetMapping("/login")
