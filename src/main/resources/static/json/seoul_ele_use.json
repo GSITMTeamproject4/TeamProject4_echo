@@ -1,5 +1,6 @@
 {
   "Description": {
+    "AREA": "지역_위치",
     "PLAT_PLC": "대지_위치",
     "SIGUNGU_CD": "시군구_코드",
     "BJDONG_CD": "법정동_코드",
@@ -7,150 +8,175 @@
   },
   "Data": [
     {
+      "AREA": "S",
       "BJDONG_CD": "11800",
       "PLAT_PLC": "강남구",
       "SIGUNGU_CD": "11680",
       "totalUseEle": "362590605"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "11000",
       "PLAT_PLC": "강동구",
       "SIGUNGU_CD": "11740",
       "totalUseEle": "95932215"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10400",
       "PLAT_PLC": "강북구",
       "SIGUNGU_CD": "11305",
       "totalUseEle": "46652456"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "11300",
       "PLAT_PLC": "강서구",
       "SIGUNGU_CD": "11500",
       "totalUseEle": "165284287"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "10300",
       "PLAT_PLC": "관악구",
       "SIGUNGU_CD": "11620",
       "totalUseEle": "82900022"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10900",
       "PLAT_PLC": "광진구",
       "SIGUNGU_CD": "11215",
       "totalUseEle": "67539042"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "11200",
       "PLAT_PLC": "구로구",
       "SIGUNGU_CD": "11530",
       "totalUseEle": "124789294"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "10300",
       "PLAT_PLC": "금천구",
       "SIGUNGU_CD": "11545",
       "totalUseEle": "102191363"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10600",
       "PLAT_PLC": "노원구",
       "SIGUNGU_CD": "11350",
       "totalUseEle": "105533506"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10800",
       "PLAT_PLC": "도봉구",
       "SIGUNGU_CD": "11320",
       "totalUseEle": "52222695"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "11000",
       "PLAT_PLC": "동대문구",
       "SIGUNGU_CD": "11230",
       "totalUseEle": "79881607"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "10900",
       "PLAT_PLC": "동작구",
       "SIGUNGU_CD": "11590",
       "totalUseEle": "69232681"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "12700",
       "PLAT_PLC": "마포구",
       "SIGUNGU_CD": "11440",
       "totalUseEle": "152157939"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "12000",
       "PLAT_PLC": "서대문구",
       "SIGUNGU_CD": "11410",
       "totalUseEle": "57587827"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "11100",
       "PLAT_PLC": "서초구",
       "SIGUNGU_CD": "11650",
       "totalUseEle": "213300709"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "12200",
       "PLAT_PLC": "성동구",
       "SIGUNGU_CD": "11200",
       "totalUseEle": "104937151"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "13900",
       "PLAT_PLC": "성북구",
       "SIGUNGU_CD": "11290",
       "totalUseEle": "75292907"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "11400",
       "PLAT_PLC": "송파구",
       "SIGUNGU_CD": "11710",
       "totalUseEle": "191447469"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "10300",
       "PLAT_PLC": "양천구",
       "SIGUNGU_CD": "11470",
       "totalUseEle": "100243706"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "13400",
       "PLAT_PLC": "영등포구",
       "SIGUNGU_CD": "11560",
       "totalUseEle": "178176103"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "13600",
       "PLAT_PLC": "용산구",
       "SIGUNGU_CD": "11170",
       "totalUseEle": "89726684"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "11400",
       "PLAT_PLC": "은평구",
       "SIGUNGU_CD": "11380",
       "totalUseEle": "69416668"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "18700",
       "PLAT_PLC": "종로구",
       "SIGUNGU_CD": "11110",
       "totalUseEle": "107536642"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "17400",
       "PLAT_PLC": "중구",
       "SIGUNGU_CD": "11140",
       "totalUseEle": "150044323"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10600",
       "PLAT_PLC": "중랑구",
       "SIGUNGU_CD": "11260",

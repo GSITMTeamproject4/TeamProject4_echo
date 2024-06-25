@@ -4,86 +4,96 @@
     <meta charset="UTF-8">
     <title>녹색 저탄소</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
-
 </head>
 <body>
 <h2>서울 및 경기도 시군구별 전기 및 가스 사용량</h2>
+<label for="regionSelect">지역 선택: </label>
+<select id="regionSelect">
+    <option value="seoul">서울</option>
+    <option value="gyeonggi">경기도</option>
+</select>
 <canvas id="usageChart"></canvas>
 
 <script th:inline="javascript">
     /*<![CDATA[*/
-    var jsonData = /*[[${jsonData}]]*/ {};
-
     document.addEventListener('DOMContentLoaded', function() {
-        try {
-            var parsedData = JSON.parse(jsonData);
-            if (!parsedData || !parsedData.eleUsageBySIGUNGU_CD || !parsedData.gasUsageBySIGUNGU_CD || !parsedData.labelsBySIGUNGU_CD) {
-                throw new Error('Invalid data format or empty data.');
-            }
+        var ctx = document.getElementById('usageChart').getContext('2d');
+        var usageChart;
 
-            var labels = Object.keys(parsedData.eleUsageBySIGUNGU_CD).map(function(sigungu) {
-                return parsedData.labelsBySIGUNGU_CD[sigungu];
-            });
+        function updateChart(region) {
+            fetch('/dashboard/data?region=' + region)
+                .then(response => response.json())
+                .then(data => {
+                    var labels = Object.keys(data.labelsBySIGUNGU_CD).map(function(sigungu) {
+                        return data.labelsBySIGUNGU_CD[sigungu];
+                    });
 
-            var eleData = labels.map(function(label, index) {
-                var sigunguCd = Object.keys(parsedData.eleUsageBySIGUNGU_CD)[index];
-                return parsedData.eleUsageBySIGUNGU_CD[sigunguCd];
-            });
+                    var eleData = Object.values(data.eleUsageBySIGUNGU_CD);
+                    var gasData = Object.values(data.gasUsageBySIGUNGU_CD);
 
-            var gasData = labels.map(function(label, index) {
-                var sigunguCd = Object.keys(parsedData.gasUsageBySIGUNGU_CD)[index];
-                return parsedData.gasUsageBySIGUNGU_CD[sigunguCd] || 0;
-            });
-
-            var ctx = document.getElementById('usageChart').getContext('2d');
-            var usageChart = new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [
-                        {
-                            label: '전기 사용량',
-                            data: eleData,
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: '가스 사용량',
-                            data: gasData,
-                            borderColor: 'rgba(255, 99, 132, 1)',
-                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                            borderWidth: 1
-                        }
-                    ]
-                },
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        },
-                        title: {
-                            display: true,
-                            text: '서울 및 경기도 시군구별 전기 및 가스 사용량'
-                        }
+                    if (!usageChart) {
+                        usageChart = new Chart(ctx, {
+                            type: 'bar',
+                            data: {
+                                labels: labels,
+                                datasets: [
+                                    {
+                                        label: '전기 사용량',
+                                        data: eleData,
+                                        borderColor: 'rgba(54, 162, 235, 1)',
+                                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                        borderWidth: 1
+                                    },
+                                    {
+                                        label: '가스 사용량',
+                                        data: gasData,
+                                        borderColor: 'rgba(255, 99, 132, 1)',
+                                        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                        borderWidth: 1
+                                    }
+                                ]
+                            },
+                            options: {
+                                responsive: true,
+                                plugins: {
+                                    legend: {
+                                        position: 'top',
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: '서울 및 경기도 시군구별 전기 및 가스 사용량'
+                                    }
+                                }
+                            }
+                        });
+                    } else {
+                        usageChart.data.labels = labels;
+                        usageChart.data.datasets[0].data = eleData;
+                        usageChart.data.datasets[1].data = gasData;
+                        usageChart.update();
                     }
-                }
-            });
+                })
+                .catch(error => {
+                    console.error('Error:', error.message);
+                    showError('Error fetching or processing data: ' + error.message);
+                });
+        }
 
-        } catch (error) {
-            console.error('Error:', error.message);
-            showError('Error fetching or processing data: ' + error.message);
+        document.getElementById('regionSelect').addEventListener('change', function(event) {
+            updateChart(event.target.value);
+        });
+
+        // 기본값으로 서울 그래프 표시
+        updateChart('seoul');
+
+        function showError(message) {
+            console.error(message);
+            var errorDiv = document.createElement('div');
+            errorDiv.textContent = message;
+            errorDiv.style.color = 'red';
+            document.body.appendChild(errorDiv);
         }
     });
-
-    function showError(message) {
-        console.error(message);
-        var errorDiv = document.createElement('div');
-        errorDiv.textContent = message;
-        errorDiv.style.color = 'red';
-        document.body.appendChild(errorDiv);
-    }
     /*]]>*/
 </script>
 </body>

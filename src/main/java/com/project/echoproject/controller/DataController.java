@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -24,32 +25,26 @@ public class DataController {
     }
 
     @GetMapping("/data")
-    public String getData() {
+    public Map<String, Object> getData(@RequestParam String region) {
         try {
             // 데이터를 저장할 맵
             Map<String, Integer> eleUsageBySIGUNGU_CD = new HashMap<>();
             Map<String, Integer> gasUsageBySIGUNGU_CD = new HashMap<>();
             Map<String, String> labelsBySIGUNGU_CD = new HashMap<>();
 
-            // 서울 전기 사용량 데이터를 읽기
-            InputStream seoulEleInputStream = new ClassPathResource("static/json/seoul_ele_use.json").getInputStream();
-            Map<String, Object> seoulEleData = objectMapper.readValue(seoulEleInputStream, new TypeReference<Map<String, Object>>() {});
-            processUsageData(seoulEleData, eleUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseEle");
+            // 서울 또는 경기 데이터 선택
+            String eleDataPath = region.equals("seoul") ? "static/json/seoul_ele_use.json" : "static/json/gyeonggi_ele_use.json";
+            String gasDataPath = region.equals("seoul") ? "static/json/seoul_gas_use.json" : "static/json/gyeonggi_gas_use.json";
 
-            // 서울 가스 사용량 데이터를 읽기
-            InputStream seoulGasInputStream = new ClassPathResource("static/json/seoul_gas_use.json").getInputStream();
-            Map<String, Object> seoulGasData = objectMapper.readValue(seoulGasInputStream, new TypeReference<Map<String, Object>>() {});
-            processUsageData(seoulGasData, gasUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseGas");
+            // 전기 사용량 데이터 읽기
+            InputStream eleInputStream = new ClassPathResource(eleDataPath).getInputStream();
+            Map<String, Object> eleData = objectMapper.readValue(eleInputStream, new TypeReference<Map<String, Object>>() {});
+            processUsageData(eleData, eleUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseEle");
 
-            // 경기 전기 사용량 데이터를 읽기
-            InputStream gyeonggiEleInputStream = new ClassPathResource("static/json/gyeonggi_ele_use.json").getInputStream();
-            Map<String, Object> gyeonggiEleData = objectMapper.readValue(gyeonggiEleInputStream, new TypeReference<Map<String, Object>>() {});
-            processUsageData(gyeonggiEleData, eleUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseEle");
-
-            // 경기 가스 사용량 데이터를 읽기
-            InputStream gyeonggiGasInputStream = new ClassPathResource("static/json/gyeonggi_gas_use.json").getInputStream();
-            Map<String, Object> gyeonggiGasData = objectMapper.readValue(gyeonggiGasInputStream, new TypeReference<Map<String, Object>>() {});
-            processUsageData(gyeonggiGasData, gasUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseGas");
+            // 가스 사용량 데이터 읽기
+            InputStream gasInputStream = new ClassPathResource(gasDataPath).getInputStream();
+            Map<String, Object> gasData = objectMapper.readValue(gasInputStream, new TypeReference<Map<String, Object>>() {});
+            processUsageData(gasData, gasUsageBySIGUNGU_CD, labelsBySIGUNGU_CD, "totalUseGas");
 
             // JSON 응답으로 합친 데이터 반환
             Map<String, Object> responseData = new HashMap<>();
@@ -57,7 +52,7 @@ public class DataController {
             responseData.put("gasUsageBySIGUNGU_CD", gasUsageBySIGUNGU_CD);
             responseData.put("labelsBySIGUNGU_CD", labelsBySIGUNGU_CD);
 
-            return objectMapper.writeValueAsString(responseData);
+            return responseData;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException("Error reading JSON file: " + e.getMessage());

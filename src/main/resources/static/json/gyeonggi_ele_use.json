@@ -1,5 +1,6 @@
 {
   "Description": {
+    "AREA": "지역_위치",
     "PLAT_PLC": "대지_위치",
     "SIGUNGU_CD": "시군구_코드",
     "BJDONG_CD": "법정동_코드",
@@ -7,186 +8,217 @@
   },
   "Data": [
     {
+      "AREA": "N",
       "BJDONG_CD": "35026",
       "PLAT_PLC": "가평군",
       "SIGUNGU_CD": "41820",
       "totalUseEle": "33548928"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "고양시",
       "SIGUNGU_CD": "41281",
       "totalUseEle": "298174845"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "과천시",
       "SIGUNGU_CD": "41290",
       "totalUseEle": "26017134"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "광명시",
       "SIGUNGU_CD": "41210",
       "totalUseEle": "59543445"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "광주시",
       "SIGUNGU_CD": "41610",
       "totalUseEle": "104457283"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "구리시",
       "SIGUNGU_CD": "41310",
       "totalUseEle": "48829252"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "군포시",
       "SIGUNGU_CD": "41410",
       "totalUseEle": "65357096"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "김포시",
       "SIGUNGU_CD": "41570",
       "totalUseEle": "159629440"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "남양주시",
       "SIGUNGU_CD": "41360",
       "totalUseEle": "196858731"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "동두천시",
       "SIGUNGU_CD": "41250",
       "totalUseEle": "24704114"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "부천시",
       "SIGUNGU_CD": "41192",
       "totalUseEle": "187927629"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "13200",
       "PLAT_PLC": "성남시",
       "SIGUNGU_CD": "41133",
       "totalUseEle": "321224307"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "14100",
       "PLAT_PLC": "수원시",
       "SIGUNGU_CD": "41115",
       "totalUseEle": "321224307"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "시흥시",
       "SIGUNGU_CD": "41390",
       "totalUseEle": "361287983"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "11500",
       "PLAT_PLC": "안산시",
       "SIGUNGU_CD": "41271",
       "totalUseEle": "156649300"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "안성시",
       "SIGUNGU_CD": "41550",
       "totalUseEle": "78420988"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "10300",
       "PLAT_PLC": "안양시",
       "SIGUNGU_CD": "41171",
       "totalUseEle": "188861213"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "10100",
       "PLAT_PLC": "양주시",
       "SIGUNGU_CD": "41630",
       "totalUseEle": "88848698"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "41033",
       "PLAT_PLC": "양평군",
       "SIGUNGU_CD": "41830",
       "totalUseEle": "38113429"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "38027",
       "PLAT_PLC": "여주시",
       "SIGUNGU_CD": "41670",
       "totalUseEle": "45257195"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "38025",
       "PLAT_PLC": "연천군",
       "SIGUNGU_CD": "41800",
       "totalUseEle": "14762537"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "12400",
       "PLAT_PLC": "오산시",
       "SIGUNGU_CD": "41370",
       "totalUseEle": "66015308"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "36030",
       "PLAT_PLC": "용인시",
       "SIGUNGU_CD": "41461",
       "totalUseEle": "429516600"
     },
     {
+      "AREA": "C",
       "BJDONG_CD": "11100",
       "PLAT_PLC": "의왕시",
       "SIGUNGU_CD": "41430",
       "totalUseEle": "55394650"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "11300",
       "PLAT_PLC": "의정부시",
       "SIGUNGU_CD": "41150",
       "totalUseEle": "114180446"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "38030",
       "PLAT_PLC": "이천시",
       "SIGUNGU_CD": "41500",
       "totalUseEle": "88453739"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "40021",
       "PLAT_PLC": "파주시",
       "SIGUNGU_CD": "41480",
       "totalUseEle": "149129926"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "37032",
       "PLAT_PLC": "평택시",
       "SIGUNGU_CD": "41220",
       "totalUseEle": "260649861"
     },
     {
+      "AREA": "N",
       "BJDONG_CD": "41023",
       "PLAT_PLC": "포천시",
       "SIGUNGU_CD": "41650",
       "totalUseEle": "62692012"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "12400",
       "PLAT_PLC": "하남시",
       "SIGUNGU_CD": "41450",
       "totalUseEle": "98954472"
     },
     {
+      "AREA": "S",
       "BJDONG_CD": "41039",
       "PLAT_PLC": "화성시",
       "SIGUNGU_CD": "41590",
