@@ -5,7 +5,7 @@
         <div>이달의 챌린지 현황</div>
         <!--&lt;!&ndash;<h2 th:text="|챌린지 달성 개수 : ${userChallenge.challengeCnt}|"></h2>&ndash;&gt;-->
         <!--<h2 th:text="|챌린지 달성 개수 : 2|"></h2>-->
-        <ul><li>receipt</li><li>email</li></ul>
+        <ul><li>전자영수증</li><li>메일함비우기</li><li>다회용기사용</li><li>텀블러사용</li></ul>
         <div id='calendar' style='width: 1500px;'></div>
     </div>
     <script src='https://cdn.jsdelivr.net/npm/fullcalendar@6.1.14/index.global.min.js'></script>
@@ -53,7 +53,7 @@
                     console.log(data)
 
                     $.each(data,function(key, value){
-                        if(value.title == 'receipt') {
+                        if(value.title == '전자영수증') {
                             calendar.addEvent({
                                 //backgroundColor : "#8800f7",
                                 title: value.title, // 이벤트 제목
@@ -65,7 +65,7 @@
                                 //rendering : "background"
                             })
                         }
-                        else if(value.title == 'email') {
+                        else if(value.title == '메일함비우기') {
                             calendar.addEvent({
                                 title: value.title,
                                 start: value.start,
@@ -73,7 +73,7 @@
                                 color: "#06fb36",
                             })
                         }
-                        else if(value.title == 'multiuse') {
+                        else if(value.title == '다회용기사용') {
                             calendar.addEvent({
                                 title: value.title,
                                 start: value.start,
@@ -81,7 +81,7 @@
                                 color: "#fb4f06",
                             })
                         }
-                        else if(value.title == 'tumbler') {
+                        else if(value.title == '텀블러사용') {
                             calendar.addEvent({
                                 title: value.title,
                                 start: value.start,
