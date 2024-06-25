@@ -2,11 +2,12 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>강원도 및 세종특별자치시 시군구별 전기 및 가스 사용량</title>
+    <title>녹색 저탄소</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+
 </head>
 <body>
-<h2>강원도 및 세종특별자치시 시군구별 전기 및 가스 사용량</h2>
+<h2>서울 및 경기도 시군구별 전기 및 가스 사용량</h2>
 <canvas id="usageChart"></canvas>
 
 <script th:inline="javascript">
@@ -16,12 +17,12 @@
     document.addEventListener('DOMContentLoaded', function() {
         try {
             var parsedData = JSON.parse(jsonData);
-            if (!parsedData || !parsedData.eleUsageBySIGUNGU_CD || !parsedData.gasUsageBySIGUNGU_CD) {
+            if (!parsedData || !parsedData.eleUsageBySIGUNGU_CD || !parsedData.gasUsageBySIGUNGU_CD || !parsedData.labelsBySIGUNGU_CD) {
                 throw new Error('Invalid data format or empty data.');
             }
 
             var labels = Object.keys(parsedData.eleUsageBySIGUNGU_CD).map(function(sigungu) {
-                return getLabelBySIGUNGU_CD(sigungu);
+                return parsedData.labelsBySIGUNGU_CD[sigungu];
             });
 
             var eleData = labels.map(function(label, index) {
@@ -75,51 +76,6 @@
             showError('Error fetching or processing data: ' + error.message);
         }
     });
-
-    function getLabelBySIGUNGU_CD(sigungu_cd) {
-        switch (sigungu_cd) {
-            case '51150':
-                return '강릉시';
-            case '51820':
-                return '고성군';
-            case '51170':
-                return '동해시';
-            case '51230':
-                return '삼척시';
-            case '51210':
-                return '속초시';
-            case '51800':
-                return '양구군';
-            case '51830':
-                return '양양군';
-            case '51750':
-                return '영월군';
-            case '51130':
-                return '원주시';
-            case '51810':
-                return '인제군';
-            case '51770':
-                return '정선군';
-            case '51780':
-                return '철원군';
-            case '51110':
-                return '춘천시';
-            case '51190':
-                return '태백시';
-            case '51760':
-                return '평창군';
-            case '51720':
-                return '홍천군';
-            case '51790':
-                return '화천군';
-            case '51730':
-                return '횡성군';
-            case '36110':
-                return '세종특별자치시';
-            default:
-                return 'Unknown';
-        }
-    }
 
     function showError(message) {
         console.error(message);

@@ -1,0 +1,160 @@
+{
+  "Description": {
+    "PLAT_PLC": "대지_위치",
+    "SIGUNGU_CD": "시군구_코드",
+    "BJDONG_CD": "법정동_코드",
+    "totalUseGas": "사용_량(KWh)"
+  },
+  "Data": [
+    {
+      "BJDONG_CD": "11800",
+      "PLAT_PLC": "강남구",
+      "SIGUNGU_CD": "11680",
+      "totalUseGas": "410742918"
+    },
+    {
+      "BJDONG_CD": "11000",
+      "PLAT_PLC": "강동구",
+      "SIGUNGU_CD": "11740",
+      "totalUseGas": "191621393"
+    },
+    {
+      "BJDONG_CD": "10400",
+      "PLAT_PLC": "강북구",
+      "SIGUNGU_CD": "11305",
+      "totalUseGas": "87985244"
+    },
+    {
+      "BJDONG_CD": "11300",
+      "PLAT_PLC": "강서구",
+      "SIGUNGU_CD": "11500",
+      "totalUseGas": "172114936"
+    },
+    {
+      "BJDONG_CD": "10300",
+      "PLAT_PLC": "관악구",
+      "SIGUNGU_CD": "11620",
+      "totalUseGas": "155721431"
+    },
+    {
+      "BJDONG_CD": "10900",
+      "PLAT_PLC": "광진구",
+      "SIGUNGU_CD": "11215",
+      "totalUseGas": "120242522"
+    },
+    {
+      "BJDONG_CD": "11200",
+      "PLAT_PLC": "구로구",
+      "SIGUNGU_CD": "11530",
+      "totalUseGas": "182113587"
+    },
+    {
+      "BJDONG_CD": "10300",
+      "PLAT_PLC": "금천구",
+      "SIGUNGU_CD": "11545",
+      "totalUseGas": "85184822"
+    },
+    {
+      "BJDONG_CD": "10600",
+      "PLAT_PLC": "노원구",
+      "SIGUNGU_CD": "11350",
+      "totalUseGas": "328991699"
+    },
+    {
+      "BJDONG_CD": "10800",
+      "PLAT_PLC": "도봉구",
+      "SIGUNGU_CD": "11320",
+      "totalUseGas": "109146467"
+    },
+    {
+      "BJDONG_CD": "11000",
+      "PLAT_PLC": "동대문구",
+      "SIGUNGU_CD": "11230",
+      "totalUseGas": "162825993"
+    },
+    {
+      "BJDONG_CD": "10900",
+      "PLAT_PLC": "동작구",
+      "SIGUNGU_CD": "11590",
+      "totalUseGas": "143072128"
+    },
+    {
+      "BJDONG_CD": "12700",
+      "PLAT_PLC": "마포구",
+      "SIGUNGU_CD": "11440",
+      "totalUseGas": "178497417"
+    },
+    {
+      "BJDONG_CD": "12000",
+      "PLAT_PLC": "서대문구",
+      "SIGUNGU_CD": "11410",
+      "totalUseGas": "98806875"
+    },
+    {
+      "BJDONG_CD": "11100",
+      "PLAT_PLC": "서초구",
+      "SIGUNGU_CD": "11650",
+      "totalUseGas": "199549999"
+    },
+    {
+      "BJDONG_CD": "12200",
+      "PLAT_PLC": "성동구",
+      "SIGUNGU_CD": "11200",
+      "totalUseGas": "163371474"
+    },
+    {
+      "BJDONG_CD": "13900",
+      "PLAT_PLC": "성북구",
+      "SIGUNGU_CD": "11290",
+      "totalUseGas": "195804683"
+    },
+    {
+      "BJDONG_CD": "11400",
+      "PLAT_PLC": "송파구",
+      "SIGUNGU_CD": "11710",
+      "totalUseGas": "235562914"
+    },
+    {
+      "BJDONG_CD": "10300",
+      "PLAT_PLC": "양천구",
+      "SIGUNGU_CD": "11470",
+      "totalUseGas": "148478432"
+    },
+    {
+      "BJDONG_CD": "13400",
+      "PLAT_PLC": "영등포구",
+      "SIGUNGU_CD": "11560",
+      "totalUseGas": "205858761"
+    },
+    {
+      "BJDONG_CD": "13600",
+      "PLAT_PLC": "용산구",
+      "SIGUNGU_CD": "11170",
+      "totalUseGas": "94124837"
+    },
+    {
+      "BJDONG_CD": "11400",
+      "PLAT_PLC": "은평구",
+      "SIGUNGU_CD": "11380",
+      "totalUseGas": "98869401"
+    },
+    {
+      "BJDONG_CD": "18700",
+      "PLAT_PLC": "종로구",
+      "SIGUNGU_CD": "11110",
+      "totalUseGas": "118220275"
+    },
+    {
+      "BJDONG_CD": "17400",
+      "PLAT_PLC": "중구",
+      "SIGUNGU_CD": "11140",
+      "totalUseGas": "164445835"
+    },
+    {
+      "BJDONG_CD": "10600",
+      "PLAT_PLC": "중랑구",
+      "SIGUNGU_CD": "11260",
+      "totalUseGas": "96263003"
+    }
+  ]
+}
