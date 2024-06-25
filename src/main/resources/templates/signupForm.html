@@ -1,161 +1,59 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>로그인 폼</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        /* 추가적인 스타일링은 여기에 추가할 수 있습니다 */
-    </style>
+    <title>회원가입</title>
 </head>
 <body>
-<div class="container">
-    <form id="loginForm" onsubmit="return validateForm()">
-        <div class="mb-3">
-            <label for="userid" class="userid">사용자 ID</label>
-            <input type="text" name="userId" id="userid" class="form-control form-userid" required>
-            <div id="useridHelpBlock" class="form-text text-danger"></div>
-        </div>
-        <div class="mb-3">
-            <label for="password" class="password">비밀번호</label>
-            <input type="password" name="password" id="password" class="form-control form-password" required>
-            <div id="passwordHelpBlock" class="form-text text-danger"></div>
-        </div>
-        <div class="mb-3">
-            <label for="password2" class="password2">비밀번호재확인</label>
-            <input type="password" name="password2" id="password2" class="form-control form-password2" required>
-            <div id="password2HelpBlock" class="form-text text-danger"></div>
-        </div>
-        <div class="mb-3">
-            <label for="username" class="username">사용자 이름</label>
-            <input type="text" name="username" id="username" class="form-control form-username" required>
-            <div id="usernameHelpBlock" class="form-text text-danger"></div>
-        </div>
-        <div class="mb-3">
-            <label>성별</label><br>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="gender" id="male" value="Male">
-                <label class="form-check-label" for="male">남자</label>
-            </div>
-            <div class="form-check form-check-inline">
-                <input class="form-check-input" type="checkbox" name="gender" id="female" value="Female">
-                <label class="form-check-label" for="female">여자</label>
-            </div>
-            <div id="genderHelpBlock" class="form-text text-danger"></div>
-        </div>
-        <div class="mb-3">
-            <label for="phone_num" class="phone_num">핸드폰 번호 - '-' 없이 숫자로만 입력하세요</label>
-            <input type="number" name="phone_num" id="phone_num" class="form-control form-phone_num" required>
-            <div id="phone_numHelpBlock" class="form-text text-danger"></div>
-        </div>
-        <div class="mb-3">
-            <label for="imageUpload" class="form-label">이미지 업로드 (PNG 파일, 최대 5MB)</label>
-            <input type="file" class="form-control-file" id="imageUpload" accept=".png" onchange="validateImage()">
-            <div id="imageHelpBlock" class="form-text text-danger"></div>
-        </div>
-        <button type="submit" class="btn btn-primary">회원가입</button>
-    </form>
-</div>
-
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<script>
-    function validateForm() {
-        var userId = document.getElementById('userid').value.trim();
-        var password = document.getElementById('password').value.trim();
-        var password2 = document.getElementById('password2').value.trim();
-        var username = document.getElementById('username').value.trim();
-        var phone_num = document.getElementById('phone_num').value.trim();
-
-        var maleChecked = document.getElementById('male').checked;
-        var femaleChecked = document.getElementById('female').checked;
-        var gender = maleChecked ? 'M' : (femaleChecked ? 'F' : '');
-
-        // 정규 표현식을 사용하여 각각 8자리 이상의 영어와 숫자로만 구성되었는지 확인
-        var userIdPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,15}$/;
-        var passwordPattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{8,15}$/;
-        var phonePattern = /^\d{11}$/;
-        var usernamePattern = /^[가-힣]{2,4}$/;
-
-        var isValidUserId = userIdPattern.test(userId);
-        var isValidPassword = passwordPattern.test(password);
-        var isValidPhone_num = phonePattern.test(phone_num);
-        var isValidUsername = usernamePattern.test(username);
-
-        if (!isValidUserId) {
-            document.getElementById('useridHelpBlock').innerText = '사용자 ID는 8자리 이상의 영어와 숫자로만 구성되어야 합니다.';
-            return false;
-        } else {
-            document.getElementById('useridHelpBlock').innerText = '';
-        }
-
-        if (!isValidPassword) {
-            document.getElementById('passwordHelpBlock').innerText = '비밀번호는 8자리 이상의 영어와 숫자로만 구성되어야 합니다.';
-            return false;
-        } else {
-            document.getElementById('passwordHelpBlock').innerText = '';
-        }
-
-        if (password !== password2) {
-            document.getElementById('password2HelpBlock').innerText = '비밀번호 값이 일치하지 않습니다.';
-            return false;
-        } else {
-            document.getElementById('password2HelpBlock').innerText = '';
-        }
-
-        if (!isValidUsername) {
-            document.getElementById('usernameHelpBlock').innerText = '사용자 이름 입력하세요.';
-            return false;
-        } else {
-            document.getElementById('usernameHelpBlock').innerText = '';
-        }
-
-        if (!maleChecked && !femaleChecked) {
-            document.getElementById('genderHelpBlock').innerText = '성별을 선택해주세요.';
-            return false;
-        } else {
-            document.getElementById('genderHelpBlock').innerText = '';
-        }
-
-        if (maleChecked && femaleChecked) {
-            document.getElementById('genderHelpBlock').innerText = '한 가지 성별만 선택해주세요.';
-            return false;
-        } else {
-            document.getElementById('genderHelpBlock').innerText = '';
-        }
-
-        if (!isValidPhone_num) {
-            document.getElementById('phone_numHelpBlock').innerText = '핸드폰 번호를 11자리 숫자로 입력해주세요.';
-            return false;
-        } else {
-            document.getElementById('phone_numHelpBlock').innerText = '';
-        }
-
-        return true;
-    }
-
-    function validateImage() {
-        var fileInput = document.getElementById('imageUpload');
-        var imageHelpBlock = document.getElementById('imageHelpBlock');
-        var allowedExtensions = /(\.png)$/i;
-        var maxSize = 5 * 1024 * 1024; // 5MB
-
-        if (fileInput.files.length > 0) {
-            var file = fileInput.files[0];
-            if (!allowedExtensions.exec(file.name)) {
-                imageHelpBlock.innerText = '이미지는 PNG 파일만 업로드 가능합니다.';
-                fileInput.value = ''; // 파일 선택 초기화
-                return false;
-            }
-            if (file.size > maxSize) {
-                imageHelpBlock.innerText = '이미지 크기는 최대 5MB까지 가능합니다.';
-                fileInput.value = ''; // 파일 선택 초기화
-                return false;
-            }
-        }
-        imageHelpBlock.innerText = '';
-        return true;
-    }
-</script>
+<h1>회원가입</h1>
+<form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post">
+    <div>
+        <label for="userId">사용자 ID:</label>
+        <input type="text" id="userId" th:field="*{userId}">
+        <div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
+    </div>
+    <div>
+        <label for="userName">이름:</label>
+        <input type="text" id="userName" th:field="*{userName}">
+        <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
+    </div>
+    <div>
+        <label for="phoneNum">전화번호:</label>
+        <input type="text" id="phoneNum" th:field="*{phoneNum}">
+        <div th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></div>
+    </div>
+    <div>
+        <label for="gender">성별:</label>
+        <select id="gender" th:field="*{gender}">
+            <option value="" th:if="*{gender} == ''">선택하세요</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+            <option value="other">기타</option>
+        </select>
+        <div th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+    </div>
+    <div>
+        <label for="password1">비밀번호:</label>
+        <input type="password" id="password1" th:field="*{password1}">
+        <div th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}"></div>
+    </div>
+    <div>
+        <label for="password2">비밀번호 확인:</label>
+        <input type="password" id="password2" th:field="*{password2}">
+        <div th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></div>
+    </div>
+    <div>
+        <label for="email">이메일:</label>
+        <input type="email" id="email" th:field="*{email}">
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    </div>
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+    </div>
+    <div>
+        <button type="submit">회원가입</button>
+    </div>
+</form>
+<a th:href="@{/authBoard/list}">취소</a>
 </body>
 </html>
