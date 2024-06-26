@@ -1,37 +1,57 @@
-<html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml">
-<div layout:fragment="content" class="container my-3">
-    <table class="table">
-        <thead class="table-dark">
-        <tr class="text-center">
-            <th>구매정보</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr>
-            <td th:text="${buyCoupon.couponName}"></td>
-            <td th:text="|필요포인트: ${buyCoupon.couponPoint}p|"></td>
-            <td th:text="|유저포인트: ${buyCoupon.currentPoint}p|"></td>
-<!--            <td><button type="button" th:onclick="|location.href='@{/mall/pay?id={id}(id=${buyCoupon.couponId})}'|">결제하기</button></td>-->
-            <td><button type="button" th:id="${buyCoupon.couponId}" th:onclick="payCheck(this.getAttribute('id'))">결제하기</button></td>
-
-            <td><input type="button" value="뒤로가기" th:onclick="|location.href='@{/mall}'|"></td>
-<!--            <td><a href="#" onclick="goBack(); return false;">취소</a></td>-->
+<!DOCTYPE html>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>저탄소 녹색 Life</title>
+    </head>
+    <div layout:fragment="content">
+        <body class="blog-page">
+        <!--타이틀-->
+        <main class="main">
+            <div class="page-title" data-aos="fade">
+                <div class="heading">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-8">
+    <h1>구매정보</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    <form th:action="@{{id}(id=${buyCoupon.couponId})}" method="post" onsubmit="return payCheck(event)">
+        <div>
+<label>쿠폰명</label>
+        <input type="text" id="couponName" readonly="readonly" th:value="*{buyCoupon.couponName}" required>
+        </div>
+        <div>
+        <label>필요포인트</label>
+        <input type="text" id="couponPoint" readonly="readonly" th:value="|*{buyCoupon.couponPoint}p|" required>
+        </div>
+<!--        <div>-->
+<!--            <label>유저포인트</label>-->
+<!--            <input type="text" id="currentPoint" readonly="readonly" th:value="*{buyCoupon.currentPoint}" required>-->
+<!--        </div>-->
+<button type="submit">결제하기</button>
 
             <script th:inline="javascript">
                 function goBack() {
                     window.history.back();
                 }
-                function payCheck(id) {
+                function payCheck(event) {
                     if(confirm("결제하시겠습니까?")){
-                        location.href=location.href="/mall/pay?id="+id;
                         return true;
                     } else {
                         return false;
                     }
                 }
             </script>
-        </tr>
-        </tbody>
-    </table>
-</div>
-</html>
+
+
+    </form>
+        </body>
+    </div>
+</layout:html>
