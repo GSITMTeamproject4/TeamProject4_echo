@@ -26,6 +26,6 @@ public class ChatBotController {
 
     @GetMapping
     public String chatPage() {
-        return "chatBotTest";
+        return "chatbot";
     }
 }

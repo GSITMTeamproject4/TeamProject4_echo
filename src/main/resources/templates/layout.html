@@ -38,6 +38,9 @@
   <!-- Main CSS File -->
   <link rel="stylesheet" th:href="@{/css/common/main.css}">
 
+  <!-- chatbot CSS File -->
+  <link rel="stylesheet" th:href="@{/css/chatbot/chatbot.css}">
+
   <!-- 개별 css 삽입 -->
   <th:block layout:fragment="css"></th:block>
 
@@ -86,6 +89,9 @@
   <th:block layout:fragment="content">
     <!-- 메인 컨텐츠 삽입 -->
   </th:block>
+
+  <!-- 챗봇 -->
+  <div th:replace="chatbot :: chatbot"></div>
 
   <footer th:fragment="footer">
     <div id="footer" class="footer position-relative">
@@ -144,6 +150,7 @@
   </footer>
 
 
+
   <!-- Scroll Top -->
   <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="fa-solid fa-arrow-up"></i></a>
 
@@ -159,6 +166,14 @@
   <!-- argon 관련 js -->
   <script th:src="@{/js/common/popper.min.js}"></script>
   <script async defer src="https://buttons.github.io/buttons.js"></script>
+
+  <!-- chatbot 관련 js -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script th:src="@{/js/chatBot/chatbot.js}"></script>
 
   <!-- 개별 js 삽입 -->
   <th:block layout:fragment="script"></th:block>
