@@ -56,4 +56,9 @@ public class ChallengeController {
             return "createAuthBoardPost";
         }
     }
+
+    @GetMapping("/status")
+    public String status() {
+        return "challenge_status";
+    }
 }
