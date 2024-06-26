@@ -1,100 +1,63 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Edit Personal Info</title>
-    <style>
-        /* 프로필 이미지 파일 업로드 시 미리보기 */
-        .preview-image {
-            max-width: 100%;
-            max-height: 200px;
-            margin-top: 10px;
-        }
-    </style>
+    <title>회원가입</title>
 </head>
 <body>
-<div class="container my-3">
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>개인정보 수정</h4>
-        </div>
+<h1>회원가입</h1>
+<form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data">
+    <div>
+        <label for="userId">사용자 ID:</label>
+        <input type="text" id="userId" th:field="*{userId}">
+        <div th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
     </div>
+    <div>
+        <label for="userName">이름:</label>
+        <input type="text" id="userName" th:field="*{userName}">
+        <div th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
+    </div>
+    <div>
+        <label for="phoneNum">전화번호:</label>
+        <input type="text" id="phoneNum" th:field="*{phoneNum}">
+        <div th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></div>
+    </div>
+    <div>
+        <label for="gender">성별:</label>
+        <select id="gender" th:field="*{gender}">
+            <option value="" th:if="*{gender} == ''">선택하세요</option>
+            <option value="male">남성</option>
+            <option value="female">여성</option>
+            <option value="other">기타</option>
+        </select>
+        <div th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+    </div>
+    <div>
+        <label for="password1">비밀번호:</label>
+        <input type="password" id="password1" th:field="*{password1}">
+        <div th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}"></div>
+    </div>
+    <div>
+        <label for="password2">비밀번호 확인:</label>
+        <input type="password" id="password2" th:field="*{password2}">
+        <div th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></div>
+    </div>
+    <div>
+        <label for="email">이메일:</label>
+        <input type="email" id="email" th:field="*{email}">
+        <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+    </div>
+    <div th:if="${#fields.hasGlobalErrors()}">
+        <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+    </div>
+    <label for="profileImage">이미지 업로드:</label>
+    <input type="file" id="profileImage" name="profileImage" required>
 
-    <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${user}">
-
-        <div class="mb-3">
-            <label for="profileImage" class="form-label">프로필 이미지</label>
-            <input type="file" id="profileImage" name="profileImage" class="form-control-file" onchange="previewImage(event)">
-            <img id="preview" class="preview-image" th:src="${user.imgUrl}" alt="프로필 이미지 미리 보기">
-        </div>
-
-        <div class="mb-3">
-            <label for="name" class="form-label">이름 : </label>
-            <input type="text" id="name" name="userName" class="form-control" th:value="*{userName}" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="userId" class="form-label">아이디 : </label>
-            <input type="text" name="userId" id="userId" class="form-control" th:value="*{userId}" readonly>
-        </div>
-
-        <div class="mb-3">
-            <label for="password" class="form-label">비밀번호 : </label>
-            <input type="password" id="password" name="password" class="form-control" th:value="*{password}">
-        </div>
-
-        <div class="mb-3">
-            <label for="phone" class="form-label">전화번호 : </label>
-            <input type="tel" id="phone" name="phoneNum" class="form-control" th:value="*{phoneNum}" required>
-        </div>
-
-        <div class="mb-3">
-            <label for="email" class="form-label">이메일 : </label>
-            <input type="email" id="email" name="email" class="form-control" th:value="*{email}" required>
-        </div>
-
-        <div class="mb-3">
-            <label>성별</label><br>
-            <label>
-                <input type="radio" name="gender" value="남성" th:checked="*{gender == '남성'}" onclick="return(false)">남성
-            </label>
-            <label>
-                <input type="radio" name="gender" value="여성" th:checked="*{gender == '여성' }" onclick="return(false)">여성
-            </label>
-        </div>
-
-        <button type="submit" class="btn btn-primary" onclick="confirmUpdate()">수정</button>
-
-        <button type="submit" formaction="/mypage/edit/{userId}(userId=${user.userId})" class="btn btn-primary">비밀번호 변경</button>
-
-        <button type="button" class="btn btn-danger" onclick="deleteUser()">탈퇴</button>
-
-    </form>
-</div>
+    <br>
+    <div>
+        <button type="submit">회원가입</button>
+    </div>
+</form>
+<a th:href="@{/authBoard/list}">취소</a>
 </body>
 </html>
-
-<script th:fragment="script" type="text/javascript">
-    // 파일 선택 시 미리 보기 기능을 수행하는 JavaScript 함수
-    function previewImage(event) {
-        var reader = new FileReader();
-        reader.onload = function(){
-            var output = document.getElementById('preview');
-            output.src = reader.result;
-        };
-        reader.readAsDataURL(event.target.files[0]);
-    }
-
-    function confirmUpdate() {
-        if (confirm("정말로 수정하시겠습니까?")) {
-            document.getElementById("editForm").submit();
-        }
-    }
-
-    function deleteUser(){
-        if (confirm("정말로 탈퇴하시겠습니까?")) {
-            document.getElementById("editForm").submit();
-        }
-    }
-
-</script>

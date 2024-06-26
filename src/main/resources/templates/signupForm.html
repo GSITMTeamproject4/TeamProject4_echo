@@ -6,7 +6,7 @@
 </head>
 <body>
 <h1>회원가입</h1>
-<form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post">
+<form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data">
     <div>
         <label for="userId">사용자 ID:</label>
         <input type="text" id="userId" th:field="*{userId}">
@@ -47,9 +47,17 @@
         <input type="email" id="email" th:field="*{email}">
         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
     </div>
+    <div>
+        <label for="address">주소:</label>
+        <input type="text" id="address" th:field="*{address}">
+        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+    </div>
     <div th:if="${#fields.hasGlobalErrors()}">
         <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
     </div>
+    <label for="profileImage">이미지 업로드:</label>
+    <input type="file" id="profileImage" name="profileImage" required>
+    <br>
     <div>
         <button type="submit">회원가입</button>
     </div>
