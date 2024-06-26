@@ -1,5 +1,6 @@
 package com.project.echoproject.controller;
 
+import com.project.echoproject.DuplicateReportException;
 import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.AuthBoardService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.security.Principal;
@@ -55,7 +57,13 @@ public class AuthBoardController {
                              @RequestParam("file") MultipartFile file,
                              Principal principal,
                              Model model) {
+
         try {
+            if (principal == null) {
+                // 인증되지 않은 경우 접근 거부 예외 발생
+                return "redirect:/access_denied";
+            }
+
             String userId = principal.getName(); // 현재 로그인한 사용자의 ID를 가져옴
             SiteUser siteUser = siteUserService.findByUserId(userId); // 사용자 정보를 조회
 
@@ -94,7 +102,7 @@ public class AuthBoardController {
         }
         SiteUser siteUser = siteUserService.findByUserId(principal.getName());
         if (!authBoard.getSiteUser().equals(siteUser)) {
-            return "accessDenied"; // 권한이 없는 경우 접근 거부 페이지로 이동
+            return "error/access_denied"; // 권한이 없는 경우 접근 거부 페이지로 이동
         }
         model.addAttribute("board", authBoard);
         return "authBoard/authBoard_modify"; // 수정 폼 페이지로 이동
@@ -118,9 +126,19 @@ public class AuthBoardController {
 
     // 게시글 신고 페이지
     @GetMapping("/report/{id}")
-    public String reportPage(@PathVariable("id") Long id, Model model) {
+    public String reportPage(@PathVariable("id") Long id, Model model, Principal principal,
+                             @RequestParam(value = "alertMessage", required = false) String alertMessage) {
+        if (principal == null) {
+            return "redirect:/access_denied";
+        }
+
         model.addAttribute("board", authBoardService.getBoardById(id)); // 게시글 정보를 모델에 추가
-        return "reportAuthBoard";
+
+        if (alertMessage != null) {
+            model.addAttribute("alertMessage", alertMessage);
+        }
+
+        return "authBoard/authBoard_report";
     }
 
     // 게시글 신고 처리
@@ -128,10 +146,19 @@ public class AuthBoardController {
     public String report(@PathVariable("id") Long id,
                          @RequestParam("reason") String reason,
                          @RequestParam("reportContent") String reportContent,
-                         @RequestParam("userId") String userId) {
+                         Principal principal, Model model, RedirectAttributes redirectAttributes) {
+        try {
+            if (principal == null) {
+                return "redirect:/access_denied";
+            }
 
-        reportBoardService.reportBoard(id, userId, reason, reportContent);
-        return "redirect:/authBoard/detail/" + id;
+            String userId = principal.getName();
+            reportBoardService.reportBoard(id, userId, reason, reportContent);
+            return "redirect:/authBoard/detail/" + id;
+        } catch (DuplicateReportException e) {
+            redirectAttributes.addFlashAttribute("alertMessage", e.getMessage());
+            return "redirect:/authBoard/report/" + id; // 신고 폼 페이지로 돌아가기
+        }
     }
 
 }

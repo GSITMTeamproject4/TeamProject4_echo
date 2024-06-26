@@ -1,32 +1,32 @@
 package com.project.echoproject.entity;
 
 import jakarta.persistence.*;
-        import lombok.Getter;
+import lombok.Getter;
 import lombok.Setter;
-
-import java.time.LocalDate;
 
 @Getter
 @Setter
 @Entity
 public class UseAmount {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long useid;
-
-    @ManyToOne
-    @JoinColumn(name = "userId", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER)
     private SiteUser siteUser;
 
-    @Column(nullable = false, columnDefinition = "LONG default 0")
-    private Long useElectricity = 0L;
+    @Column(columnDefinition = "LONG DEFAULT 0")
+    private long useElectricity;
 
-    @Column(nullable = false, columnDefinition = "LONG default 0")
-    private Long useGas = 0L;
+    @Column(columnDefinition = "LONG DEFAULT 0")
+    private long useEleYear;
 
-    @Column(nullable = false)
-    private LocalDate useDate;
+    @Column(columnDefinition = "LONG DEFAULT 0")
+    private long useEleMoth;
 
+    @Column(columnDefinition = "LONG DEFAULT 0")
+    private long useGas;
+
+    @Column(columnDefinition = "LONG DEFAULT 0")
+    private long useGasYear;
+
+    @Column(columnDefinition = "LONG DEFAULT 0")
+    private long useGasMoth;
 }
-

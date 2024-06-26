@@ -1,11 +1,13 @@
 package com.project.echoproject.service;
 
+import com.project.echoproject.DuplicateReportException;
 import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.ReportBoard;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.AuthBoardRepository;
 import com.project.echoproject.repository.ReportBoardRepository;
 import com.project.echoproject.repository.SiteUserRepository;
+import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -30,7 +32,7 @@ public class ReportBoardServiceImpl implements ReportBoardService {
         // 이미 신고했는지 확인
         boolean alreadyReported = reportBoardRepository.findByAuthBoardAndSiteUser(authBoard, siteUser).isPresent();
         if (alreadyReported) {
-            throw new RuntimeException("이미 신고한 게시글입니다.");
+            throw new DuplicateReportException("이미 신고한 게시글입니다.");
         }
 
         // 신고 생성

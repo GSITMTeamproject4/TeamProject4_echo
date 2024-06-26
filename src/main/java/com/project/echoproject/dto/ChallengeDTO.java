@@ -1,4 +1,4 @@
-package com.project.echoproject.dto;
+package com.project.echoproject.DTO;
 
 import com.project.echoproject.entity.Challenge;
 import lombok.Getter;

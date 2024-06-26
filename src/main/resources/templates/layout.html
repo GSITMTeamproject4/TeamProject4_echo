@@ -10,19 +10,23 @@
   <meta name="_csrf" th:content="${_csrf.token}"/>
   <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
+  <!-- jQuery 라이브러리 -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+  <!-- argon 관련 css -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+  <link rel="stylesheet" th:href="@{/css/common/nucleo-icons.css}">
+  <link rel="stylesheet" th:href="@{/css/common/nucleo-svg.css}">
+  <link rel="stylesheet" th:href="@{/css/common/argon-dashboard.min.css}">
 
   <!-- font-awesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
-  <!-- Favicons -->
-  <link href="assets/img/favicon.png" rel="icon">
-  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
   <!-- Fonts -->
   <link href="https://fonts.googleapis.com" rel="preconnect">
   <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
 
   <!-- Vendor CSS Files -->
   <link rel="stylesheet" th:href="@{/css/common/bootstrap.min.css}">
@@ -41,15 +45,15 @@
 
 <body>
   <header th:fragment="header">
-    <div id="header" class="header d-flex align-items-center sticky-top">
+    <div id="header" class="header d-flex align-items-center fixed-top">
       <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
-        <a href="index.html" class="logo d-flex align-items-center me-auto me-xl-0">
+        <a th:href="@{/index}" class="logo d-flex align-items-center me-auto me-xl-0">
           <h1 class="sitename">저탄소 녹색 Life</h1><span>.</span>
         </a>
         <nav id="navmenu" class="navmenu">
           <ul>
             <li><a th:href="@{/authBoard/list}">그린라이프 인증</a></li>
-            <li><a href="challenge">저탄소 실천 챌린지</a></li>
+            <li><a th:href="@{/challenge/status}">저탄소 실천 챌린지</a></li>
             <li class="dropdown">
               <a href="#"><span>환경 알리미</span> <i class="fa-solid fa-chevron-down"></i></a>
               <ul>
@@ -58,7 +62,7 @@
               </ul>
             </li>
             <li><a href="index.html#pricing">이달의 에코 챔피언</a></li>
-            <li><a href="mall">그린쿠폰 mall</a></li>
+            <li><a th:href="@{/mall}">그린쿠폰 mall</a></li>
             <li class="dropdown">
               <a href="#"><span>공지사항</span> <i class="fa-solid fa-chevron-down"></i></a>
               <ul>
@@ -141,23 +145,26 @@
 
 
   <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="fa-solid fa-arrow-up"></i></a>
 
   <!-- Vendor JS Files -->
   <script th:src="@{/js/common/aos.js}"></script>
   <script th:src="@{/js/common/bootstrap.bundle.min.js}"></script>
-  <script th:src="@{/js/common/validate.js}"></script>
   <script th:src="@{/js/common/glightbox.min.js}"></script>
   <script th:src="@{/js/common/purecounter_vanilla.js}"></script>
   <script th:src="@{/js/common/imagesloaded.pkgd.min.js}"></script>
   <script th:src="@{/js/common/isotope.pkgd.min.js}"></script>
   <script th:src="@{/js/common/swiper-bundle.min.js}"></script>
 
-  <!-- Main JS File -->
-  <script th:src="@{/js/common/main.js}"></script>
+  <!-- argon 관련 js -->
+  <script th:src="@{/js/common/popper.min.js}"></script>
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
 
   <!-- 개별 js 삽입 -->
   <th:block layout:fragment="script"></th:block>
+
+  <!-- Main JS File -->
+  <script th:src="@{/js/common/main.js}"></script>
 
 </body>
 </html>

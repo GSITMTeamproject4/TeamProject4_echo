@@ -1,0 +1,76 @@
+{
+  "Description": {
+    "PLAT_PLC": "대지_위치",
+    "SIGUNGU_CD": "시군구_코드",
+    "BJDONG_CD": "법정동_코드",
+    "totalUseGas": "사용_량(KWh)"
+  },
+  "Data": [
+    {
+      "BJDONG_CD": "11800",
+      "PLAT_PLC": "강남구",
+      "SIGUNGU_CD": "11680",
+      "totalUseGas": "410742918"
+    },
+    {
+      "BJDONG_CD": "11000",
+      "PLAT_PLC": "강동구",
+      "SIGUNGU_CD": "11740",
+      "totalUseGas": "191621393"
+    },
+    {
+      "BJDONG_CD": "11300",
+      "PLAT_PLC": "강서구",
+      "SIGUNGU_CD": "11500",
+      "totalUseGas": "172114936"
+    },
+    {
+      "BJDONG_CD": "10300",
+      "PLAT_PLC": "관악구",
+      "SIGUNGU_CD": "11620",
+      "totalUseGas": "155721431"
+    },
+    {
+      "BJDONG_CD": "11200",
+      "PLAT_PLC": "구로구",
+      "SIGUNGU_CD": "11530",
+      "totalUseGas": "182113587"
+    },
+    {
+      "BJDONG_CD": "10300",
+      "PLAT_PLC": "금천구",
+      "SIGUNGU_CD": "11545",
+      "totalUseGas": "85184822"
+    },
+    {
+      "BJDONG_CD": "10900",
+      "PLAT_PLC": "동작구",
+      "SIGUNGU_CD": "11590",
+      "totalUseGas": "143072128"
+    },
+    {
+      "BJDONG_CD": "12700",
+      "PLAT_PLC": "마포구",
+      "SIGUNGU_CD": "11440",
+      "totalUseGas": "178497417"
+    },
+    {
+      "BJDONG_CD": "11100",
+      "PLAT_PLC": "서초구",
+      "SIGUNGU_CD": "11650",
+      "totalUseGas": "199549999"
+    },
+    {
+      "BJDONG_CD": "11400",
+      "PLAT_PLC": "송파구",
+      "SIGUNGU_CD": "11710",
+      "totalUseGas": "235562914"
+    },
+    {
+      "BJDONG_CD": "10300",
+      "PLAT_PLC": "양천구",
+      "SIGUNGU_CD": "11470",
+      "totalUseGas": "148478432"
+    }
+  ]
+}

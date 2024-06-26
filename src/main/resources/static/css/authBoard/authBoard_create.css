@@ -21,15 +21,19 @@
     border-radius: 4px;
 }
 
-.col-md-12 {
+.col-lg-6 .col-md-12 {
     display: flex;
     justify-content: center;
 }
 
-.col-md-12 button {
+.col-lg-6 .col-md-12 button {
     margin: 0 5px 0 5px;
 }
 
 .form-control {
     resize: none;
+}
+
+.section-title h2 {
+    margin-bottom: 30px;
 }
