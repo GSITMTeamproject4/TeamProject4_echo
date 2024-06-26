@@ -1,5 +1,6 @@
 package com.project.echoproject.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -36,6 +37,13 @@ public class SiteUserCreateForm {
     @NotEmpty(message = "이메일은 필수 항목입니다.")
     @Email
     private String email;
+
+
+
+    @Nullable
+    private String imgUrl;
+    @NotEmpty
+    private String address;
 
 
 }

@@ -1,0 +1,82 @@
+{
+  "Description": {
+    "PLAT_PLC": "대지_위치",
+    "SIGUNGU_CD": "시군구_코드",
+    "BJDONG_CD": "법정동_코드",
+    "totalUseEle": "사용_량(KWh)"
+  },
+  "Data": [
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "광주시",
+      "SIGUNGU_CD": "41610",
+      "totalUseEle": "104457283"
+    },
+    {
+      "BJDONG_CD": "13200",
+      "PLAT_PLC": "성남시",
+      "SIGUNGU_CD": "41133",
+      "totalUseEle": "321224307"
+    },
+    {
+      "BJDONG_CD": "14100",
+      "PLAT_PLC": "수원시",
+      "SIGUNGU_CD": "41115",
+      "totalUseEle": "321224307"
+    },
+    {
+      "BJDONG_CD": "10100",
+      "PLAT_PLC": "안성시",
+      "SIGUNGU_CD": "41550",
+      "totalUseEle": "78420988"
+    },
+    {
+      "BJDONG_CD": "41033",
+      "PLAT_PLC": "양평군",
+      "SIGUNGU_CD": "41830",
+      "totalUseEle": "38113429"
+    },
+    {
+      "BJDONG_CD": "38027",
+      "PLAT_PLC": "여주시",
+      "SIGUNGU_CD": "41670",
+      "totalUseEle": "45257195"
+    },
+    {
+      "BJDONG_CD": "12400",
+      "PLAT_PLC": "오산시",
+      "SIGUNGU_CD": "41370",
+      "totalUseEle": "66015308"
+    },
+    {
+      "BJDONG_CD": "36030",
+      "PLAT_PLC": "용인시",
+      "SIGUNGU_CD": "41461",
+      "totalUseEle": "429516600"
+    },
+    {
+      "BJDONG_CD": "38030",
+      "PLAT_PLC": "이천시",
+      "SIGUNGU_CD": "41500",
+      "totalUseEle": "88453739"
+    },
+    {
+      "BJDONG_CD": "37032",
+      "PLAT_PLC": "평택시",
+      "SIGUNGU_CD": "41220",
+      "totalUseEle": "260649861"
+    },
+    {
+      "BJDONG_CD": "12400",
+      "PLAT_PLC": "하남시",
+      "SIGUNGU_CD": "41450",
+      "totalUseEle": "98954472"
+    },
+    {
+      "BJDONG_CD": "41039",
+      "PLAT_PLC": "화성시",
+      "SIGUNGU_CD": "41590",
+      "totalUseEle": "338587006"
+    }
+  ]
+}

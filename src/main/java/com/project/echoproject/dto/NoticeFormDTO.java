@@ -1,19 +1,15 @@
 package com.project.echoproject.dto;
 
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Getter;
 import lombok.Setter;
 
-@Setter
 @Getter
+@Setter
 public class NoticeFormDTO {
-    @NotEmpty(message = "제목은 필수항목입니다.")
-    @Size(min =10, max = 100)
-    private String subject;
+    @NotBlank(message = "제목은 필수 항목입니다.")
+    private String title;
 
-    @Size(min =10, max = 1000)
-    @NotEmpty(message = "내용은 필수항목입니다.")
+    @NotBlank(message = "내용은 필수 항목입니다.")
     private String content;
-
 }

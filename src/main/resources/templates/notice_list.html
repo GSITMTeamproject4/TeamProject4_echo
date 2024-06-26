@@ -19,15 +19,28 @@
         </thead>
 
         <tbody>
+
+        <!--   <tr th:each="notice : ${noticeList}">  실제 id데이터로 보여주는건 이렇게 ..-->
+        <!--            <td th:text="${notice.notice_id}"></td>-->
+
         <!-- noticeList를 반복하여 테이블 행 생성 -->
         <tr th:each="notice, loop : ${noticeList}">
             <!-- loop.count를 사용하여 현재 항목의 번호를 표시 -->
             <td th:text="${loop.count}"></td>
             <!-- 제목 열 -->
-            <td class="text-start">
+            <td>
+                <!--          정상코드-->
                 <!-- 제목을 링크로 표시하며, 링크는 질문 상세 페이지로 연결 -->
-                <a th:href="@{|/notice/list/detail/${notice.notice_id}|}"
+
+                <a th:href="@{|/notice/detail/${notice.notice_id}}"
                    th:text="${notice.notice_title}"></a>
+                <!--          정상코드-->
+
+                <!--루프 돌아가는 id 카운트 값으로 url에 보이도록 일치시키려면 아래코드-->
+                <!--                <a th:href="@{|/notice/detail/${loop.count}}"-->
+                <!--                   th:text="${notice.notice_title}"></a>-->
+
+
             </td>
             <!-- 작성자 열 -->
             <td>
