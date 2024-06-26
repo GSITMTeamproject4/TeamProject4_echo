@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>저탄소 녹색 Life</title>
+    </head>
+    <div layout:fragment="content">
+        <body class="blog-page">
+        <!--타이틀-->
+        <main class="main">
+            <div class="page-title" data-aos="fade">
+                <div class="heading">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-8">
+                                <h1>에코 쇼핑Mall</h1>
+                                <p class="mb-0"> 에코제품을 직접 구매할 수 있는 쇼핑몰입니다. </p>
+                                <p class="mb-0"> 에코제품 구매를 통해 저탄소 녹생성장에 이바지 해주세요. </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+<!--        <table class="table">-->
+<!--            <tbody>-->
+<!--            <tr th:each="coupon : ${couponList}">-->
+<!--                <td th:text="${coupon.couponName}"></td>-->
+<!--                <td th:text="|필요포인트: ${coupon.couponPoint}p|"></td>-->
+<!--                <td><a th:href="@{mall/buy/{id}(id=${coupon.couponId})}">구매하기</a></td>-->
+<!--            </tr>-->
+<!--            </tbody>-->
+<!--        </table>-->
+        </body>
+    </div>
+</layout:html>

@@ -1,13 +1,29 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>공지사항</title>
-</head>
-<body>
-<h1>공지사항 list</h1>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>저탄소 녹색 Life</title>
+    </head>
+    <div layout:fragment="content">
+        <body class="blog-page">
+        <!--타이틀-->
+        <main class="main">
+            <div class="page-title" data-aos="fade">
+                <div class="heading">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-8">
+                                <h1>공지사항</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    <div>
 
-<div>
     <table class="table">
         <thead class="table-dark">
         <tr class="text-center">
@@ -29,18 +45,9 @@
             <td th:text="${loop.count}"></td>
             <!-- 제목 열 -->
             <td>
-                <!--          정상코드-->
                 <!-- 제목을 링크로 표시하며, 링크는 질문 상세 페이지로 연결 -->
-
                 <a th:href="@{|/notice/detail/${notice.notice_id}}"
                    th:text="${notice.notice_title}"></a>
-                <!--          정상코드-->
-
-                <!--루프 돌아가는 id 카운트 값으로 url에 보이도록 일치시키려면 아래코드-->
-                <!--                <a th:href="@{|/notice/detail/${loop.count}}"-->
-                <!--                   th:text="${notice.notice_title}"></a>-->
-
-
             </td>
             <!-- 작성자 열 -->
             <td>
@@ -56,7 +63,8 @@
 
     </table>
     <a th:href="@{/notice/create}" class = "btn btn-primary">게시글 등록하기</a>
-</div>
 
-</body>
-</html>
+</div>
+        </body>
+    </div>
+</layout:html>
