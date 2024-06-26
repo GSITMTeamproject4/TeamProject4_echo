@@ -8,9 +8,13 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
 import com.project.echoproject.service.*;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -81,6 +85,9 @@ public class MypageController {
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{userId}")
     public String myPage(@PathVariable String userId, Model model, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         SiteUser user = mypageService.getUserById(userId);
         model.addAttribute("user", user);
         return "mypage";
@@ -89,6 +96,9 @@ public class MypageController {
     // 비밀번호 변경 폼을 표시하는 메소드
     @GetMapping("/change-password/{userId}")
     public String changePasswordPage(@PathVariable String userId, Model model,Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         model.addAttribute("userId", userId);
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
         return "changepw_form";
@@ -119,11 +129,18 @@ public class MypageController {
     @PreAuthorize("isAuthenticated()")
     @Transactional
     @PostMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable String userId, Principal principal) {
+    public String deleteUser(@PathVariable String userId, Principal principal,
+                             HttpServletRequest request, HttpServletResponse response) {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
         }
+
         mypageService.deleteUser(userId);
+
+        // 로그아웃 처리
+        SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+        logoutHandler.logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+
         return "redirect:/";
     }
 

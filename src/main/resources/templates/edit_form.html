@@ -25,7 +25,7 @@
     <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${user}" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="profileImage" class="form-label">프로필 이미지</label>
-            <input type="file" id="profileImage" name="profileImage" class="form-control-file" onchange="previewImage(event)" th:object="${user}">
+            <input type="file" id="profileImage" name="file" class="form-control-file" onchange="previewImage(event)" th:object="${user}">
             <img id="preview" class="preview-image" th:src="${user.imgUrl}" alt="프로필 이미지 미리 보기">
         </div>
 
@@ -59,7 +59,7 @@
             </label>
         </div>
 
-        <button type="submit" class="btn btn-primary" onclick="confirmUpdate()">수정</button>
+        <button type="submit" class="btn btn-primary">수정</button>
 
         <button type="button" class="btn btn-primary" onclick="changePassword()">비밀번호 변경</button>
 
@@ -82,11 +82,14 @@
         reader.readAsDataURL(event.target.files[0]);
     }
 
-    function confirmUpdate() {
+    function confirmUpdate(event) {
+        event.preventDefault();
         if (confirm("정말 수정하시겠습니까?")) {
             document.getElementById("editForm").submit();
         }
     }
+
+    document.getElementById("editForm").addEventListener("submit", confirmUpdate);
 
     function changePassword() {
         var userId = [[${user.userId}]];
@@ -114,4 +117,7 @@
 </body>
 </div>
 </html>
+
+
+
 

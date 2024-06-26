@@ -16,7 +16,7 @@
         </thead>
         <tbody>
         <tr th:each="point : ${pointHistory}">
-            <td th:text="${#temporals.format(point.insertDate, 'yyyy-MM-dd HH:mm:ss')}"></td>
+            <td th:text="${#temporals.format(point.insertDate, 'yyyy-MM-dd')}"></td>
             <td th:text="${point.pointInfo}"></td>
             <td>
                 <span th:if="${point.pointInfo == 'coupon'}" th:text="'-' + ${point.point}"></span>
@@ -28,4 +28,8 @@
 </div>
 </body>
 </html>
+
+
+
+
 

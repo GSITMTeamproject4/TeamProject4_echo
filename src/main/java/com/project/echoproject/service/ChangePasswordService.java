@@ -7,3 +7,6 @@ public interface ChangePasswordService {
     void changePassword(String userId, ChangePasswordForm changePwForm);
 }
 
+
+
+
