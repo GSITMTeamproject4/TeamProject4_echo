@@ -1,14 +1,16 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.ChangePasswordForm;
+import com.project.echoproject.dto.PointDTO;
 import com.project.echoproject.dto.UseAmountForm;
+import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
-import com.project.echoproject.service.ChangePasswordServiceImpl;
-import com.project.echoproject.service.MypageService;
+import com.project.echoproject.service.*;
 
-import com.project.echoproject.service.UseAmountServiceImpl;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -27,28 +31,41 @@ public class MypageController {
     private final MypageService mypageService;
     private final ChangePasswordServiceImpl changePasswordServiceImpl;
     private final UseAmountServiceImpl useAmountServiceImpl;
+    private final PointService pointService;
+    private final SiteUserServiceImpl siteUserServiceImpl;
 
     @Autowired
     public MypageController(MypageService mypageService,
                             ChangePasswordServiceImpl changePasswordServiceImpl,
-                             UseAmountServiceImpl useAmountServiceImpl) {
+                            UseAmountServiceImpl useAmountServiceImpl, PointService pointService, SiteUserServiceImpl siteUserServiceImpl) {
         this.mypageService = mypageService;
         this.changePasswordServiceImpl = changePasswordServiceImpl;
         this.useAmountServiceImpl = useAmountServiceImpl;
+        this.pointService = pointService;
+        this.siteUserServiceImpl = siteUserServiceImpl;
     }
 
+
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/edit/{userId}")
-    public String editPersonalInfo(@PathVariable String userId, Model model) {
+    public String editPersonalInfo(@PathVariable String userId, Model model, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         SiteUser user = mypageService.getUserById(userId);
         model.addAttribute("user", user);
         return "edit_form";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/edit/{userId}")
     public String updatePersonalInfo(@PathVariable String userId,
                                      @ModelAttribute SiteUser updatedUser,
                                      @RequestParam(value = "file", required = false) MultipartFile file,
-                                     Model model) {
+                                     Model model, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         try {
             mypageService.updateUser(userId, updatedUser, file);
             return "redirect:/mypage/" + userId;
@@ -61,8 +78,9 @@ public class MypageController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{userId}")
-    public String myPage(@PathVariable String userId, Model model) {
+    public String myPage(@PathVariable String userId, Model model, Principal principal) {
         SiteUser user = mypageService.getUserById(userId);
         model.addAttribute("user", user);
         return "mypage";
@@ -70,7 +88,7 @@ public class MypageController {
 
     // 비밀번호 변경 폼을 표시하는 메소드
     @GetMapping("/change-password/{userId}")
-    public String changePasswordPage(@PathVariable String userId, Model model) {
+    public String changePasswordPage(@PathVariable String userId, Model model,Principal principal) {
         model.addAttribute("userId", userId);
         model.addAttribute("changePasswordForm", new ChangePasswordForm());
         return "changepw_form";
@@ -81,7 +99,7 @@ public class MypageController {
     @PostMapping("/change-password/{userId}")
     public String changePassword(@PathVariable String userId,
                                  @ModelAttribute("changePasswordForm") @Validated ChangePasswordForm changePwForm,
-                                 BindingResult result, Model model) {
+                                 BindingResult result, Model model,Principal principal) {
         if (result.hasErrors()) {
             model.addAttribute("userId", userId);
             return "changepw_form";
@@ -98,14 +116,20 @@ public class MypageController {
         return "redirect:/mypage/" + userId;
     }
 
+    @PreAuthorize("isAuthenticated()")
+    @Transactional
     @PostMapping("/delete/{userId}")
-    public String deleteUser(@PathVariable String userId, SiteUser user) {
-        mypageService.deleteUser(userId, user);
+    public String deleteUser(@PathVariable String userId, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
+        mypageService.deleteUser(userId);
         return "redirect:/";
     }
 
+
     @GetMapping("/input-useamount/{userId}")
-    public String showUsageForm(@PathVariable String userId, Model model) {
+    public String showUsageForm(@PathVariable String userId, Model model, Principal principal) {
         try {
             UseAmountForm useAmountForm = new UseAmountForm();
             model.addAttribute("useAmountForm", useAmountForm);
@@ -125,7 +149,7 @@ public class MypageController {
     public String processUsageForm(@PathVariable String userId,
                                    @ModelAttribute("useAmountForm") UseAmountForm useAmountForm,
                                    BindingResult bindingResult,
-                                   Model model) {
+                                   Model model, Principal principal) {
         LocalDate currentDate = LocalDate.now();
         if (!useAmountForm.getUseDate().equals(currentDate)) {
             bindingResult.rejectValue("useDate", "error.useDate", "날짜는 오늘이어야 합니다.");
@@ -146,7 +170,7 @@ public class MypageController {
     @GetMapping("/useamount-detail/{userId}")
     public String showUseAmountDetail(@PathVariable String userId,
                                       @RequestParam(required = false) Integer year,
-                                      Model model) {
+                                      Model model, Principal principal) {
         try {
             int currentYear = (year != null) ? year : LocalDate.now().getYear();
 
@@ -161,6 +185,13 @@ public class MypageController {
         }
     }
 
+    @GetMapping("/point-status/{userId}")
+    public String showPointHistory(@PathVariable String userId, Model model) {
+        List<Point> pointHistory = pointService.getPointHistoryByUserId(userId);
+        model.addAttribute("pointHistory", pointHistory);
+        return "point_status";
+    }
+
     @GetMapping("/challenge")
     public String myChallenge(Model model) {
         return "challenge_status";
@@ -172,7 +203,3 @@ public class MypageController {
     }
 
 }
-
-
-
-

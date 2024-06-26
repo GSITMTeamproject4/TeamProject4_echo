@@ -8,6 +8,6 @@ import java.io.IOException;
 public interface MypageService {
     SiteUser getUserById(String userId);
     void updateUser(String userId, SiteUser updatedUser, MultipartFile file) throws IOException;
-    void deleteUser(String userId, SiteUser deleteUser);
+    void deleteUser(String userId);
     String encodeImageToBase64(String filePath) throws IOException;
 }

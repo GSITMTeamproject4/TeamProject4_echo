@@ -26,6 +26,7 @@
         <div class="mb-3">
             <label for="newPassword" class="form-label">새 비밀번호 : </label>
             <input type="password" id="newPassword" name="newPassword" class="form-control" th:field="*{newPassword}" required>
+            <span class="text-danger" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></span>
         </div>
 
         <div class="mb-3">

@@ -3,6 +3,7 @@ package com.project.echoproject.service;
 import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.SiteUserRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,19 +46,17 @@ public class MypageServiceImpl implements MypageService {
         userRepository.save(updateInfo);
     }
 
+    @Transactional
     @Override
-    public void deleteUser(String userId, SiteUser deleteUser) {
-        Optional<SiteUser> infoDeleteUser = userRepository.findById(userId);
-        if (infoDeleteUser.isPresent()) {
-            userRepository.delete(infoDeleteUser.get());
-        } else {
-            throw new IllegalArgumentException("User not found");
-        }
+    public void deleteUser(String userId) {
+        SiteUser user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
+        userRepository.delete(user);
     }
+
 
     @Override
     public String encodeImageToBase64(String filePath) throws IOException {
         return imageService.encodeImageToBase64(filePath);
     }
 }
-
