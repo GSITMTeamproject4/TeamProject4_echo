@@ -1,8 +1,12 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.dto.OrderSaveDTO;
-import com.project.echoproject.entity.Product;
+import com.project.echoproject.entity.Cart;
+import com.project.echoproject.entity.CartItem;
+import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.repository.CartRepository;
 import com.project.echoproject.repository.ProductRepository;
+import com.project.echoproject.repository.SiteUserRepository;
+import com.project.echoproject.service.CartService;
 import com.project.echoproject.service.OrderService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.response.IamportResponse;
@@ -19,25 +23,28 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
+@RequestMapping("/order")
 public class OrderController {
 
     private final IamportClient iamportClient;
-    private final String apiKey;
-    private final String apiSecret;
-
-    @Autowired
-    private OrderService orderService;
-
-    @Autowired
-    private ProductRepository productRepository;
+    private final SiteUserRepository siteUserRepository;
+    private final CartRepository cartRepository;
+    private final CartService cartService;
+    private final OrderService orderService;
+    private final ProductRepository productRepository;
 
     public OrderController(@Value("111") String apiKey,
                            @Value("111") String apiSecret,
+                           SiteUserRepository siteUserRepository,
+                           CartRepository cartRepository,
+                           CartService cartService,
+
                            OrderService orderService,
                            ProductRepository productRepository) {
         this.iamportClient = new IamportClient(apiKey, apiSecret);
-        this.apiKey = apiKey;
-        this.apiSecret = apiSecret;
+        this.siteUserRepository = siteUserRepository;
+        this.cartRepository = cartRepository;
+        this.cartService = cartService;
         this.orderService = orderService;
         this.productRepository = productRepository;
     }
@@ -50,28 +57,37 @@ public class OrderController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    @GetMapping("/order/{orderNumber}")
-    public String getOrderPage(@PathVariable("orderNumber") String orderNumber, Model model) {
-        OrderSaveDTO order = orderService.getOrderDetails(orderNumber);
-        if (order != null) {
-            model.addAttribute("orderNumber", order.getOrderNumber());
-            model.addAttribute("buyerTel", order.getBuyerTel());
-            model.addAttribute("buyerAddr", order.getBuyerAddr());
-            model.addAttribute("buyerPostcode", order.getBuyerPostcode());
-            model.addAttribute("totalAmount", order.getTotalAmount());
-            model.addAttribute("buyerId", order.getBuyerId());
+    @GetMapping("/checkout/{userId}")
+    public String checkout(@PathVariable String userId, Model model) {
+        SiteUser siteUser = siteUserRepository.findByUserId(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
 
-            // Product 이름을 추가합니다.
-            List<String> productNames = order.getItems().stream()
-                    .map(item -> {
-                        // ProductRepository를 통해 productName을 가져옵니다.
-                        return productRepository.findById(item.getProductId())
-                                .map(Product::getProductName)
-                                .orElse("Unknown Product");
-                    })
-                    .collect(Collectors.toList());
-            model.addAttribute("productNames", productNames);
+        Cart cart = cartRepository.findByUser(siteUser)
+                .orElseThrow(() -> new RuntimeException("Cart not found"));
+
+        List<CartItem> cartItems = cart.getItems();
+
+        if (cartItems.isEmpty()) {
+            throw new RuntimeException("Cart is empty");
         }
+
+        int totalAmount = cartItems.stream()
+                .mapToInt(item -> item.getProduct().getPrice() * item.getQuantity())
+                .sum();
+
+        List<String> productNames = cartItems.stream()
+                .map(item -> item.getProduct().getProductName())
+                .collect(Collectors.toList());
+
+        // 모델에 데이터 추가
+        model.addAttribute("productNames", productNames);
+        model.addAttribute("totalAmount", totalAmount);
+        model.addAttribute("buyerEmail", siteUser.getEmail());
+        model.addAttribute("buyerName", siteUser.getUserId());
+        model.addAttribute("buyerTel", siteUser.getPhoneNum());
+        model.addAttribute("buyerAddr", siteUser.getAddress());
+        model.addAttribute("buyerPostcode", siteUser.getAddress());
+
         return "payment";
     }
 }
