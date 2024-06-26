@@ -35,4 +35,5 @@ public class PointService {
     public long countPointHistoryByUserId(String userId) {
         return pointRepository.countBySiteUser_UserId(userId);
     }
+
 }
