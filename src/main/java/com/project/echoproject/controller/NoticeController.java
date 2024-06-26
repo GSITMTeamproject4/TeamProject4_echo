@@ -71,24 +71,26 @@ public class NoticeController {
         return "redirect:/notice/list";
     }
 
-    // 게시글 수정 GET
+    //MODIFY
+    // 게시글 수정 GET 으로 기존 데이터 보이기
     @GetMapping("/modify/{id}")
     public String noticeModify(@PathVariable("id") Long id, Model model, Principal principal) {
         Notice notice = this.noticeService.checkNotice(id);
         if (!notice.getSiteUser().getUserId().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한이 없습니다.");
         }
-
+        //서비스통해서 db에서 조회된 데이터 DTO에 담기
         NoticeFormDTO noticeFormDTO = new NoticeFormDTO();
         noticeFormDTO.setTitle(notice.getNotice_title());
         noticeFormDTO.setContent(notice.getNotice_content());
+        //모델에 DTO와 ID를 속성값에 담아서 뷰로 보내기
         model.addAttribute("noticeFormDTO", noticeFormDTO);
         model.addAttribute("noticeId", id);
 
         return "notice_form";
     }
 
-    // 게시글 수정 POST
+    // 게시글 수정 POST 로 수정값 넘김
     @PostMapping("/modify/{id}")
     public String noticeModify(@PathVariable("id") Long id, @Valid NoticeFormDTO noticeFormDTO, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {

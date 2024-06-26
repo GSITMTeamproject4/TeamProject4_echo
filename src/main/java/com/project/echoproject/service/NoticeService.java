@@ -52,17 +52,16 @@ public class NoticeService {
         if(notice.isPresent()) {
             return notice.get();
         }else {
-            //question에 데이터없으며 이부분 실행
-            //직접 예외처리 클래스를 만듦 DataNotFoundException
-            // throw new DataNotFoundException("question not found");
+            //notice에 데이터 없으면 예외처리 클래스 실행
             throw new IllegalArgumentException("Notice not found");
         }
     }
 
     //게시글 modify기능: dto로 DB 수정
+    // 파라미터 notice:기존 데이터/ 제목,내용: DTO로 온 바꿀값
     public void modify(Notice notice, String subject, String content) {
-        notice.setNotice_title(subject); //제목
-        notice.setNotice_content(content); //내용
+        notice.setNotice_title(subject); //제목 수정
+        notice.setNotice_content(content); //내용 수정
         //수정일자를 현재시간으로 업데이트
         notice.setModifyDate(LocalDateTime.now());
         this.noticeRepository.save(notice);
