@@ -27,10 +27,12 @@ public class SiteUserSecurityServiceImpl implements SiteUserSecurityService {
         if (_siteUser.isEmpty()) {
             throw new UsernameNotFoundException("사용자를 찾을수 없습니다.");
         }
+
+
         SiteUser siteUser = _siteUser.get();
         // 사용자의 권한 정보
         List<GrantedAuthority> authorities = new ArrayList<>();
-        if ("admin".equals(username)) {
+        if ("admin1234".equals(siteUser.getUserId())) {
             authorities.add(new SimpleGrantedAuthority(UserRole.ADMIN.getValue()));
         } else {
             authorities.add(new SimpleGrantedAuthority(UserRole.USER.getValue()));
