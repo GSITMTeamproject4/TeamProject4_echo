@@ -1,50 +1,35 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{layout}" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>포인트</title>
-    <link rel="stylesheet" href="/css/user/point.css">
-    <script src="/js/user/point.js" th:src="@{/js/user/point.js}"></script>
+    <title>포인트 현황</title>
 </head>
 <body>
-<header th:replace="/WEB-INF/view/include/header :: header"></header>
-<nav th:replace="/WEB-INF/view/include/nav :: nav"></nav>
-
-<section class="title">
-    <h1>포인트</h1>
-</section>
-
-<main>
-    <div class="my_point">
-        <div>
-            <span>보유 포인트</span>
-            <span id="my_point" th:text="${#numbers.formatDecimal(point, '###,###')}"></span>
-        </div>
-
-        <!-- 포인트 이력 목록 -->
-        <h2>포인트 이용 내역</h2>
-        <hr>
-        <ul class="point_his">
-            <li th:each="history : ${pointHistoryList}">
-                <div>
-                    <div>
-                        <span>사용 내역: </span>
-                        <span th:text="${history.info}"></span>
-                    </div>
-                    <div>
-                        <span>사용 일자: </span>
-                        <span th:text="${#dates.format(history.usedDate, 'yyyy.MM.dd')}"></span>
-                    </div>
-                    <div>
-                        <span>변경 포인트: </span>
-                        <span th:class="${history.point > 0} ? 'plus' : 'used'" th:text="${#numbers.formatDecimal(history.point, '###,###')}"></span>
-                    </div>
-                </div>
-            </li>
-        </ul>
-    </div>
-</main>
-
-<footer th:replace="/WEB-INF/view/include/footer :: footer"></footer>
+<div layout:fragment="content">
+    <h1>포인트 현황</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>날짜</th>
+            <th>출처</th>
+            <th>포인트 변동</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="point : ${pointHistory}">
+            <td th:text="${#temporals.format(point.insertDate, 'yyyy-MM-dd')}"></td>
+            <td th:text="${point.pointInfo}"></td>
+            <td>
+                <span th:if="${point.pointInfo == 'coupon'}" th:text="'-' + ${point.point}"></span>
+                <span th:if="${point.pointInfo != 'coupon'}" th:text="'+' + ${point.point}"></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
 </body>
 </html>
+
+
+
+
+
