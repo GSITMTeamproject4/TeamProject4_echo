@@ -104,4 +104,23 @@ public class NoticeController {
         this.noticeService.modify(notice, noticeFormDTO.getTitle(), noticeFormDTO.getContent());
         return String.format("redirect:/notice/detail/%s", id);
     }
+
+    //DELETE
+    //게시글 삭제
+    @GetMapping("/delete/{id}")
+    //사용자 정보와 id정보받음
+    public String questionDelete(Principal principal, @PathVariable("id") Long id) {
+        Notice notice = this.noticeService.checkNotice(id);
+        //이름확인해서 하나라도 일치하지 않으면 삭제권한없다고 띄우고
+        if (!notice.getSiteUser().getUserId().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+        //아니면 삭제처리후 리다이렉트
+        this.noticeService.delete(notice);
+        return "redirect:/notice/list";
+    }
+
+
+
+
 }
