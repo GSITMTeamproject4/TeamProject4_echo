@@ -1,10 +1,7 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.dto.CartItemDTO;
-import com.project.echoproject.dto.OrderSaveDTO;
 import com.project.echoproject.entity.Cart;
 import com.project.echoproject.entity.CartItem;
-import com.project.echoproject.entity.Product;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.CartRepository;
 import com.project.echoproject.repository.ProductRepository;
@@ -14,8 +11,6 @@ import com.project.echoproject.service.OrderService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
