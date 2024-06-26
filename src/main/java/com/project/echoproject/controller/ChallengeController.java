@@ -29,11 +29,13 @@ public class ChallengeController {
     public String start(Model model) {
         return "challenge";
     }
+
     @GetMapping("/state")
     public @ResponseBody List<Map<String, Object>> monthPlan(Principal principal) {
         SiteUser siteUser = siteUserService.findByUserId(principal.getName());
             return challengeService.getChallengeList(siteUser);
     }
+
     @GetMapping("/add")
     public String add() {
         return "challenge_add";
@@ -61,4 +63,6 @@ public class ChallengeController {
     public String status() {
         return "challenge_status";
     }
+
+
 }
