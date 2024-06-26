@@ -28,7 +28,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/challenge/add").authenticated()
                         // /challenge/add 페이지 접근에 대한 인증 필요
+                        .requestMatchers("/mall/buy/{id}").authenticated()
                         .anyRequest().permitAll()
+
                 );
         return http.build();
     }
