@@ -59,7 +59,7 @@ function handleKeyUpEvent(e) {
 }
 
 $(function () {
-    $("form").on('submit', function (e) {
+    $(".form-inline").on('submit', function (e) {
         e.preventDefault();
     });
 
