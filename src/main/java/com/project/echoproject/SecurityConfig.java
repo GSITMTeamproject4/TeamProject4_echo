@@ -24,8 +24,12 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/index")
                         .invalidateHttpSession(true))
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/access-denied")); // 접근 거부 시 이동할 페이지 설정
-
+                        .accessDeniedPage("/access-denied")) // 접근 거부 시 이동할 페이지 설정
+                .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+                        .requestMatchers("/challenge/add").authenticated()
+                        // /challenge/add 페이지 접근에 대한 인증 필요
+                        .anyRequest().permitAll()
+                );
         return http.build();
     }
 
