@@ -62,7 +62,7 @@ public class SiteUserController {
             return "signupForm";
         }
 
-        return "listTest";
+        return "index";
     }
 
     @GetMapping("/login")
