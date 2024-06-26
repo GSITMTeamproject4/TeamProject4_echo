@@ -4,6 +4,7 @@ import com.project.echoproject.dto.CouponDTO;
 import com.project.echoproject.entity.Coupon;
 import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.entity.UserCoupon;
 import com.project.echoproject.service.CouponService;
 import com.project.echoproject.service.PointService;
 import com.project.echoproject.service.SiteUserService;
@@ -36,7 +37,7 @@ public class MallController {
     }
 
     @GetMapping("/buy/{id}")
-    public String buyCoupon(@PathVariable Long id, Model model,Principal principal ) {
+    public String buyCoupon(@PathVariable Long id, Model model, Principal principal) {
         Coupon coupon = couponService.getCoupon(id);
         model.addAttribute("coupon", coupon);
 
@@ -49,26 +50,63 @@ public class MallController {
         buyCoupon.setCurrentPoint(siteUser.getCurrentPoint());
         buyCoupon.setBalance(0L);
 
-        model.addAttribute("buyCoupon",buyCoupon);
+        model.addAttribute("buyCoupon", buyCoupon);
         return "buy";
     }
 
-    @GetMapping("/pay")
-    public String payCoupon(@RequestParam Long id, Model model,Principal principal ) {
+//    @GetMapping("/pay")
+//    public String payCoupon(@RequestParam Long id, Model model, Principal principal) {
+//        Coupon coupon = couponService.getCoupon(id);
+//        model.addAttribute("coupon", coupon);
+//
+//        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
+//
+//        Long balance = siteUser.getCurrentPoint() - coupon.getCouponPoint();
+//
+//        if (balance < 0) {
+//            return "error/payment_failed";
+//        } else {
+//            // 포인트 차감
+//            SiteUser updateUser = siteUserService.buyCoupon(siteUser.getUserId(), balance);
+//
+//            // 포인트내역 insert
+//            LocalDateTime now = LocalDateTime.now();
+//            Point addPoint = new Point();
+//            addPoint.setUserId(updateUser);
+//            addPoint.setPointInfo("coupon");
+//            addPoint.setPoint(coupon.getCouponPoint());
+//            addPoint.setInsertDate(now);
+//            pointService.addPointHistory(addPoint);
+//
+//            // 쿠폰내역 insert
+//            UserCoupon addCoupon = new UserCoupon();
+//            addCoupon.setUserId(updateUser);
+//            addCoupon.setCouponId(coupon);
+//            addCoupon.setInsertDate(now);
+//            userCouponService.addCoupon(addCoupon);
+//
+//            model.addAttribute("updateUser", updateUser);
+//            return "pay";
+//        }
+//
+//    }
+
+    @PostMapping("/buy/{id}")
+    public String Coupon(@PathVariable Long id, Model model, Principal principal) {
         Coupon coupon = couponService.getCoupon(id);
         model.addAttribute("coupon", coupon);
 
-       SiteUser siteUser = siteUserService.findByUserId(principal.getName());
+        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
 
         Long balance = siteUser.getCurrentPoint() - coupon.getCouponPoint();
 
-        if(balance < 0) {
+        if (balance < 0) {
             return "error/payment_failed";
-        }else {
+        } else {
             // 포인트 차감
-            SiteUser updateUser = siteUserService.buyCoupon(siteUser.getUserId(),balance);
+            SiteUser updateUser = siteUserService.buyCoupon(siteUser.getUserId(), balance);
 
-            // 포인트내역 update
+            // 포인트내역 insert
             LocalDateTime now = LocalDateTime.now();
             Point addPoint = new Point();
             addPoint.setUserId(updateUser);
@@ -77,15 +115,15 @@ public class MallController {
             addPoint.setInsertDate(now);
             pointService.addPointHistory(addPoint);
 
-            // 쿠폰내역 update
+            // 쿠폰내역 insert
             UserCoupon addCoupon = new UserCoupon();
             addCoupon.setUserId(updateUser);
             addCoupon.setCouponId(coupon);
+            addCoupon.setInsertDate(now);
             userCouponService.addCoupon(addCoupon);
 
-            model.addAttribute("updateUser",updateUser);
+            model.addAttribute("updateUser", updateUser);
             return "pay";
         }
-
     }
 }

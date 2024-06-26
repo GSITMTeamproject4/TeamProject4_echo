@@ -1,12 +1,38 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-<h1>결제가 완료되었습니다.</h1>
-<h2 th:text="|현재포인트: ${updateUser.currentPoint}p|"></h2>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>저탄소 녹색 Life</title>
+    </head>
+    <div layout:fragment="content">
+        <body class="blog-page">
+        <!--타이틀-->
+        <main class="main">
+            <div class="page-title" data-aos="fade">
+                <div class="heading">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-8">
+                                <h1>결제완료</h1>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <div>
+            <label>구매쿠폰명</label>
+            <input type="text" id="couponName" readonly="readonly" th:value="*{coupon.couponName}" required>
+        </div>
+        <div>
+            <label>현재포인트</label>
+            <input type="text" id="couponPoint" readonly="readonly" th:value="|*{updateUser.currentPoint}p|" required>
+        </div>
+<!--<h2 th:text="|현재포인트: ${updateUser.currentPoint}p|"></h2>-->
 <div><button type="button" th:onclick="|location.href='@{/mall}'|">mall으로 이동</button></div>
 </body>
-</html>
+        </div>
+</layout:html>
