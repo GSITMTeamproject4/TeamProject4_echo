@@ -4,17 +4,19 @@
     <title>공지사항 작성</title>
 </head>
 <body>
-<h1>공지사항 작성</h1>
-<form th:action="@{/notice/create}" method="post" enctype="multipart/form-data">
+<h1 th:text="${#strings.isEmpty(noticeId) ? '공지사항 작성' : '공지사항 수정'}"></h1>
+
+<form th:action="@{${#strings.isEmpty(noticeId) ? '/notice/create' : '/notice/modify/' + noticeId}}"
+      th:object="${noticeFormDTO}" method="post" enctype="multipart/form-data">
     <label for="title">제목:</label>
-    <input type="text" id="title" name="title" required>
+    <input type="text" id="title" th:field="*{title}" required>
     <br>
     <label for="content">내용:</label>
-    <textarea id="content" name="content" required></textarea>
+    <textarea id="content" th:field="*{content}" required></textarea>
     <br>
-
-    <button type="submit">게시글 작성</button>
+    <button type="submit" th:text="${#strings.isEmpty(noticeId) ? '저장하기' : '수정하기'}"></button>
 </form>
+
 <div th:if="${error}">
     <p th:text="${error}"></p>
 </div>

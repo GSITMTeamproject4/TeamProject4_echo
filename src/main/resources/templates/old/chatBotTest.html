@@ -9,6 +9,16 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <style>
+    .sent-message {
+      text-align: right;
+      color: blue;
+    }
+    .received-message {
+      text-align: left;
+      color: green;
+    }
+  </style>
   <script>
     var stompClient = null;
 
@@ -16,8 +26,7 @@
       $("#send").prop("disabled", !connected);
       if (connected) {
         $("#conversation").show();
-      }
-      else {
+      } else {
         $("#conversation").hide();
       }
       $("#msg").html("");
@@ -30,11 +39,11 @@
         setConnected(true);
         console.log('Connected: ' + frame);
         stompClient.subscribe('/topic/public', function (message) {
-          showMessage("받은 메시지: " + message.body);
+          showMessage("받은 메시지: " + message.body, 'received-message');
         });
 
         var welcomeMessage = "안녕하세요!! 반갑습니다!!";
-        showMessage("보낸 메시지: " + welcomeMessage);
+        showMessage("보낸 메시지: " + welcomeMessage, 'sent-message');
         stompClient.send("/app/sendMessage", {}, JSON.stringify(welcomeMessage));
       });
     }
@@ -49,13 +58,13 @@
 
     function sendMessage() {
       let message = $("#msg").val();
-      showMessage("보낸 메시지: " + message);
+      showMessage("보낸 메시지: " + message, 'sent-message');
 
       stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
     }
 
-    function showMessage(message) {
-      $("#communicate").append("<tr><td>" + message + "</td></tr>");
+    function showMessage(message, messageClass) {
+      $("#communicate").append("<tr><td class='" + messageClass + "'>" + message + "</td></tr>");
     }
 
     $(function () {

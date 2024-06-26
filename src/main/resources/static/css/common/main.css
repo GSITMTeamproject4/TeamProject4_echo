@@ -2858,3 +2858,17 @@ section,
 .header a , .header .logo h1 {
   color: black;
 }
+
+.scroll-top {
+  bottom: 350px;
+}
+
+.chatbot {
+  position: fixed;
+  right: 15px;
+  bottom: 15px;
+  z-index: 99999;
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+}

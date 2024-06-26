@@ -29,6 +29,10 @@ public class SiteUser {
 
     private String imgUrl;
 
+    private String address;
+    @Column
+    @Enumerated(EnumType.STRING)
+    private UserRole role = UserRole.USER;
 
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
@@ -64,5 +68,3 @@ public class SiteUser {
     private Long currentPoint=0L;
 
 }
-
-

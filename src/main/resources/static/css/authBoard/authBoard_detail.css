@@ -43,3 +43,11 @@
 .col-lg-8 h1 {
     margin-bottom: 30px;
 }
+
+.detail-main{
+    background-color: #ffffff;
+}
+
+.board-detail {
+    padding: 60px 0;
+}
