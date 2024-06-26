@@ -1,10 +1,28 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>게시글 작성</title>
-</head>
-<body>
-<h1>저탄소 실천 Challenge</h1>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>저탄소 녹색 Life</title>
+    </head>
+    <div layout:fragment="content">
+        <body class="blog-page">
+        <!--타이틀-->
+        <main class="main">
+            <div class="page-title" data-aos="fade">
+                <div class="heading">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-8">
+                                <h1>챌린지 등록</h1>
+                                <p>챌린지 종류를 선택하여 수행한 챌린지의 인증사진을 업로드 할 수 있습니다</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 <form th:action="@{/challenge/add}" method="post" id="addForm" enctype="multipart/form-data" onsubmit="return addCheck(event)">
     <label for="challenge_info">챌린지 종류:</label>
     <select name="challenge_info" id="challenge_info">
@@ -29,8 +47,9 @@
 <div th:if="${error}">
     <p th:text="${error}"></p>
 </div>
-</body>
-</html>
+        </body>
+    </div>
+</layout:html>
 <script>
     function addCheck(event) {
         // if (confirm("업로드 하시겠습니까?")) {

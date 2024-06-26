@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Entity
@@ -17,5 +19,7 @@ public class Coupon {
 
     @Column(length = 50, nullable = false)
     private String couponName;
+
+
 
 }
