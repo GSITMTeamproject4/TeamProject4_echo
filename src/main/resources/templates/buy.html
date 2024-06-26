@@ -3,55 +3,85 @@
              xmlns:layout="http://www.w3.org/1999/xhtml"
              layout:decorate="~{layout}">
     <head>
-        <meta charset="UTF-8">
         <title>저탄소 녹색 Life</title>
+        <!-- 부트스트랩 CSS CDN 추가 -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
+        <style>
+            /* 커스텀 CSS 추가 */
+            .form-label {
+                font-size: 1.25rem; /* 글씨 크기 조정 */
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+        </style>
     </head>
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
+    </th:block>
+
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/authBoard/authBoard_create.js}"></script>
+    </th:block>
+
     <div layout:fragment="content">
-        <body class="blog-page">
-        <!--타이틀-->
+        <body class="index-page">
+
         <main class="main">
-            <div class="page-title" data-aos="fade">
-                <div class="heading">
-                    <div class="container">
-                        <div class="row d-flex justify-content-center text-center">
-                            <div class="col-lg-8">
-    <h1>구매정보</h1>
+
+            <!-- Contact Section -->
+            <section id="contact" class="contact section">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2 th:text="구매정보"></h2>
+                </div><!-- End Section Title -->
+
+                <div class="container d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <form th:action="@{{id}(id=${buyCoupon.couponId})}" method="post" onsubmit="return payCheck(event)"
+                              class="php-email-form">
+
+                            <div class="row gy-4">
+
+                                <div class="col-md-12">
+                                    <label for="couponName" class="form-label">쿠폰명</label>
+                                    <input type="text" id="couponName" readonly="readonly" class="form-control" th:field="*{buyCoupon.couponName}">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="couponPoint" class="form-label">필요포인트</label>
+                                    <input type="text" id="couponPoint" th:field="*{buyCoupon.couponPoint}" readonly="readonly" class="form-control">
+                                </div>
+
+                                <div class="col-md-12 text-center">
+                                    <button type="submit" class="btn btn-primary" th:text="결제하기"></button>
+<!--                                    <button type="button" id="cancelButton" class="btn btn-secondary">취소</button>-->
+                                </div>
+
                             </div>
-                        </div>
+
+                        </form>
                     </div>
-                </div>
-            </div>
+                </div><!-- End Contact Form -->
+
+            </section><!-- /Contact Section -->
+
         </main>
-    <form th:action="@{{id}(id=${buyCoupon.couponId})}" method="post" onsubmit="return payCheck(event)">
-        <div>
-<label>쿠폰명</label>
-        <input type="text" id="couponName" readonly="readonly" th:value="*{buyCoupon.couponName}" required>
-        </div>
-        <div>
-        <label>필요포인트</label>
-        <input type="text" id="couponPoint" readonly="readonly" th:value="|*{buyCoupon.couponPoint}p|" required>
-        </div>
-<!--        <div>-->
-<!--            <label>유저포인트</label>-->
-<!--            <input type="text" id="currentPoint" readonly="readonly" th:value="*{buyCoupon.currentPoint}" required>-->
-<!--        </div>-->
-<button type="submit">결제하기</button>
 
-            <script th:inline="javascript">
-                function goBack() {
-                    window.history.back();
-                }
-                function payCheck(event) {
-                    if(confirm("결제하시겠습니까?")){
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            </script>
+        <!-- 취소버튼 누르면 목록이동 -->
+        <script th:inline="javascript">
+            document.getElementById("cancelButton").addEventListener("click", function() {
+                window.location.href = /*[@{/notice/list}]*/ '/notice/list';
+            });
+        </script>
 
+        <!-- 부트스트랩 JS 및 종속성 CDN 추가 -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
 
-    </form>
         </body>
     </div>
 </layout:html>
