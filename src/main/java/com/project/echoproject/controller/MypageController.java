@@ -8,6 +8,7 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
 import com.project.echoproject.service.*;
 
+import org.springframework.data.domain.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
@@ -94,6 +95,7 @@ public class MypageController {
     }
 
     // 비밀번호 변경 폼을 표시하는 메소드
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/change-password/{userId}")
     public String changePasswordPage(@PathVariable String userId, Model model,Principal principal) {
         if (!principal.getName().equals(userId)) {
@@ -106,10 +108,14 @@ public class MypageController {
 
 
     // 비밀번호 변경 요청을 처리하는 메소드
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/change-password/{userId}")
     public String changePassword(@PathVariable String userId,
                                  @ModelAttribute("changePasswordForm") @Validated ChangePasswordForm changePwForm,
                                  BindingResult result, Model model,Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         if (result.hasErrors()) {
             model.addAttribute("userId", userId);
             return "changepw_form";
@@ -144,9 +150,12 @@ public class MypageController {
         return "redirect:/";
     }
 
-
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/input-useamount/{userId}")
     public String showUsageForm(@PathVariable String userId, Model model, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         try {
             UseAmountForm useAmountForm = new UseAmountForm();
             model.addAttribute("useAmountForm", useAmountForm);
@@ -162,11 +171,15 @@ public class MypageController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/input-useamount/{userId}")
     public String processUsageForm(@PathVariable String userId,
                                    @ModelAttribute("useAmountForm") UseAmountForm useAmountForm,
                                    BindingResult bindingResult,
                                    Model model, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         LocalDate currentDate = LocalDate.now();
         if (!useAmountForm.getUseDate().equals(currentDate)) {
             bindingResult.rejectValue("useDate", "error.useDate", "날짜는 오늘이어야 합니다.");
@@ -184,10 +197,14 @@ public class MypageController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/useamount-detail/{userId}")
     public String showUseAmountDetail(@PathVariable String userId,
                                       @RequestParam(required = false) Integer year,
                                       Model model, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
         try {
             int currentYear = (year != null) ? year : LocalDate.now().getYear();
 
@@ -202,10 +219,32 @@ public class MypageController {
         }
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/point-status/{userId}")
-    public String showPointHistory(@PathVariable String userId, Model model) {
-        List<Point> pointHistory = pointService.getPointHistoryByUserId(userId);
-        model.addAttribute("pointHistory", pointHistory);
+    public String showPointHistory(@PathVariable String userId,
+                                   Model model,
+                                   Principal principal,
+                                   @RequestParam(defaultValue = "0") int page) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
+
+        int size = 9; // 페이지당 표시할 항목 수
+        long totalItems = pointService.countPointHistoryByUserId(userId);
+
+        if (totalItems <= 9) {
+            // 9개 이하일 경우 전체 리스트 반환
+            List<Point> pointHistory = pointService.getPointHistoryByUserId(userId);
+            model.addAttribute("pointHistory", pointHistory);
+            model.addAttribute("totalPages", 1);
+        } else {
+            // 9개 초과 시 페이징 처리
+            Page<Point> pointHistoryPage = pointService.getPointHistoryByUserIdPaged(userId, page, size);
+            model.addAttribute("pointHistory", pointHistoryPage.getContent());
+            model.addAttribute("totalPages", pointHistoryPage.getTotalPages());
+        }
+
+        model.addAttribute("currentPage", page);
         return "point_status";
     }
 
@@ -218,6 +257,5 @@ public class MypageController {
     public String coupon(Model model) {
         return "coupon_status";
     }
-
 }
 
