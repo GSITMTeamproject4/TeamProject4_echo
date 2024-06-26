@@ -31,8 +31,8 @@ public class OrderController {
     @Autowired
     private ProductRepository productRepository;
 
-    public OrderController(@Value("${imp.api.key}") String apiKey,
-                           @Value("${imp.api.secretkey}") String apiSecret,
+    public OrderController(@Value("111") String apiKey,
+                           @Value("111") String apiSecret,
                            OrderService orderService,
                            ProductRepository productRepository) {
         this.iamportClient = new IamportClient(apiKey, apiSecret);
