@@ -15,4 +15,5 @@ public class OrderSaveDTO {
     private int totalAmount;
     private List<OrderItemSaveDTO> items;
     private String buyerId; // 추가
+
 }
