@@ -11,7 +11,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SiteUserCreateForm {
-
     @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,15}$", message = "아이디는 최소 5자 이상의 영어와 숫자의 조합이어야 합니다.")
     @Size(min =5, message = "아이디는 최소 5자 이상이어야 합니다." ,max = 15)
     @NotEmpty(message = "사용자 ID는 필수 항목입니다.")
