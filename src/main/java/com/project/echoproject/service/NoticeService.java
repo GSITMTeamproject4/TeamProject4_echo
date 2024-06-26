@@ -67,29 +67,11 @@ public class NoticeService {
         this.noticeRepository.save(notice);
     }
 
-    //마이페이지코드
-//    public SiteUser getUserById(String userId) {
-//        return userRepository.findByUserId(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("User not found: " + userId));
-//    }
-//
-//    public void updateUser(String userId, SiteUser updatedUser, MultipartFile file) throws IOException {
-//        SiteUser updateInfo = userRepository.findByUserId(userId)
-//                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-//
-//        updateInfo.setUserName(updatedUser.getUserName());
-//        updateInfo.setEmail(updatedUser.getEmail());
-//        updateInfo.setPhoneNum(updatedUser.getPhoneNum());
-//
-//        if (file != null && !file.isEmpty()) {
-//            Image image = imageService.saveImage(file);
-//            updateInfo.setImgUrl(image.getFilePath());
-//        }
-//
-//        userRepository.save(updateInfo);
-//    }
-
-
+    //DELETE
+    //게시글 삭제
+    public void delete(Notice notice) {
+        this.noticeRepository.delete(notice);
+    }
 
 
 

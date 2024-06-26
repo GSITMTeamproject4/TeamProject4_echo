@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,7 +34,6 @@ public class SiteUser {
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
-
     private LocalDateTime createDate;
     private LocalDateTime modifyDate;
 
@@ -45,6 +45,15 @@ public class SiteUser {
 
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<LikeBoard> likeBoards;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<UseAmount> useAmounts;
+
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.REMOVE)
+    private List<UserCoupon> userCoupons;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<Point> points;
 
     @PrePersist
     protected void onCreate() {
@@ -59,4 +68,3 @@ public class SiteUser {
     private Long currentPoint=0L;
 
 }
-
