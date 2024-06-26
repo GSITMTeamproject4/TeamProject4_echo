@@ -15,7 +15,8 @@ public class Point {
     private Long pointId;
 
     @ManyToOne
-    private SiteUser userId;
+    @JoinColumn(name = "user_id")
+    private SiteUser siteUser;
 
     private Long point;
 

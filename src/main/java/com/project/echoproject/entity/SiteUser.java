@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -44,6 +45,12 @@ public class SiteUser {
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<UseAmount> useAmounts;
 
+    @OneToMany(mappedBy = "userId", cascade = CascadeType.REMOVE)
+    private List<UserCoupon> userCoupons;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<Point> points;
+
     @PrePersist
     protected void onCreate() {
         this.createDate = LocalDateTime.now();
@@ -57,4 +64,3 @@ public class SiteUser {
     private Long currentPoint=0L;
 
 }
-
