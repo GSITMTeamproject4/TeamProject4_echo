@@ -2,65 +2,91 @@
 <layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
              xmlns:layout="http://www.w3.org/1999/xhtml"
              layout:decorate="~{layout}">
-    <head>
-        <meta charset="UTF-8">
-        <title>저탄소 녹색 Life</title>
-    </head>
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
+    </th:block>
+
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/authBoard/authBoard_create.js}"></script>
+    </th:block>
+
     <div layout:fragment="content">
-        <body class="blog-page">
-        <!--타이틀-->
+        <body class="index-page">
+
         <main class="main">
-            <div class="page-title" data-aos="fade">
-                <div class="heading">
-                    <div class="container">
-                        <div class="row d-flex justify-content-center text-center">
-                            <div class="col-lg-8">
-                                <h1>챌린지 등록</h1>
-                                <p>챌린지 종류를 선택하여 수행한 챌린지의 인증사진을 업로드 할 수 있습니다</p>
+
+            <!-- Contact Section -->
+            <section id="contact" class="contact section">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2>챌린지 등록</h2>
+                    <p>챌린지 종류를 선택하여 수행한 챌린지의 인증사진을 업로드 할 수 있습니다</p>
+                </div><!-- End Section Title -->
+
+                <div class="container" data-aos="fade-up" data-aos-delay="100">
+
+                    <div class="row gy-4">
+
+                        <div class="col-lg-6">
+
+                            <div class="row gy-4">
+                                <div class="col-md-6">
+                                    <div class="info-item" data-aos="fade" data-aos-delay="200" >
+                                        <div class="post-img">
+                                            <img id="preview" class="img-preview" src="#" alt="이미지 미리보기" style="display: none";/>
+                                        </div>
+                                    </div>
+                                </div><!-- End Info Item -->
+
                             </div>
+
                         </div>
+
+                        <div class="col-lg-6">
+
+                            <form th:action="@{/challenge/add}" method="post" class="php-email-form" enctype="multipart/form-data">
+                                <div class="row gy-4">
+
+                                    <div class="col-md-12">
+
+                                        <select name="challenge_info" id="challenge_info">
+                                            <!--        <option value="receipt">전자영수증</option>-->
+                                            <!--        <option value="email">메일함비우기</option>-->
+                                            <!--        <option value="multiuse">다회용기사용</option>-->
+                                            <!--        <option value="tumbler">텀블러사용</option>-->
+                                            <option value="전자영수증">전자영수증</option>
+                                            <option value="메일함비우기">메일함비우기</option>
+                                            <option value="다회용기사용">다회용기사용</option>
+                                            <option value="텀블러사용">텀블러사용</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="col-md-12">
+                                        <textarea class="form-control" name="content" rows="10" placeholder="내용을 입력하세요" required></textarea>
+                                    </div>
+                                    <input type="file" id="file" name="file" accept="image/*" required>
+                                    <div class="col-md-12 text-center">
+                                        <div class="error-message"></div>
+
+                                        <button type="submit">등록하기</button>
+                                        <button type="button" id="cancelButton">취소</button>
+                                    </div>
+
+                                </div>
+                            </form>
+
+                        </div><!-- End Contact Form -->
+
                     </div>
+
                 </div>
-            </div>
+
+            </section><!-- /Contact Section -->
+
         </main>
-<form th:action="@{/challenge/add}" method="post" id="addForm" enctype="multipart/form-data" onsubmit="return addCheck(event)">
-    <label for="challenge_info">챌린지 종류:</label>
-    <select name="challenge_info" id="challenge_info">
-<!--        <option value="receipt">전자영수증</option>-->
-<!--        <option value="email">메일함비우기</option>-->
-<!--        <option value="multiuse">다회용기사용</option>-->
-<!--        <option value="tumbler">텀블러사용</option>-->
-        <option value="전자영수증">전자영수증</option>
-        <option value="메일함비우기">메일함비우기</option>
-        <option value="다회용기사용">다회용기사용</option>
-        <option value="텀블러사용">텀블러사용</option>
-    </select>
-    <br>
-    <label for="content">내용:</label>
-    <textarea id="content" name="content" required></textarea>
-    <br>
-    <label for="file">인증 이미지 업로드:</label>
-    <input type="file" id="file" name="file" required>
-    <br>
-    <button type="submit">인증 사진 업로드</button>
-</form>
-<div th:if="${error}">
-    <p th:text="${error}"></p>
-</div>
+
         </body>
     </div>
 </layout:html>
-<script>
-    function addCheck(event) {
-        // if (confirm("업로드 하시겠습니까?")) {
-        //     document.getElementById("addForm").submit();
-        // }
-        if (confirm('업로드 하시겠습니까?')) {
-            alert('챌린지 현황에 등록되었습니다.');
-            return true; // 폼 제출을 계속 진행
-        } else {
-            return false; // 폼 제출을 중지
-
-        }
-    }
-</script>
