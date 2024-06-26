@@ -6,3 +6,4 @@ import com.project.echoproject.dto.ChangePasswordForm;
 public interface ChangePasswordService {
     void changePassword(String userId, ChangePasswordForm changePwForm);
 }
+

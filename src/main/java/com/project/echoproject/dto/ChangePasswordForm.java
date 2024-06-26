@@ -22,3 +22,4 @@ public class ChangePasswordForm {
     @NotEmpty(message = "비밀번호 확인은 필수 입력 항목입니다.")
     private String newPasswordConfirm;
 }
+

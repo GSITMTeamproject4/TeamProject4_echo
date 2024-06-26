@@ -8,3 +8,4 @@ import java.util.List;
 public interface PointRepository extends JpaRepository<Point, Long> {
     List<Point> findBySiteUser_UserIdOrderByInsertDateDesc(String userId);
 }
+

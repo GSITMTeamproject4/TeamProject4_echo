@@ -80,3 +80,4 @@ public class UseAmountServiceImpl implements UseAmountService {
         return monthlyUseAmounts;
     }
 }
+

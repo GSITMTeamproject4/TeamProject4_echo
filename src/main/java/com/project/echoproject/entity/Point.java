@@ -24,3 +24,5 @@ public class Point {
 
     private LocalDateTime insertDate;
 }
+
+

@@ -14,3 +14,4 @@ public class PointDTO {
     private String pointInfo;
     private LocalDateTime insertDate;
 }
+
