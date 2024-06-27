@@ -31,6 +31,7 @@ public class SiteUserController {
     private final SiteUserService siteUserService;
     private final SiteUserSecurityServiceImpl siteUserSecurityServiceImpl;
 
+
     @GetMapping("/signup")
     public String signup(SiteUserCreateForm siteUserCreateForm) {
         return "signupForm";
