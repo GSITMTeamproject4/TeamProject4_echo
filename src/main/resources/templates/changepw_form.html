@@ -4,14 +4,28 @@
 <head>
     <meta charset="UTF-8">
     <title>Change Password</title>
+    <style>
+        .change-pw{
+            background: white;
+        }
+    </style>
 </head>
-<body>
-<div class="container my-3">
-    <div class="my-3 border-bottom">
-        <div>
-            <h4>비밀번호 변경</h4>
+<body class="change-pw">
+<!--타이틀-->
+<main class="main">
+    <div class="page-title" data-aos="fade">
+        <div class="heading">
+            <div class="container">
+                <div class="row d-flex justify-content-center text-center">
+                    <div class="col-lg-8">
+                        <h1>비밀번호변경</h1>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</main>
+<div class="container my-3">
 
     <!-- 비밀번호 변경 폼 -->
     <form id="changePwForm" th:action="@{/mypage/change-password/{userId}(userId=${userId})}" method="post" th:object="${changePasswordForm}">

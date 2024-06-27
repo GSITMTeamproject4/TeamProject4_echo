@@ -21,6 +21,8 @@ configurations {
 
 repositories {
     mavenCentral()
+    // 결제 관련 추가
+    maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -46,6 +48,9 @@ dependencies {
 
     // Chart.js
     implementation 'org.webjars.npm:chart.js:3.7.0'
+
+    // 결제 관련 gradle
+    implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'
 
 }
 

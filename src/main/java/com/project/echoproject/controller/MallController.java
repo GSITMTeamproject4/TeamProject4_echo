@@ -32,6 +32,7 @@ public class MallController {
     @GetMapping("")
     public String mallHome(Model model) {
         List<Coupon> couponList = this.couponService.getList();
+
         model.addAttribute("couponList", couponList);
         return "mall";
     }
@@ -109,7 +110,7 @@ public class MallController {
             // 포인트내역 insert
             LocalDateTime now = LocalDateTime.now();
             Point addPoint = new Point();
-            addPoint.setUserId(updateUser);
+            addPoint.setSiteUser(updateUser);
             addPoint.setPointInfo("coupon");
             addPoint.setPoint(coupon.getCouponPoint());
             addPoint.setInsertDate(now);

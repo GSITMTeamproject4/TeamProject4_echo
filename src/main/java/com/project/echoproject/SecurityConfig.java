@@ -35,8 +35,8 @@ public class SecurityConfig  {
                         .requestMatchers("/challenge/add").authenticated()
                         // /challenge/add 페이지 접근에 대한 인증 필요
                         .requestMatchers("/mall/buy/{id}").authenticated()
+                        .requestMatchers("/payment/validation/**").authenticated()
                         .anyRequest().permitAll()
-
                 );
         return http.build();
     }
