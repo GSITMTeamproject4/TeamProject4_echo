@@ -64,11 +64,16 @@
             document.getElementById('useDate').value = today;
         });
 
-        function submitConfirm() {
+
+
+        function confirmSubmit(event) {
+            event.preventDefault();
             if (confirm("정말 저장하시겠습니까?")) {
                 document.getElementById("useAmount").submit();
             }
         }
+
+        document.getElementById("useAmount").addEventListener("submit", confirmSubmit)
     </script>
     </body>
 </div>
