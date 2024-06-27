@@ -4,10 +4,9 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UserCoupon;
 import com.project.echoproject.repository.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -16,5 +15,9 @@ public class UserCouponService {
 
     public void addCoupon(UserCoupon coupon) {
         userCouponRepository.save(coupon);
+    }
+
+    public List<UserCoupon> getUserCoupons(SiteUser user) {
+        return userCouponRepository.findByUserId(user);
     }
 }
