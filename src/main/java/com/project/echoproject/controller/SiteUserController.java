@@ -4,7 +4,6 @@ import com.project.echoproject.dto.SiteUserCreateForm;
 import com.project.echoproject.entity.Notice;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UserRole;
-import com.project.echoproject.service.FindingIDService;
 import com.project.echoproject.service.SiteUserSecurityServiceImpl;
 import com.project.echoproject.service.SiteUserService;
 import jakarta.validation.Valid;
@@ -31,7 +30,7 @@ public class SiteUserController {
 
     private final SiteUserService siteUserService;
     private final SiteUserSecurityServiceImpl siteUserSecurityServiceImpl;
-    private final FindingIDService findingIDService;
+
 
     @GetMapping("/signup")
     public String signup(SiteUserCreateForm siteUserCreateForm) {
@@ -83,22 +82,5 @@ public class SiteUserController {
         // 이 메서드에서는 "findlogin"과 관련된 작업을 수행한 후, 사용자에게 보여줄 뷰 이름을 반환합니다.
         return "findlogin"; // "findlogin.html"이라고 가정합니다.
     }
-
-    @PostMapping("/findlogin")
-    public String findUserIdByEmail(@RequestParam("email") String email, Model model) {
-        Optional<String> userIdOptional = findingIDService.findUserIdByEmail(email);
-
-        if (userIdOptional.isPresent()) {
-            model.addAttribute("userId", userIdOptional.get());
-        } else {
-            model.addAttribute("error", "입력하신 이메일로 등록된 사용자가 없습니다.");
-        }
-
-        return "findlogin"; // 결과를 보여줄 view 이름을 반환
-    }
-
-
-
-
 
 }
