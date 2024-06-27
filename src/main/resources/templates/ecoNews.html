@@ -1,19 +1,23 @@
 <!DOCTYPE html>
-<html lang="ko">
+<!--<html lang="ko">-->
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <head>
     <meta charset="UTF-8">
     <title>저탄소 녹색 Life</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
-            background-color: #f9f9f9;
+            background-color: white;
             margin: 0;
             padding: 0;
         }
 
-        .container {
+        .news_container {
             width: 80%;
             margin: 0 auto;
+            margin-top: 170px;
+            margin-bottom: 100px;
             background-color: #fff;
             padding: 20px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
@@ -97,22 +101,25 @@
 
     </style>
 </head>
-<body>
-<div class="container">
-    <h1>저탄소 뉴스 목록</h1>
-    <ul>
-        <th:block th:each="news : ${newsList}">
-            <li class="news-item">
-                <div class="news-details">
-                    <a th:href="${news.link}" th:text="${news.title}">뉴스 제목</a>
-                    <p th:text="${news.description}">뉴스 설명</p>
-                </div>
-                <div class="news-date">
-                    <p th:text="${news.pubDate}">날짜</p>
-                </div>
-            </li>
-        </th:block>
-    </ul>
-</div>
-</body>
-</html>
+<div layout:fragment="content">
+        <body>
+            <div class="news_container">
+<!--                <h1>저탄소 뉴스 목록</h1>-->
+                <h1>'저탄소' 실시간 뉴스 Top 10 </h1>
+                <ul>
+                    <th:block th:each="news : ${newsList}">
+                        <li class="news-item">
+                            <div class="news-details">
+                                <a th:href="${news.link}" th:text="${news.title}">뉴스 제목</a>
+                                <p th:text="${news.description}">뉴스 설명</p>
+                            </div>
+                            <div class="news-date">
+                                <p th:text="${news.pubDate}">날짜</p>
+                            </div>
+                        </li>
+                    </th:block>
+                </ul>
+            </div>
+        </body>
+    </div>
+</layout:html>
