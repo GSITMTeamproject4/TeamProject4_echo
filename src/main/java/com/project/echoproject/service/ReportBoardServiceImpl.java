@@ -10,9 +10,11 @@ import com.project.echoproject.repository.ReportBoardRepository;
 import com.project.echoproject.repository.SiteUserRepository;
 import com.sun.jdi.request.DuplicateRequestException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -53,16 +55,20 @@ public class ReportBoardServiceImpl implements ReportBoardService {
         siteUserRepository.save(reportedUser);
     }
 
-    @Override
-    public List<ReportDTO> getAllReports() {
-        return reportBoardRepository.findAll().stream()
-                .map(reportBoard -> new ReportDTO(
-                        reportBoard.getReportId(),
-                        reportBoard.getAuthBoard().getListId(),
-                        reportBoard.getReportReason(),
-                        reportBoard.getReportContent(),
-                        reportBoard.getSiteUser().getUserId()
-                ))
-                .collect(Collectors.toList());
+//    @Override
+//    public List<ReportDTO> getAllReports() {
+//        return reportBoardRepository.findAll().stream()
+//                .map(reportBoard -> new ReportDTO(
+//                        reportBoard.getReportId(),
+//                        reportBoard.getAuthBoard().getListId(),
+//                        reportBoard.getReportReason(),
+//                        reportBoard.getReportContent(),
+//                        reportBoard.getSiteUser().getUserId()
+//                ))
+//                .collect(Collectors.toList());
+//    }
+
+    public List<ReportBoard> getAllReports() {
+        return reportBoardRepository.findAll();
     }
 }
