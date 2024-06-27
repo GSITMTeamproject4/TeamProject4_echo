@@ -84,7 +84,6 @@ public class SiteUserController {
         return "findlogin"; // "findlogin.html"이라고 가정합니다.
     }
 
-
     @PostMapping("/findlogin")
     public String findUserIdByEmail(@RequestParam("email") String email, Model model) {
         Optional<String> userIdOptional = findingIDService.findUserIdByEmail(email);

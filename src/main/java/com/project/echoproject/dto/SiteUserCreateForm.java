@@ -38,7 +38,6 @@ public class SiteUserCreateForm {
     private String email;
 
 
-
     @Pattern(regexp = ".*\\.(png|jpg)$", message = "파일은 PNG 또는 JPG 형식이어야 합니다.")
     private String imgUrl=null;
     @NotEmpty
