@@ -37,6 +37,7 @@ public class MypageServiceImpl implements MypageService {
         updateInfo.setUserName(updatedUser.getUserName());
         updateInfo.setEmail(updatedUser.getEmail());
         updateInfo.setPhoneNum(updatedUser.getPhoneNum());
+        updateInfo.setAddress(updatedUser.getAddress());
 
         if (file != null && !file.isEmpty()) {
             Image image = imageService.saveImage(file);
