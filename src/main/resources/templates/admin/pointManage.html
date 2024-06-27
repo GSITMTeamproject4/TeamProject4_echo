@@ -15,11 +15,12 @@
         <td th:text="${item.challengeInfo}">챌린지종류</td>
         <td th:text="${item.siteUser.userId}">유저아이디</td>
                 <td>
-                    <form th:action="@{/admin/pointManage}" method="post">
+                    <form th:action="@{/admin/point}" method="post">
                         <input type="hidden" name="id" th:value="${item.challengeId}">
                         <input type="hidden" name="userId" th:value="${item.siteUser.userId}">
+                        <input type="hidden" name="challengeInfo" th:value="${item.challengeInfo}">
 <!--                        <button type="submit" th:onclick="alert()">삭제</button>-->
-                        <button type="submit">포인트주기</button>
+                        <button type="submit">포인트지급</button>
                     </form>
                 </td>
     </tr>

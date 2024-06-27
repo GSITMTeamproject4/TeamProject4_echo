@@ -44,32 +44,29 @@ public class AdminController {
         return "admin/memberList"; // /templates/admin/adminMemberList.html 을 의미합니다.
     }
 
-    @GetMapping("/challengeList")
-    public String adminChallengeList() {
-        return "admin/challengeList";
-    }
-
-    @GetMapping("pointManage/addPoint")
+    @GetMapping("point")
     public String adminPointManage(Model model) {
         try {
             List<Challenge> challenges = challengeService.getChallengAll();
-
             model.addAttribute("challenges", challenges);
-            return "admin/pointManage"; // Assuming "challenge-list.html" is your template
+            return "admin/pointManage";
         } catch (NoChallengeFoundException e) {
             model.addAttribute("errorMessage", "확인할 챌린지가 없습니다.");
-            return "admin/noChallenge"; // Assuming "error-page.html" is your error template
+            return "admin/noChallenge";
         }
     }
 
-    @PostMapping("pointManage/addPoint")
-    public String adminAddPoint(Model model, @RequestParam("id") Long id, @RequestParam("userId") String userId){
+    @PostMapping("point")
+    public String adminAddPoint(Model model,
+                                @RequestParam("id") Long id,
+                                @RequestParam("userId") String userId,
+                                @RequestParam("challengeInfo") String challengeInfo){
         SiteUser siteUser = siteUserService.findByUserId(userId);
-        siteUserService.addPointByAdmin(userId,500L);
-        return "redirect:/admin/pointManage/addPoint";
+        siteUserService.addPointByAdmin(userId,500L,challengeInfo);
+        return "redirect:/admin/point";
     }
 
-    @GetMapping("pointManage/report")
+    @GetMapping("/report")
     public String adminReportListBoard(Model model) {
 
         List<ReportBoard> reports = reportBoardService.getAllReports();
@@ -77,11 +74,11 @@ public class AdminController {
         model.addAttribute("reports",reports);
         return "admin/report";
     }
-    @PostMapping("pointManage/report")
+    @PostMapping("/report")
     public String adminRemoveBoard(@RequestParam("id") Long id, @RequestParam("userId") String userId) {
         SiteUser siteUser = siteUserService.findByUserId(userId);
         authBoardService.deleteBoard(id,siteUser);
-        return "redirect:/admin/pointManage/report";
+        return "redirect:/admin/report";
     }
 
 
