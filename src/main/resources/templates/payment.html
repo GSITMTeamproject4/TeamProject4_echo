@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- jQuery -->
+  <script type="text/javascript" src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+  <!-- iamport.payment.js -->
+  <script type="text/javascript" src="https://cdn.iamport.kr/js/iamport.payment-1.2.0.js"></script>
+  <script th:inline="javascript">
+    var IMP = window.IMP;
+    IMP.init("imp24163476");
+
+    function requestPay() {
+      var merchant_uid = 'ORD' + new Date().getTime(); // 고유한 주문번호 생성
+
+      // 서버에서 전달된 변수들을 JavaScript 변수로 변환
+      var productNames = /*[[${productNames}]]*/ [];
+      var totalAmount = /*[[${totalAmount}]]*/ 0;
+      var buyerEmail = /*[[${buyerEmail}]]*/ '';
+      var buyerName = /*[[${buyerName}]]*/ '';
+      var buyerTel = /*[[${buyerTel}]]*/ '';
+      var buyerAddr = /*[[${buyerAddr}]]*/ '';
+      var buyerPostcode = /*[[${buyerPostcode}]]*/ '';
+      console.log(totalAmount);
+
+      IMP.request_pay({
+        pg: "kakaopay",
+        pay_method: "card",
+        merchant_uid: merchant_uid,   // 주문번호
+        name: productNames.join(", "), // 여러 상품 이름을 쉼표로 구분하여 결제 요청에 포함
+        amount: totalAmount,         // 총 금액
+        buyer_email: buyerEmail,
+        buyer_name: buyerName,
+        buyer_tel: buyerTel,
+        buyer_addr: buyerAddr,
+        buyer_postcode: buyerPostcode
+      }, function (rsp) { // callback
+        if (rsp.success) {
+          $.ajax({
+            type: 'POST',
+            url: '/verify/' + rsp.imp_uid,
+            success: function(data) {
+              if (rsp.paid_amount === data.response.amount) {
+                alert("결제 성공");
+              } else {
+                alert("결제 실패");
+              }
+            },
+            error: function(request, status, error) {
+              alert("결제 검증 중 오류가 발생했습니다.");
+            }
+          });
+        } else {
+          alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+        }
+      });
+    }
+  </script>
+  <meta charset="UTF-8">
+  <title>Sample Payment</title>
+</head>
+<body>
+<h2>결제 정보</h2>
+<p>총 금액: <span th:text="${totalAmount}"></span>원</p>
+<p>구매자 이메일: <span th:text="${buyerEmail}"></span></p>
+<p>구매자 이름: <span th:text="${buyerName}"></span></p>
+<p>구매자 전화번호: <span th:text="${buyerTel}"></span></p>
+<p>구매자 주소: <span th:text="${buyerAddr}"></span></p>
+<p>구매자 우편번호: <span th:text="${buyerPostcode}"></span></p>
+<button onclick="requestPay()">결제하기</button> <!-- 결제하기 버튼 생성 -->
+</body>
+</html>

@@ -3,36 +3,81 @@
              xmlns:layout="http://www.w3.org/1999/xhtml"
              layout:decorate="~{layout}">
     <head>
-        <meta charset="UTF-8">
         <title>저탄소 녹색 Life</title>
+        <!-- 부트스트랩 CSS CDN 추가 -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
+        <style>
+            /* 커스텀 CSS 추가 */
+            .form-label {
+                font-size: 1.25rem; /* 글씨 크기 조정 */
+                font-weight: bold;
+                margin-bottom: 10px;
+            }
+        </style>
     </head>
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
+    </th:block>
+
+    <th:block layout:fragment="script">
+        <script th:src="@{/js/authBoard/authBoard_create.js}"></script>
+    </th:block>
+
     <div layout:fragment="content">
-        <body class="blog-page">
-        <!--타이틀-->
+        <body class="index-page">
+
         <main class="main">
-            <div class="page-title" data-aos="fade">
-                <div class="heading">
-                    <div class="container">
-                        <div class="row d-flex justify-content-center text-center">
-                            <div class="col-lg-8">
-                                <h1>결제완료</h1>
+
+            <!-- Contact Section -->
+            <section id="contact" class="contact section">
+
+                <!-- Section Title -->
+                <div class="container section-title" data-aos="fade-up">
+                    <h2 th:text="결제완료"></h2>
+                </div><!-- End Section Title -->
+
+                <div class="container d-flex justify-content-center">
+                    <div class="col-lg-8">
+                        <div
+                              class="php-email-form">
+
+                            <div class="row gy-4">
+
+                                <div class="col-md-12">
+                                    <label for="couponName" class="form-label">구매쿠폰명</label>
+                                    <input type="text" id="couponName" readonly="readonly" class="form-control" th:field="*{coupon.couponName}">
+                                </div>
+
+                                <div class="col-md-12">
+                                    <label for="couponPoint" class="form-label">현재포인트</label>
+                                    <input type="text" id="couponPoint" th:field="*{updateUser.currentPoint}" readonly="readonly" class="form-control">
+                                </div>
+
+                                <div class="col-md-12 text-center">
+<!--                                    css 부딫혀서 button대신 submit으로 해놓음(배경 빨간색 하기위해-->
+                                    <button type="submit" class="btn btn-primary" th:onclick="|location.href='@{/mall}'|">mall으로 이동</button>
+
+                                </div>
 
                             </div>
+
                         </div>
                     </div>
-                </div>
-            </div>
+                </div><!-- End Contact Form -->
+
+            </section><!-- /Contact Section -->
+
         </main>
-        <div>
-            <label>구매쿠폰명</label>
-            <input type="text" id="couponName" readonly="readonly" th:value="*{coupon.couponName}" required>
-        </div>
-        <div>
-            <label>현재포인트</label>
-            <input type="text" id="couponPoint" readonly="readonly" th:value="|*{updateUser.currentPoint}p|" required>
-        </div>
-<!--<h2 th:text="|현재포인트: ${updateUser.currentPoint}p|"></h2>-->
-<div><button type="button" th:onclick="|location.href='@{/mall}'|">mall으로 이동</button></div>
-</body>
-        </div>
+
+
+
+        <!-- 부트스트랩 JS 및 종속성 CDN 추가 -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+        </body>
+    </div>
 </layout:html>
