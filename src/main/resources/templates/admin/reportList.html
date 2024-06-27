@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Page - Report Management</title>
+    <style>
+        table {
+            width: 100%;
+            text-align: center;
+            border: 1px solid black;
+        }
+
+        th {
+            border-bottom: 1px solid black;
+        }
+    </style>
+    <script th:src="@{/js/alert.js}"></script>
+</head>
+<body>
+
+<div>
+    <h1>신고 관리 페이지</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>게시글 제목</th>
+            <th>신고 이유</th>
+            <th>신고 내용</th>
+            <th>신고 유저</th>
+            <th>게시글 삭제</th>
+        </tr>
+        </thead>
+        <tbody>
+        <!-- 반복문을 통해 데이터를 동적으로 출력 -->
+        <tr th:each="report : ${reports}">
+            <td th:text="${report.reportId}">Report ID</td>
+            <td><a th:href="@{/admin/reportDetail/{id}(id=${report.authBoardId})}" th:text="${report.authBoardId}">게시글 제목</a></td>
+            <td th:text="${report.reportReason}">Report Reason</td>
+            <td th:text="${report.reportContent}">Report Content</td>
+            <td th:text="${report.reportedUserId}">Reported User ID</td>
+            <td>
+                <form th:action="@{/admin/deleteAuthBoard/{id}(id=${report.authBoardId})}" method="post" onsubmit="return confirmDelete()">
+                    <button type="submit">게시글 삭제</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<script type="text/javascript">
+    function confirmDelete() {
+        return confirm("정말 삭제하시겠습니까?");
+    }
+</script>
+
+</body>
+</html>
