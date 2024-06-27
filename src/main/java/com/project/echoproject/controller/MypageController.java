@@ -2,12 +2,14 @@ package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.ChangePasswordForm;
 import com.project.echoproject.dto.PointDTO;
+import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.dto.UseAmountForm;
 import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
 import com.project.echoproject.service.*;
 
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -59,18 +61,25 @@ public class MypageController {
         }
         SiteUser user = mypageService.getUserById(userId);
         model.addAttribute("user", user);
+        model.addAttribute("userEditForm", new SiteUserEditForm());
         return "edit_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/edit/{userId}")
     public String updatePersonalInfo(@PathVariable String userId,
-                                     @ModelAttribute SiteUser updatedUser,
+                                     @Valid @ModelAttribute("user") SiteUser updatedUser,
+                                     BindingResult bindingResult,
                                      @RequestParam(value = "file", required = false) MultipartFile file,
                                      Model model, Principal principal) {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
         }
+
+        if (bindingResult.hasErrors()) {
+            return "edit_form";
+        }
+
         try {
             mypageService.updateUser(userId, updatedUser, file);
             return "redirect:/mypage/" + userId;
@@ -94,7 +103,7 @@ public class MypageController {
         return "mypage";
     }
 
-    // 비밀번호 변경 폼을 표시하는 메소드
+    // 비밀번호 변경 폼을 표시하는 메서드
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/change-password/{userId}")
     public String changePasswordPage(@PathVariable String userId, Model model,Principal principal) {
@@ -107,11 +116,11 @@ public class MypageController {
     }
 
 
-    // 비밀번호 변경 요청을 처리하는 메소드
+    // 비밀번호 변경 요청을 처리하는 메서드
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/change-password/{userId}")
     public String changePassword(@PathVariable String userId,
-                                 @ModelAttribute("changePasswordForm") @Validated ChangePasswordForm changePwForm,
+                                 @ModelAttribute("changePasswordForm") @Valid ChangePasswordForm changePwForm,
                                  BindingResult result, Model model,Principal principal) {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
