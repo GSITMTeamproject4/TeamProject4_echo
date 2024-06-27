@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.List;
 import java.util.Map;
 
@@ -100,6 +101,7 @@ public class MypageController {
         }
         SiteUser user = mypageService.getUserById(userId);
         model.addAttribute("user", user);
+        model.addAttribute("year", LocalDate.now().getYear());
         return "mypage";
     }
 
@@ -214,6 +216,7 @@ public class MypageController {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
         }
+
         try {
             int currentYear = (year != null) ? year : LocalDate.now().getYear();
 
@@ -221,6 +224,7 @@ public class MypageController {
             model.addAttribute("useAmounts", useAmounts);
             model.addAttribute("userId", userId);
             model.addAttribute("year", currentYear);
+
             return "useamount_detail";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -267,4 +271,5 @@ public class MypageController {
         return "coupon_status";
     }
 }
+
 
