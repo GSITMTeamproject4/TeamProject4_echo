@@ -1,6 +1,7 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.ReportDTO;
+import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.Challenge;
 import com.project.echoproject.entity.ReportBoard;
 import com.project.echoproject.entity.SiteUser;
@@ -81,5 +82,10 @@ public class AdminController {
         return "redirect:/admin/report";
     }
 
-
+    @GetMapping("/reportDetail/{id}")
+    public String adminReportDetail(@PathVariable("id") Long authBoardId, Model model) {
+        AuthBoard authBoard = authBoardService.getAuthBoard(authBoardId); // 해당 게시글을 가져옴
+        model.addAttribute("board", authBoard);
+        return "/authBoard/authBoard_detail"; // 신고된 게시글의 상세 페이지로 이동합니다.
+    }
 }

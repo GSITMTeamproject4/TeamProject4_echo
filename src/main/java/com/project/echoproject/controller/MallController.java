@@ -119,7 +119,7 @@ public class MallController {
             // 쿠폰내역 insert
             UserCoupon addCoupon = new UserCoupon();
             addCoupon.setUserId(updateUser);
-            addCoupon.setCouponId(coupon);
+            addCoupon.setCoupon(coupon);
             addCoupon.setInsertDate(now);
             userCouponService.addCoupon(addCoupon);
 

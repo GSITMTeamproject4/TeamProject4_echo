@@ -12,7 +12,7 @@
     </tr>
 
     <tr th:each="item : ${reports}">
-        <td><a th:href="@{/admin/reportDetail/{id}(id=${item.authBoard.boardTitle})}" th:text="${item.authBoard.boardTitle}">신고게시글 제목</a></td>
+        <td><a th:href="@{/admin/reportDetail/{id}(id=${item.authBoard.listId})}" th:text="${item.authBoard.boardTitle}">신고게시글 제목</a></td>
         <td th:text="${item.SiteUser.userId}">신고인</td>
         <td>
             <form th:action="@{/admin/report}" method="post">
