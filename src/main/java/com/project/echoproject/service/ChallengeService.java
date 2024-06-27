@@ -4,6 +4,7 @@ import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.Challenge;
 import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.exception.NoChallengeFoundException;
 import com.project.echoproject.repository.ChallengeRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,8 +46,7 @@ public class ChallengeService {
         //Map<String, Object> chall = new HashMap<String, Object>();
         List<Map<String, Object>> challList = new ArrayList<Map<String, Object>>();
 
-
-        List<Challenge> userChall = challengeRepository.findByUserIdUserId(siteUser.getUserId());
+        List<Challenge> userChall = challengeRepository.findBySiteUser_UserId(siteUser.getUserId());
         for(Challenge challenge : userChall) {
             Map<String, Object> chall = new HashMap<String, Object>();
             chall.put("start",challenge.getChallengeDate());
@@ -54,16 +54,6 @@ public class ChallengeService {
             chall.put("title",challenge.getChallengeInfo());
             challList.add(chall);
         }
-//        Map<String, Object> event = new HashMap<String, Object>();
-//        event.put("start", LocalDate.now());
-//        event.put("title", "test");
-//        event.put("end",LocalDate.now());
-//        challList.add(event);
-//        event = new HashMap<String, Object>();
-//        event.put("start", LocalDate.now().plusDays(3));
-//        event.put("title", "test2");
-//        event.put("end",LocalDate.now().plusDays(4));
-//        challList.add(event);
         return challList;
     }
 
@@ -74,7 +64,7 @@ public class ChallengeService {
             Challenge challenge = new Challenge();
 //            challenge.setImage(image);
 //            challenge.setCheckImg(image.getFilePath()); // checkImg 필드 설정
-            challenge.setUserId(siteUser); // siteUser 설정
+            challenge.setSiteUser(siteUser); // siteUser 설정
         }else {
             throw new IOException("파일 없음");
         }
@@ -93,11 +83,24 @@ public class ChallengeService {
             Image image = imageService.saveImage(file);
             challenge.setImage(image);
             challenge.setCheckImg(image.getFilePath()); // checkImg 필드 설정
-            challenge.setUserId(siteUser); // siteUser 설정
+            challenge.setSiteUser(siteUser); // siteUser 설정
         } else {
             throw new IOException("파일 없음");
         }
 
         return challengeRepository.save(challenge);
     }
+
+    public List<Challenge> getChallengAll() {
+        List<Challenge> challenges = challengeRepository.findAllByOrderByChallengeDate();
+        if(challenges.isEmpty()) {
+            throw new NoChallengeFoundException("확인할 챌린지가 없습니다.");
+        }
+        return challenges;
+    }
+
+    public void deleteChallenge(Long id) {
+        challengeRepository.deleteById(id);
+    }
+
 }

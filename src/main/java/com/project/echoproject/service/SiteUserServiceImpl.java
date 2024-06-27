@@ -61,11 +61,17 @@ public class SiteUserServiceImpl implements SiteUserService {
 
     public SiteUser buyCoupon(String userId, Long balance) {
         SiteUser siteUser = findByUserId(userId);
-        siteUser.setCurrentPoint(balance);
+        siteUser.setCurrentPoint(balance); // 찾아와서 빼기 하는걸로 수정하기
         return siteUserRepository.save(siteUser);
     }
 
     public List<SiteUser> getAllUsers(){
         return siteUserRepository.findAll();
+    }
+
+    public void addPointByAdmin(String userId,Long point) {
+        SiteUser siteUser = findByUserId(userId);
+        siteUser.setCurrentPoint(siteUser.getCurrentPoint() + point);
+        siteUserRepository.save(siteUser);
     }
 }
