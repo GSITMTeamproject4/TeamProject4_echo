@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>My Coupons</title>
+</head>
+<body>
+<h1>My Coupons</h1>
+<table>
+    <thead>
+    <tr>
+        <th>Coupon ID</th>
+        <th>Coupon Name</th>
+        <th>Insert Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="userCoupon : ${userCoupons}">
+        <!-- 이 부분에서 userCoupon에서 coupon에 접근할 수 있어야 합니다. -->
+        <td th:text="${userCoupon.userCouponId}"></td>
+        <td th:text="${userCoupon.coupon.couponName}"></td>
+        <td th:text="${userCoupon.insertDate}"></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
