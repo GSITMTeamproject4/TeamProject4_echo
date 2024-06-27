@@ -15,10 +15,10 @@
         <td><a th:href="@{/admin/reportDetail/{id}(id=${item.authBoard.boardTitle})}" th:text="${item.authBoard.boardTitle}">신고게시글 제목</a></td>
         <td th:text="${item.SiteUser.userId}">신고인</td>
         <td>
-            <form th:action="@{/admin/pointManage/report}" method="post">
+            <form th:action="@{/admin/report}" method="post">
                 <input type="hidden" name="id" th:value="${item.authBoard.listId}">
                 <input type="hidden" name="userId" th:value="${item.authBoard.SiteUser.userId}">
-                <button type="submit">삭제</button>
+                <button type="submit">글삭제</button>
             </form>
         </td>
     </tr>
