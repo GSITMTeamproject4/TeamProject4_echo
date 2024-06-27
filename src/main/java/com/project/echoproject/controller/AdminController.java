@@ -1,15 +1,21 @@
 package com.project.echoproject.controller;
 
+import com.project.echoproject.dto.ReportDTO;
 import com.project.echoproject.entity.Challenge;
+import com.project.echoproject.entity.ReportBoard;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.exception.NoChallengeFoundException;
+import com.project.echoproject.repository.ReportBoardRepository;
+import com.project.echoproject.service.AuthBoardService;
 import com.project.echoproject.service.ChallengeService;
+import com.project.echoproject.service.ReportBoardService;
 import com.project.echoproject.service.SiteUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/admin")
@@ -20,6 +26,11 @@ public class AdminController {
     private SiteUserService siteUserService;
     @Autowired
     private ChallengeService challengeService;
+    @Autowired
+    private ReportBoardService reportBoardService;
+
+    @Autowired
+    private AuthBoardService authBoardService;
 
     @GetMapping("")
     public String admin() {
@@ -38,7 +49,7 @@ public class AdminController {
         return "admin/challengeList";
     }
 
-    @GetMapping("pointManage")
+    @GetMapping("pointManage/addPoint")
     public String adminPointManage(Model model) {
         try {
             List<Challenge> challenges = challengeService.getChallengAll();
@@ -50,15 +61,28 @@ public class AdminController {
             return "admin/noChallenge"; // Assuming "error-page.html" is your error template
         }
     }
-//    @PostMapping("pointManage")
-//    public String adminDeleteChallenge(Model model, @RequestParam("id") Long id) {
-//        challengeService.deleteChallenge(id);
-//        return "redirect:/admin/pointManage";
-//    }
-@PostMapping("pointManage")
-public String adminAddPoint(Model model, @RequestParam("id") Long id, @RequestParam("userId") String userId){
-    SiteUser siteUser = siteUserService.findByUserId(userId);
-    siteUserService.addPointByAdmin(userId,500L);
-    return "redirect:/admin/pointManage";
-}
+
+    @PostMapping("pointManage/addPoint")
+    public String adminAddPoint(Model model, @RequestParam("id") Long id, @RequestParam("userId") String userId){
+        SiteUser siteUser = siteUserService.findByUserId(userId);
+        siteUserService.addPointByAdmin(userId,500L);
+        return "redirect:/admin/pointManage/addPoint";
+    }
+
+    @GetMapping("pointManage/report")
+    public String adminReportListBoard(Model model) {
+
+        List<ReportBoard> reports = reportBoardService.getAllReports();
+
+        model.addAttribute("reports",reports);
+        return "admin/report";
+    }
+    @PostMapping("pointManage/report")
+    public String adminRemoveBoard(@RequestParam("id") Long id, @RequestParam("userId") String userId) {
+        SiteUser siteUser = siteUserService.findByUserId(userId);
+        authBoardService.deleteBoard(id,siteUser);
+        return "redirect:/admin/pointManage/report";
+    }
+
+
 }

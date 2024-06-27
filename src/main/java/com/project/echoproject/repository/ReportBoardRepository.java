@@ -9,4 +9,5 @@ import java.util.Optional;
 
 public interface ReportBoardRepository extends JpaRepository<ReportBoard, Long> {
     Optional<ReportBoard> findByAuthBoardAndSiteUser(AuthBoard authBoard, SiteUser siteUser);
+
 }
