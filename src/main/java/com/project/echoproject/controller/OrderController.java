@@ -11,6 +11,7 @@ import com.project.echoproject.service.OrderService;
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.response.IamportResponse;
 import com.siot.IamportRestClient.response.Payment;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,11 +33,12 @@ public class OrderController {
     private final OrderService orderService;
     private final ProductRepository productRepository;
 
-    public OrderController(@Value("${imp.api.key}") String apiKey,
-                           @Value("${imp.api.secretkey}") String apiSecret,
+    public OrderController(@Value("111") String apiKey,
+                           @Value("111") String apiSecret,
                            SiteUserRepository siteUserRepository,
                            CartRepository cartRepository,
                            CartService cartService,
+
                            OrderService orderService,
                            ProductRepository productRepository) {
         this.iamportClient = new IamportClient(apiKey, apiSecret);
@@ -89,4 +91,3 @@ public class OrderController {
         return "payment";
     }
 }
-
