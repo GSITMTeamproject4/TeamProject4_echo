@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>저탄소 녹색 Life</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 80%;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        li {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+
+        li:last-child {
+            border-bottom: none;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007BFF;
+            font-size: 18px;
+            display: block;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        p {
+            color: #666;
+            margin: 5px 0 0;
+            font-size: 14px;
+        }
+
+        /* 추가 스타일 */
+        .news-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .news-details {
+            flex: 1;
+        }
+
+        .news-date {
+            color: #999;
+            font-size: 12px;
+            text-align: right;
+        }
+
+        .nav-bar ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+        }
+
+        .nav-bar li {
+            margin: 0 15px;
+        }
+
+        .nav-bar a {
+            text-decoration: none;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .nav-bar a:hover {
+            text-decoration: underline;
+        }
+
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>저탄소 뉴스 목록</h1>
+    <ul>
+        <th:block th:each="news : ${newsList}">
+            <li class="news-item">
+                <div class="news-details">
+                    <a th:href="${news.link}" th:text="${news.title}">뉴스 제목</a>
+                    <p th:text="${news.description}">뉴스 설명</p>
+                </div>
+                <div class="news-date">
+                    <p th:text="${news.pubDate}">날짜</p>
+                </div>
+            </li>
+        </th:block>
+    </ul>
+</div>
+</body>
+</html>
