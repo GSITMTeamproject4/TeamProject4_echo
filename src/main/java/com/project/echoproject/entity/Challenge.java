@@ -15,7 +15,8 @@ public class Challenge {
     private Long challengeId;
 
     @ManyToOne
-    private SiteUser userId;
+    @JoinColumn(name = "userId")
+    private SiteUser siteUser;
 
     private String challengeInfo;
 

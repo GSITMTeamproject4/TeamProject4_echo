@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>챌린지종류</th>
+        <th>유저아이디</th>
+    </tr>
+
+    <tr th:each="item : ${challenges}">
+        <td th:text="${item.challengeInfo}">챌린지종류</td>
+        <td th:text="${item.siteUser.userId}">유저아이디</td>
+                <td>
+                    <form th:action="@{/admin/pointManage}" method="post">
+                        <input type="hidden" name="id" th:value="${item.challengeId}">
+                        <input type="hidden" name="userId" th:value="${item.siteUser.userId}">
+<!--                        <button type="submit" th:onclick="alert()">삭제</button>-->
+                        <button type="submit">포인트주기</button>
+                    </form>
+                </td>
+    </tr>
+</table>
+</body>
+</html>
