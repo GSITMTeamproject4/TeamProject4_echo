@@ -3,11 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <title>마이페이지</title>
+    <style>
+        .menu-item {
+            margin: 10px 0;
+        }
+        .menu-item a {
+            text-decoration: none;
+
+        }
+        .menu-item a:hover {
+            color: blue;
+        }
+    </style>
 </head>
 <body>
 <div>
     <h1>마이페이지</h1>
-</div>
+
+    <div class="menu-item">
+        <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}">개인정보 수정</a>
+    </div>
+
+    <div class="menu-item">
+        <a th:href="@{/mypage/point-status/{userId}(userId=${user.userId})}">
+            보유 포인트 : <span th:text="${user.currentPoint}"></span>point
+        </a>
+    </div>
+
+    <div class="menu-item">
+        <a th:href="@{/mypage/useamount-detail/{userId}(userId=${user.userId}, year=${year})}">
+            나의 전기/가스 사용량 보기
+        </a>
+    </div>
+
+    <div class="menu-item">
+        <a th:href="@{/challenge}">
+            나의 챌린지 현황 보기
+        </a>
+
 </body>
 </html>
-
