@@ -17,9 +17,6 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig  {
-    @Autowired
-    private UserDetailsService userDetailsService;
-
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.formLogin(formLogin -> formLogin
@@ -33,9 +30,11 @@ public class SecurityConfig  {
                         .accessDeniedPage("/access-denied")) // 접근 거부 시 이동할 페이지 설정
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/challenge/add").authenticated()
+                        .requestMatchers("/mypage").authenticated()
                         // /challenge/add 페이지 접근에 대한 인증 필요
                         .requestMatchers("/mall/buy/{id}").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().permitAll()
                 );
         return http.build();
