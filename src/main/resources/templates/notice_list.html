@@ -1,58 +1,13 @@
 <!DOCTYPE html>
 <layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{layout}">
     <head>
         <meta charset="UTF-8">
         <title>저탄소 녹색 Life</title>
-
-        <!-- 부트스트랩 CSS 링크 -->
-        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- 네이버 블로그 스타일 참고 -->
-        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap" rel="stylesheet">
-        <style>
-            body {
-                font-family: 'Noto Sans KR', sans-serif;
-                background-color: #f8f9fa;
-            }
-            .page-header {
-                background-color: #007bff;
-                color: #fff;
-                padding: 30px 0;
-                margin-bottom: 30px;
-            }
-            .page-header h1 {
-                font-size: 2.5rem;
-                font-weight: bold;
-            }
-            .table th, .table td {
-                vertical-align: middle;
-                text-align: center; /* 본문 데이터 중앙 정렬 추가 */
-            }
-            .table thead th {
-                background-color: #e9ecef; /* 연한 회색 배경색 */
-                color: #000; /* 텍스트 색상 */
-            }
-            .table td a {
-                color: #333;
-                text-decoration: none;
-            }
-            .table td a:hover {
-                color: #007bff;
-            }
-            .btn-create {
-                margin-top: 20px;
-                background-color: #dc3545; /* 빨간색 배경색 */
-                border-color: #dc3545; /* 빨간색 테두리 */
-            }
-            .btn-create:hover {
-                background-color: #c82333; /* 호버 시 더 짙은 빨간색 */
-                border-color: #bd2130; /* 호버 시 더 짙은 빨간색 테두리 */
-            }
-        </style>
     </head>
-    <body class="blog-page">
     <div layout:fragment="content">
+        <body class="blog-page">
         <!--타이틀-->
         <main class="main">
             <div class="page-title" data-aos="fade">
@@ -67,48 +22,49 @@
                 </div>
             </div>
         </main>
+    <div>
 
-        <div class="container mt-4">
-            <table class="table table-hover">
-                <thead>
-                <tr>
-                    <th scope="col">번호</th>
-                    <th scope="col" style="width: 50%">제목</th>
-                    <th scope="col">작성자</th>
-                    <th scope="col">작성일시</th>
-                </tr>
-                </thead>
-                <tbody class="noticeList-tbody">
-                <!-- noticeList를 반복하여 테이블 행 생성 -->
-                <tr th:each="notice, loop : ${noticeList}">
-                    <td th:text="${loop.count}"></td>
-                    <td>
-                        <a th:href="@{|/notice/detail/${notice.notice_id}|}" th:text="${notice.notice_title}"></a>
-                    </td>
-                    <td>
-                        <span th:if="${notice.siteUser != null}" th:text="${notice.siteUser.userId}"></span>
-                    </td>
-                    <td th:text="${#temporals.format(notice.createDate,'yyyy-MM-dd HH:mm')}"></td>
-                </tr>
-                </tbody>
-            </table>
-<!--            <a th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>-->
+    <table class="table">
+        <thead class="table-dark">
+        <tr class="text-center">
+            <th>번호</th>
+            <th style="width: 50%">제목</th>
+            <th>작성자</th>
+            <th>작성일시</th>
+        </tr>
+        </thead>
 
-            <!-- 버튼 우측정렬 수정된 부분 시작 -->
-            <div class="d-flex justify-content-end">
-<!--                <a th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>-->
-                <!--id가 admin1234 이고 로그인 한 상태 일때만 보이도록 버튼 수정       -->
-                <a sec:authorize="isAuthenticated() and principal.username == 'admin1234'" th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>
+        <tbody>
 
-            </div>
-            <!-- 수정된 부분 끝 -->
+        <!--   <tr th:each="notice : ${noticeList}">  실제 id데이터로 보여주는건 이렇게 ..-->
+        <!--            <td th:text="${notice.notice_id}"></td>-->
 
+        <!-- noticeList를 반복하여 테이블 행 생성 -->
+        <tr th:each="notice, loop : ${noticeList}">
+            <!-- loop.count를 사용하여 현재 항목의 번호를 표시 -->
+            <td th:text="${loop.count}"></td>
+            <!-- 제목 열 -->
+            <td>
+                <!-- 제목을 링크로 표시하며, 링크는 질문 상세 페이지로 연결 -->
+                <a th:href="@{|/notice/detail/${notice.notice_id}}"
+                   th:text="${notice.notice_title}"></a>
+            </td>
+            <!-- 작성자 열 -->
+            <td>
+                <!-- 06.24_작성자 데이터 보여주려고 Notice 엔티티에 @ManyToOne 외래키 설정  -->
+                <!-- 글쓴이가 null이 아닌 경우 글쓴이의 사용자 이름을 표시 -->
+                <span th:if="${notice.siteUser !=null}"
+                      th:text="${notice.siteUser.userId}"></span>
+            </td>
+            <!-- 작성일시 열 -->
+            <td th:text="${#temporals.format(notice.createDate,'yyyy-MM-dd HH:mm')}"></td>
+        </tr>
+        </tbody>
 
-        </div>
+    </table>
+    <a th:href="@{/notice/create}" class = "btn btn-primary">게시글 등록하기</a>
+
+</div>
+        </body>
     </div>
-
-    <!-- 부트스트랩 JS 및 필수 JavaScript 추가 -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    </body>
 </layout:html>

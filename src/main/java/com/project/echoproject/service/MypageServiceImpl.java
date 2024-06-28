@@ -1,6 +1,5 @@
 package com.project.echoproject.service;
 
-import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.SiteUserRepository;
@@ -31,22 +30,27 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public void updateUser(String userId, SiteUserEditForm updatedUser, MultipartFile file) throws IOException {
-        SiteUser user = userRepository.findByUserId(userId)
+    public void updateUser(String userId, SiteUser updatedUser, MultipartFile file) throws IOException {
+        SiteUser updateInfo = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // SiteUserEditForm에서 SiteUser로 데이터 복사
-        user.setUserName(updatedUser.getUserName());
-        user.setEmail(updatedUser.getEmail());
-        user.setPhoneNum(updatedUser.getPhoneNum());
-        user.setAddress(updatedUser.getAddress());
+        updateInfo.setUserName(updatedUser.getUserName());
+        updateInfo.setEmail(updatedUser.getEmail());
+        updateInfo.setPhoneNum(updatedUser.getPhoneNum());
 
         if (file != null && !file.isEmpty()) {
-            Image image = imageService.saveImage(file);
-            user.setImgUrl(image.getFilePath());
+            // 기존 프로필 이미지가 있다면 삭제
+            if (updateInfo.getProfileImage() != null) {
+                imageService.deleteImage(updateInfo.getProfileImage());
+            }
+
+            // 새 이미지 저장
+            Image newImage = imageService.saveImage(file);
+            updateInfo.setProfileImage(newImage);
+            newImage.setSiteUser(updateInfo);
         }
 
-        userRepository.save(user);
+        userRepository.save(updateInfo);
     }
 
     @Transactional

@@ -46,7 +46,7 @@
 
                         <div class="col-lg-6">
 
-                            <form th:action="@{/challenge/add}" method="post" class="php-email-form" enctype="multipart/form-data" onsubmit="return addChall(event)">
+                            <form th:action="@{/challenge/add}" method="post" class="php-email-form" enctype="multipart/form-data">
                                 <div class="row gy-4">
 
                                     <div class="col-md-12">
@@ -64,7 +64,7 @@
                                     </div>
 
                                     <div class="col-md-12">
-                                        <textarea class="form-control" name="content" id="content" rows="10" placeholder="내용을 입력하세요" required></textarea>
+                                        <textarea class="form-control" name="content" rows="10" placeholder="내용을 입력하세요" required></textarea>
                                     </div>
                                     <input type="file" id="file" name="file" accept="image/*" required>
                                     <div class="col-md-12 text-center">
@@ -86,15 +86,7 @@
             </section><!-- /Contact Section -->
 
         </main>
-        <script th:inline="javascript">
-            function addChall(event) {
-                if(confirm("등록하시겠습니까?")){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        </script>
+
         </body>
     </div>
 </layout:html>

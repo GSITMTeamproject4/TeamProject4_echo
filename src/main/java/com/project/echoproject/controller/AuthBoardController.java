@@ -160,5 +160,4 @@ public class AuthBoardController {
             return "redirect:/authBoard/report/" + id; // 신고 폼 페이지로 돌아가기
         }
     }
-
 }
