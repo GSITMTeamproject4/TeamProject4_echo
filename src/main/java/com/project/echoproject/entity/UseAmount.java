@@ -29,8 +29,3 @@ public class UseAmount {
     private LocalDate useDate;
 
 }
-
-
-
-
-

@@ -1,5 +1,6 @@
 package com.project.echoproject.service;
 
+import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.SiteUserRepository;
@@ -30,20 +31,22 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public void updateUser(String userId, SiteUser updatedUser, MultipartFile file) throws IOException {
-        SiteUser updateInfo = userRepository.findByUserId(userId)
+    public void updateUser(String userId, SiteUserEditForm updatedUser, MultipartFile file) throws IOException {
+        SiteUser user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        updateInfo.setUserName(updatedUser.getUserName());
-        updateInfo.setEmail(updatedUser.getEmail());
-        updateInfo.setPhoneNum(updatedUser.getPhoneNum());
+        // SiteUserEditForm에서 SiteUser로 데이터 복사
+        user.setUserName(updatedUser.getUserName());
+        user.setEmail(updatedUser.getEmail());
+        user.setPhoneNum(updatedUser.getPhoneNum());
+        user.setAddress(updatedUser.getAddress());
 
         if (file != null && !file.isEmpty()) {
             Image image = imageService.saveImage(file);
-            updateInfo.setImgUrl(image.getFilePath());
+            user.setImgUrl(image.getFilePath());
         }
 
-        userRepository.save(updateInfo);
+        userRepository.save(user);
     }
 
     @Transactional

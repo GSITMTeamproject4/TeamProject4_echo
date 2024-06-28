@@ -1,6 +1,8 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.SiteUserCreateForm;
+import com.project.echoproject.entity.Notice;
+import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UserRole;
 import com.project.echoproject.service.SiteUserSecurityServiceImpl;
 import com.project.echoproject.service.SiteUserService;
@@ -8,6 +10,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,6 +20,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.security.Principal;
+import java.util.Optional;
+
 @RequestMapping("/user")
 @RequiredArgsConstructor
 @Controller
@@ -25,6 +31,7 @@ public class SiteUserController {
     private final SiteUserService siteUserService;
     private final SiteUserSecurityServiceImpl siteUserSecurityServiceImpl;
 
+
     @GetMapping("/signup")
     public String signup(SiteUserCreateForm siteUserCreateForm) {
         return "signupForm";
@@ -32,8 +39,8 @@ public class SiteUserController {
 
     @PostMapping("/signup")
     public String signup(@Valid @ModelAttribute SiteUserCreateForm siteUserCreateForm,
-    BindingResult bindingResult,
-    @RequestParam("profileImage") MultipartFile profileImage) {
+                         BindingResult bindingResult,
+                         @RequestParam(value = "profileImage", required = false) MultipartFile profileImage) {
         if (bindingResult.hasErrors()) {
             return "signupForm";
         }
@@ -70,6 +77,10 @@ public class SiteUserController {
         return "loginForm";
     }
 
-
+    @GetMapping("/findlogin")
+    public String showFindLogin() {
+        // 이 메서드에서는 "findlogin"과 관련된 작업을 수행한 후, 사용자에게 보여줄 뷰 이름을 반환합니다.
+        return "findlogin"; // "findlogin.html"이라고 가정합니다.
+    }
 
 }

@@ -56,6 +56,9 @@ dependencies {
 
 
 
+    //날짜 포맷(시분초 안 나오게 설정 가능)
+    implementation 'org.thymeleaf.extras:thymeleaf-extras-java8time:3.0.4.RELEASE'
+
 }
 
 tasks.named('test') {

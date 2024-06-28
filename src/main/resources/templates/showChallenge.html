@@ -21,8 +21,8 @@
 
                 <!-- Section Title -->
                 <div class="container section-title" data-aos="fade-up">
-                    <h2>챌린지 등록</h2>
-                    <p>챌린지 종류를 선택하여 수행한 챌린지의 인증사진을 업로드 할 수 있습니다</p>
+                    <h2>챌린지 보기</h2>
+<!--                    <p>챌린지 종류를 선택하여 수행한 챌린지의 인증사진을 업로드 할 수 있습니다</p>-->
                 </div><!-- End Section Title -->
 
                 <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -35,7 +35,9 @@
                                 <div class="col-md-6">
                                     <div class="info-item" data-aos="fade" data-aos-delay="200" >
                                         <div class="post-img">
-                                            <img id="preview" class="img-preview" src="#" alt="이미지 미리보기" style="display: none";/>
+<!--                                            <img id="preview" class="img-preview" src="#" alt="이미지 미리보기" style="display: none";/>-->
+                                            <img th:if="${challenge.checkImg != null}" th:src="@{|/uploads/${challenge.checkImg}|}" alt="" class="img-fluid">
+<!--                                            <img th:src="${challenge.checkImg}" alt="" class="img-fluid">-->
                                         </div>
                                     </div>
                                 </div><!-- End Info Item -->
@@ -46,32 +48,30 @@
 
                         <div class="col-lg-6">
 
-                            <form th:action="@{/challenge/add}" method="post" class="php-email-form" enctype="multipart/form-data" onsubmit="return addChall(event)">
+                            <form th:action="@{/challenge/add}" method="post" class="php-email-form" enctype="multipart/form-data">
                                 <div class="row gy-4">
 
                                     <div class="col-md-12">
 
-                                        <select name="challenge_info" id="challenge_info">
-                                            <!--        <option value="receipt">전자영수증</option>-->
-                                            <!--        <option value="email">메일함비우기</option>-->
-                                            <!--        <option value="multiuse">다회용기사용</option>-->
-                                            <!--        <option value="tumbler">텀블러사용</option>-->
-                                            <option value="전자영수증">전자영수증</option>
-                                            <option value="메일함비우기">메일함비우기</option>
-                                            <option value="다회용기사용">다회용기사용</option>
-                                            <option value="텀블러사용">텀블러사용</option>
+                                        <select name="challenge_info" id="challenge_info" th:value="${challenge.challengeInfo}" onChange="this.selectedIndex = this.initialSelect;">
+                                            <option th:selected="${challenge.challengeInfo}=='전자영수증'">전자영수증</option>
+                                            <option th:selected="${challenge.challengeInfo}=='메일함비우기'">메일함비우기</option>
+                                            <option th:selected="${challenge.challengeInfo}=='다회용기사용'">다회용기사용</option>
+                                            <option th:selected="${challenge.challengeInfo}=='텀블러사용'">텀블러사용</option>
                                         </select>
                                     </div>
 
                                     <div class="col-md-12">
-                                        <textarea class="form-control" name="content" id="content" rows="10" placeholder="내용을 입력하세요" required></textarea>
+<!--                                        <textarea class="form-control" name="content" rows="10" placeholder="내용을 입력하세요" required></textarea>-->
+                                        <textarea class="form-control" name="content" rows="10" th:text="${challenge.challengeContent}" readonly="readonly"></textarea>
                                     </div>
-                                    <input type="file" id="file" name="file" accept="image/*" required>
+<!--                                    <input type="file" id="file" name="file" accept="image/*" required>-->
                                     <div class="col-md-12 text-center">
                                         <div class="error-message"></div>
 
-                                        <button type="submit">등록하기</button>
-                                        <button type="button" id="cancelButton">취소</button>
+<!--                                        <button type="submit">등록하기</button>-->
+<!--                                        <button type="button" id="cancelButton">취소</button>-->
+                                        <a th:href="@{/admin/point}" class = "btn btn-primary">목록으로 돌아가기</a>
                                     </div>
 
                                 </div>
@@ -86,15 +86,7 @@
             </section><!-- /Contact Section -->
 
         </main>
-        <script th:inline="javascript">
-            function addChall(event) {
-                if(confirm("등록하시겠습니까?")){
-                    return true;
-                } else {
-                    return false;
-                }
-            }
-        </script>
+
         </body>
     </div>
 </layout:html>
