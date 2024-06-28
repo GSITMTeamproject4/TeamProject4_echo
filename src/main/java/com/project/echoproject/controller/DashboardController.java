@@ -3,10 +3,12 @@ package com.project.echoproject.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.HashMap;
 import java.util.Map;
 
+@RequestMapping(value={"/", "/main", "/index", "index"})
 @Controller
 public class DashboardController {
 
@@ -16,7 +18,7 @@ public class DashboardController {
         this.dataController = dataController;
     }
 
-    @GetMapping("/dashboard")
+    @GetMapping(value = {"/index", "/", "/main"})
     public String dashboard(Model model) {
         try {
             // 서울 지역의 "gangnam" 서브지역 데이터를 가져옵니다.
@@ -45,6 +47,6 @@ public class DashboardController {
             model.addAttribute("errorMessage", "데이터를 가져오는 중 오류가 발생했습니다.");
         }
 
-        return "dashboard";
+        return "index";
     }
 }

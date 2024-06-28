@@ -1,8 +1,213 @@
 <!DOCTYPE html>
 <layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-             xmlns:layout="http://www.w3.org/1999/xhtml"
-             layout:decorate="~{layout}">
+             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>녹색 저탄소</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <style>
+            .divBox1{
+                width: 100%;
+                display: flex;
+            }
+            .myPageNav{
+                flex-grow: 0.5;
+                margin: 100px 30px;
+                background: aliceblue;
+            }
+            .divBox2{
+                margin: 100px 10px;
+                width: 60%;
+                flex-grow: 0.5;
+            }
+            .divBox3{
+                display: flex;
+                width: 250px;
+                justify-content: space-between;
+            }
+            .label{
+                font-size: 1em;
+                margin:0;
+            }
+        </style>
+    </head>
+<div layout:fragment="content" class="divBox1">
+    <body>
+    <nav class="myPageNav">
+        마이페이지 들어갈 공간임
+    </nav>
+    <div class="divBox2">
+        <div class="div-container">
+    <div>
+        <div class="userData">
+            <div>
+                <h1>현재 달 전기 사용량</h1>
+                <p id="currentElectricity" th:text="${currentElectricity}">현재 달 전기 사용량</p>
+                <p id="electricityDiffMsg" th:text="${electricityDiffMsg}">전기 사용량 증감률 메시지</p>
+            </div>
 
-<div layout:fragment="content">임시 index</div>
+            <div>
+                <h1>전월 대비 전기 증감량</h1>
+                <p id="electricityDiff" th:text="${electricityDiff}">전기 사용량 증감률</p>
+            </div>
 
+        </div>
+    </div>
+
+    <div>
+        <div class="userData">
+            <div>
+                <h1>현재 달 가스 사용량</h1>
+                <p id="currentGas" th:text="${currentGas}">현재 달 가스 사용량</p>
+            </div>
+
+            <div>
+                <h1>전월 대비 가스 증감량</h1>
+                <p id="gasDiff" th:text="${gasDiff}">가스 사용량 증감률</p>
+                <p id="gasDiffMsg" th:text="${gasDiffMsg}">가스 사용량 증감률 메시지</p>
+            </div>
+        </div>
+    </div>
+        </div>
+
+    <div class="usage-chart-container">
+        <div>
+            <h6>서울 및 경기도 시군구별 전기 및 가스 사용량</h6>
+            <div class="divBox3">
+            <label for="regionSelect" class="label">지역 선택: </label>
+            <select id="regionSelect">
+                <option value="seoul" selected>서울</option>
+                <option value="gyeonggi">경기도</option>
+            </select>
+
+                <!-- 서울 지역 시군구 선택 -->
+                <select id="seoulSubSelect">
+                    <option value="gangnam" selected>강남</option>
+                    <option value="gangbuk">강북</option>
+                </select>
+
+                <!-- 경기도 지역 시군구 선택 -->
+                <select id="gyeonggiSubSelect" style="display: none;">
+                    <option value="gyeongginorth">경기 북부</option>
+                    <option value="gyeonggicentral">경기 중부</option>
+                    <option value="gyeonggisouth">경기 남부</option>
+                </select>
+            </div>
+        </div>
+        <canvas id="usageChart"></canvas>
+    </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('usageChart').getContext('2d');
+            var usageChart;
+
+            function updateChart(region, subregion) {
+                var fetchDataUrl = '/index/data?region=' + region;
+                if (subregion) {
+                    fetchDataUrl += '&subregion=' + subregion;
+                }
+
+                fetch(fetchDataUrl)
+                    .then(response => response.json())
+                    .then(data => {
+                        var labels = Object.keys(data.labelsBySIGUNGU_CD).map(function(sigungu) {
+                            return data.labelsBySIGUNGU_CD[sigungu];
+                        });
+
+                        var eleData = Object.values(data.eleUsageBySIGUNGU_CD);
+                        var gasData = Object.values(data.gasUsageBySIGUNGU_CD);
+                        console.log(eleData);
+                        console.log(gasData);
+
+                        if (!usageChart) {
+                            usageChart = new Chart(ctx, {
+                                type: 'bar',
+                                data: {
+                                    labels: labels,
+                                    datasets: [
+                                        {
+                                            label: '전기 사용량',
+                                            data: eleData,
+                                            borderColor: 'rgba(54, 162, 235, 1)',
+                                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                            borderWidth: 1
+                                        },
+                                        {
+                                            label: '가스 사용량',
+                                            data: gasData,
+                                            borderColor: 'rgba(255, 99, 132, 1)',
+                                            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                            borderWidth: 1
+                                        }
+                                    ]
+                                },
+                                options: {
+                                    responsive: true,
+                                    plugins: {
+                                        legend: {
+                                            position: 'top',
+                                        },
+                                        title: {
+                                            display: true,
+                                            text: '서울 및 경기도 시군구별 전기 및 가스 사용량'
+                                        }
+                                    }
+                                }
+                            });
+                        } else {
+                            usageChart.data.labels = labels;
+                            usageChart.data.datasets[0].data = eleData;
+                            usageChart.data.datasets[1].data = gasData;
+                            usageChart.update();
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error.message);
+                        showError('데이터를 가져오는 도중 오류가 발생했습니다: ' + error.message);
+                    });
+            }
+
+            document.getElementById('regionSelect').addEventListener('change', function(event) {
+                var region = event.target.value;
+                var subregionSelect = document.getElementById(region + 'SubSelect');
+                var subregion = subregionSelect ? subregionSelect.value : null;
+                updateChart(region, subregion);
+
+                // 지역 선택에 따라서 시군구 선택 옵션 변경
+                if (region === 'seoul') {
+                    document.getElementById('seoulSubSelect').style.display = 'inline-block';
+                    document.getElementById('gyeonggiSubSelect').style.display = 'none';
+                } else if (region === 'gyeonggi') {
+                    document.getElementById('seoulSubSelect').style.display = 'none';
+                    document.getElementById('gyeonggiSubSelect').style.display = 'inline-block';
+                }
+            });
+
+            document.getElementById('seoulSubSelect').addEventListener('change', function(event) {
+                var subregion = event.target.value;
+                updateChart('seoul', subregion);
+            });
+
+            document.getElementById('gyeonggiSubSelect').addEventListener('change', function(event) {
+                var subregion = event.target.value;
+                updateChart('gyeonggi', subregion);
+            });
+
+            // 기본값으로 서울 강남 지역 그래프 표시
+            updateChart('seoul', 'gangnam');
+
+            function showError(message) {
+                console.error(message);
+                var errorDiv = document.createElement('div');
+                errorDiv.textContent = message;
+                errorDiv.style.color = 'red';
+                document.body.appendChild(errorDiv);
+            }
+        });
+    </script>
+    </body>
+</div>
 </layout:html>
