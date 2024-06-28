@@ -1,7 +1,6 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.ChangePasswordForm;
-import com.project.echoproject.dto.PointDTO;
 import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.dto.UseAmountForm;
 import com.project.echoproject.entity.Point;
@@ -21,14 +20,12 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.time.Year;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +37,7 @@ public class MypageController {
     private final ChangePasswordServiceImpl changePasswordServiceImpl;
     private final UseAmountServiceImpl useAmountServiceImpl;
     private final PointService pointService;
-    private final SiteUserServiceImpl siteUserServiceImpl;
+
 
     @Autowired
     public MypageController(MypageService mypageService,
@@ -50,9 +47,7 @@ public class MypageController {
         this.changePasswordServiceImpl = changePasswordServiceImpl;
         this.useAmountServiceImpl = useAmountServiceImpl;
         this.pointService = pointService;
-        this.siteUserServiceImpl = siteUserServiceImpl;
     }
-
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/edit/{userId}")
@@ -61,15 +56,23 @@ public class MypageController {
             return "redirect:/";
         }
         SiteUser user = mypageService.getUserById(userId);
-        model.addAttribute("user", user);
-        model.addAttribute("userEditForm", new SiteUserEditForm());
+        SiteUserEditForm form = new SiteUserEditForm();
+        form.setUserId(user.getUserId());
+        form.setUserName(user.getUserName());
+        form.setPhoneNum(user.getPhoneNum());
+        form.setEmail(user.getEmail());
+        form.setAddress(user.getAddress());
+        form.setGender(user.getGender());
+
+        model.addAttribute("user", user);  // 현재 사용자 정보
+        model.addAttribute("userEditForm", form);  // 개인정보 수정용 폼
         return "edit_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/edit/{userId}")
     public String updatePersonalInfo(@PathVariable String userId,
-                                     @Valid @ModelAttribute("user") SiteUser updatedUser,
+                                     @Valid @ModelAttribute("userEditForm") SiteUserEditForm userEditForm,
                                      BindingResult bindingResult,
                                      @RequestParam(value = "file", required = false) MultipartFile file,
                                      Model model, Principal principal) {
@@ -78,11 +81,12 @@ public class MypageController {
         }
 
         if (bindingResult.hasErrors()) {
+            model.addAttribute("user", mypageService.getUserById(userId));
             return "edit_form";
         }
 
         try {
-            mypageService.updateUser(userId, updatedUser, file);
+            mypageService.updateUser(userId, userEditForm, file);
             return "redirect:/mypage/" + userId;
         } catch (IOException e) {
             model.addAttribute("errorMessage", "이미지 업로드 중 오류가 발생했습니다: " + e.getMessage());
@@ -92,6 +96,7 @@ public class MypageController {
             return "edit_form";
         }
     }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{userId}")

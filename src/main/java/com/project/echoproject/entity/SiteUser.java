@@ -5,7 +5,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -38,8 +37,6 @@ public class SiteUser {
     private LocalDateTime modifyDate;
 
     private Integer reportCnt=0;
-//    @Column(nullable = false)
-//    private Integer couponId;
 
     private boolean couponUse=false;
 
@@ -54,6 +51,9 @@ public class SiteUser {
 
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<Point> points;
+
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Cart cart;
 
     @PrePersist
     protected void onCreate() {

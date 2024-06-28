@@ -24,6 +24,7 @@ public class Order {
     private SiteUser buyer;
 
     private String buyerTel;
+    private String buyerEmail;
     private String buyerAddr;
     private String buyerPostcode;
     private LocalDateTime orderDate;

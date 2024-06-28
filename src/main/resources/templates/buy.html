@@ -72,9 +72,16 @@
 
         <!-- 취소버튼 누르면 목록이동 -->
         <script th:inline="javascript">
-            document.getElementById("cancelButton").addEventListener("click", function() {
-                window.location.href = /*[@{/notice/list}]*/ '/notice/list';
-            });
+            function goBack() {
+                window.history.back();
+            }
+            function payCheck(event) {
+                if(confirm("결제하시겠습니까?")){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
         </script>
 
         <!-- 부트스트랩 JS 및 종속성 CDN 추가 -->

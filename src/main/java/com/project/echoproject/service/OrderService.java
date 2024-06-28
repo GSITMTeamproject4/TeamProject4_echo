@@ -1,9 +1,11 @@
 package com.project.echoproject.service;
 
-import com.project.echoproject.dto.OrderSaveDTO;
-
-import java.util.List;
+import com.project.echoproject.dto.order.OrderDTO;
+import com.project.echoproject.entity.Order;
+import com.project.echoproject.entity.SiteUser;
 
 public interface OrderService {
-    void createOrder(OrderSaveDTO orderSaveDTO);
+    OrderDTO getOrderDetails(String orderNumber);
+    Order createOrder(String orderNumber, String buyerTel, String buyerEmail, String buyerAddr, String buyerPostcode, int totalAmount, String buyerId);
+    void clearCart(SiteUser siteUser);
 }
