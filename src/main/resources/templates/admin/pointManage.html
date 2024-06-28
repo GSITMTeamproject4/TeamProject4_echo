@@ -4,8 +4,12 @@
     <head>
         <meta charset="UTF-8">
         <title>저탄소 녹색 Life</title>
+
+        <!-- 부트스트랩 CSS 링크 -->
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
     </head>
-    <body>
+    <body class="blog-page">
     <div layout:fragment="content">
         <!--타이틀-->
         <main class="main">
@@ -16,34 +20,37 @@
                             <div class="col-lg-8">
                                 <h1>챌린지관리</h1>
                             </div>
+                            <div class="container mt-4">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th>게시글</th>
+                                        <th>유저아이디</th>
+                                        <th>포인트지급</th>
+                                    </tr>
+
+
+                                    <tr th:each="item : ${challenges}">
+                                        <td><a th:href="@{/admin/showChallenge/{id}(id=${item.challengeId})}" th:text="${item.challengeInfo}">신고게시글 제목</a></td>
+                                        <td th:text="${item.siteUser.userId}">신고인</td>
+                                        <td>
+                                            <form th:action="@{/admin/point}" method="post" onsubmit="givePoint(event)">
+                                                <input type="hidden" name="id" th:value="${item.challengeId}">
+                                                <input type="hidden" name="userId" th:value="${item.siteUser.userId}">
+                                                <input type="hidden" name="challengeInfo" th:value="${item.challengeInfo}">
+                                                <button class="btn btn-primary btn-create" type="submit">포인트지급</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+
+
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </main>
-        <div class="container mt-4">
-            <table class="table table-hover">
-                <tr>
-                    <th>게시글</th>
-                    <th>유저아이디</th>
-                    <th>포인트지급</th>
-                </tr>
 
-
-                <tr th:each="item : ${challenges}">
-                    <td><a th:href="@{/admin/showChallenge/{id}(id=${item.challengeId})}" th:text="${item.challengeInfo}">신고게시글 제목</a></td>
-                    <td th:text="${item.siteUser.userId}">신고인</td>
-                    <td>
-                        <form th:action="@{/admin/point}" method="post">
-                            <input type="hidden" name="id" th:value="${item.challengeId}">
-                            <input type="hidden" name="userId" th:value="${item.siteUser.userId}">
-                            <input type="hidden" name="challengeInfo" th:value="${item.challengeInfo}">
-                            <button class="btn btn-primary btn-create" type="submit">포인트지급</button>
-                        </form>
-                    </td>
-                </tr>
-            </table>
-        </div>
     </div>
 
     <!-- 부트스트랩 JS 및 필수 JavaScript 추가 -->
