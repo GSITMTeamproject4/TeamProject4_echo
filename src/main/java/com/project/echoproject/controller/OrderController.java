@@ -2,22 +2,18 @@ package com.project.echoproject.controller;
 
 import com.project.echoproject.entity.Cart;
 import com.project.echoproject.entity.CartItem;
+import com.project.echoproject.entity.Order;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.CartRepository;
-import com.project.echoproject.repository.ProductRepository;
 import com.project.echoproject.repository.SiteUserRepository;
 import com.project.echoproject.service.CartService;
 import com.project.echoproject.service.OrderService;
-import com.siot.IamportRestClient.IamportClient;
-import com.siot.IamportRestClient.response.IamportResponse;
-import com.siot.IamportRestClient.response.Payment;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,35 +22,19 @@ import java.util.stream.Collectors;
 @RequestMapping("/order")
 public class OrderController {
 
-    private final IamportClient iamportClient;
     private final SiteUserRepository siteUserRepository;
     private final CartRepository cartRepository;
     private final CartService cartService;
     private final OrderService orderService;
-    private final ProductRepository productRepository;
 
-    public OrderController(@Value("111") String apiKey,
-                           @Value("111") String apiSecret,
-                           SiteUserRepository siteUserRepository,
+    public OrderController(SiteUserRepository siteUserRepository,
                            CartRepository cartRepository,
                            CartService cartService,
-
-                           OrderService orderService,
-                           ProductRepository productRepository) {
-        this.iamportClient = new IamportClient(apiKey, apiSecret);
+                           OrderService orderService) {
         this.siteUserRepository = siteUserRepository;
         this.cartRepository = cartRepository;
         this.cartService = cartService;
         this.orderService = orderService;
-        this.productRepository = productRepository;
-    }
-
-    @ResponseBody
-    @PostMapping("/verify/{imp_uid}")
-    public ResponseEntity<IamportResponse<Payment>> paymentByImpUid(@PathVariable("imp_uid") String imp_uid)
-            throws Exception {
-        IamportResponse<Payment> response = iamportClient.paymentByImpUid(imp_uid);
-        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping("/checkout/{userId}")
@@ -79,15 +59,42 @@ public class OrderController {
                 .map(item -> item.getProduct().getProductName())
                 .collect(Collectors.toList());
 
+        List<Integer> quantities = cartItems.stream()
+                .map(CartItem::getQuantity)
+                .collect(Collectors.toList());
+
+        List<Long> productIds = cartItems.stream()
+                .map(item -> item.getProduct().getId())
+                .collect(Collectors.toList());
+
         // 모델에 데이터 추가
+        model.addAttribute("productIds", productIds);
         model.addAttribute("productNames", productNames);
+        model.addAttribute("quantities", quantities);
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("buyerEmail", siteUser.getEmail());
-        model.addAttribute("buyerName", siteUser.getUserId());
+        model.addAttribute("buyerId", siteUser.getUserId());
         model.addAttribute("buyerTel", siteUser.getPhoneNum());
         model.addAttribute("buyerAddr", siteUser.getAddress());
         model.addAttribute("buyerPostcode", siteUser.getAddress());
 
         return "payment";
     }
+
+    @GetMapping("/success")
+    public String orderSuccess(Model model) {
+        // RedirectAttributes로부터 전달된 데이터를 가져옴
+        if (model.containsAttribute("order")) {
+            Order order = (Order) model.getAttribute("order");
+            model.addAttribute("order", order);
+        } else {
+            // 장바구니가 비어있을 때 에러 메시지를 추가
+            model.addAttribute("errorMessage", "Cart is empty or order not found.");
+//            return "/error/error_cart"; // 에러 페이지로 리다이렉트
+        }
+
+        return "orderSuccess";
+    }
+
+
 }

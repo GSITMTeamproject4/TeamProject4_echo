@@ -1,4 +1,4 @@
-package com.project.echoproject.dto;
+package com.project.echoproject.dto.order;
 
 import lombok.Getter;
 import lombok.Setter;
