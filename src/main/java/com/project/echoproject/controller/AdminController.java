@@ -95,4 +95,9 @@ public class AdminController {
         model.addAttribute("board", authBoard);
         return "/authBoard/authBoard_detail"; // 신고된 게시글의 상세 페이지로 이동합니다.
     }
+
+    @GetMapping("/login")
+    public String login() {
+        return "admin/loginFormAdmin";
+    }
 }
