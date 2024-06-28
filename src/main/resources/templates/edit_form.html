@@ -31,43 +31,42 @@
         </main>
         <div class="container my-3">
 
-            <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${user}" enctype="multipart/form-data">
+            <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${userEditForm}" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="userId" class="form-label">사용자 ID : </label>
-                    <input type="text" name="userId" id="userId" class="form-control" th:value="*{userId}" readonly>
+                    <input type="text" name="userId" id="userId" class="form-control" th:value="${user.userId}" readonly>
                 </div>
 
                 <div class="mb-3">
                     <label for="name" class="form-label">이름 : </label>
-                    <input type="text" id="name" name="userName" class="form-control" th:value="*{userName}">
+                    <input type="text" id="name" th:field="*{userName}" class="form-control">
                 </div>
 
                 <div class="mb-3">
                     <label for="phoneNum" class="form-label">전화번호 : </label>
                     <input type="tel" id="phoneNum" th:field="*{phoneNum}" class="form-control">
-                    <span class="text-danger" th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></span>
+                    <div class="text-danger" th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></div>
                 </div>
 
                 <div class="mb-3">
                     <label>성별</label><br>
                     <label>
-                        <input type="radio" name="gender" value="남성" th:checked="*{gender == 'M'}" onclick="return(false)">남성
+                        <input type="radio" name="gender" value="M" th:field="*{gender}" onclick="return false">남성
                     </label>
                     <label>
-                        <input type="radio" name="gender" value="여성" th:checked="*{gender == 'F' }" onclick="return(false)">여성
+                        <input type="radio" name="gender" value="F" th:field="*{gender}" onclick="return false">여성
                     </label>
                 </div>
 
                 <div class="mb-3">
                     <label for="email" class="form-label">이메일 : </label>
-                    <input type="email" id="email" name="email" class="form-control" th:value="*{email}">
+                    <input type="email" id="email" th:field="*{email}" class="form-control">
                     <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
                 </div>
 
-
                 <div class="mb-3">
                     <label for="address" class="form-label">주소 : </label>
-                    <input type="text" id="address" name="address" class="form-control" th:value="*{address}">
+                    <input type="text" id="address" th:field="*{address}" class="form-control">
                     <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
                 </div>
 
