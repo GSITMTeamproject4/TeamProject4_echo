@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<!--<html xmlns:th="http://www.thymeleaf.org">-->
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
 <head>
     <title>저탄소 녹색 Life</title>
     <!-- 부트스트랩 CSS -->
@@ -11,18 +13,23 @@
             padding-top: 20px;
             padding-bottom: 20px;
         }
-        .container {
+        .notice_D_container {
+            padding: 30px;
+            margin: 80px auto;
+            margin-top: 120px;
             max-width: 800px; /* 컨테이너 최대 너비 설정 */
             background-color: #ffffff; /* 배경색 추가 */
-            padding: 30px;
+
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0,0,0,0.1); /* 그림자 효과 추가 */
-            margin: 0 auto;
+
         }
-        h3 {
+
+        .notice_title {
             color: #343a40; /* 제목 색상 */
             margin-bottom: 20px;
             text-align: center;
+            font-weight:bold;
         }
         .form-group {
             margin-bottom: 20px;
@@ -66,48 +73,58 @@
         }
     </style>
 </head>
+    <div layout:fragment="content">
+        <body>
 
-<body>
-<div class="container">
-    <h3>게시글 보기</h3>
-    <form>
-        <div class="form-group">
-            <label for="notice_id">게시글 번호</label>
-            <input type="text" id="notice_id" class="form-control" th:value="${notice.notice_id}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="userId">작성자</label>
-            <input type="text" id="userId" class="form-control" th:value="${notice.siteUser.userId}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="title">제목</label>
-            <input type="text" id="title" class="form-control" th:value="${notice.notice_title}" readonly>
-        </div>
-        <div class="form-group">
-            <label for="content">내용</label>
-            <textarea id="content" class="form-control" rows="5" readonly th:text="${notice.notice_content}"></textarea>
-        </div>
-        <div class="form-group small-text">
-            <label for="createDate">등록일자</label>
-            <input type="text" id="createDate" class="form-control" th:value="${#temporals.format(notice.createDate, 'yyyy-MM-dd HH:mm')}" readonly>
-        </div>
-        <div class="form-group small-text">
-            <label for="modifyDate">수정일자</label>
-            <input type="text" id="modifyDate" class="form-control" th:value="${#temporals.format(notice.modifyDate, 'yyyy-MM-dd HH:mm')}" readonly>
-        </div>
+            <div class="notice_D_container">
 
-        <!-- 버튼 그룹을 별도의 div로 감싸서 우측 정렬 -->
-        <div class="btn-toolbar d-flex justify-content-end">
-            <!-- 수정 버튼 -->
-            <button type="button" class="btn btn-edit mr-2" th:onclick="|location.href='@{/notice/modify/{id}(id=${notice.notice_id})}'|">수정</button>
-            <!-- 삭제 버튼 -->
-            <button type="button" class="btn btn-delete mr-2" th:onclick="|location.href='@{/notice/delete/{id}(id=${notice.notice_id})}'|">삭제</button>
-            <!-- 목록 버튼 -->
-            <button type="button" class="btn btn-list" th:onclick="|location.href='@{/notice/list}'|">목록</button>
+            <h3 class="notice_title">공지사항</h3>
+
+            <form>
+                <div class="form-group">
+                    <label for="notice_id">게시글 번호</label>
+                    <input type="text" id="notice_id" class="form-control" th:value="${notice.notice_id}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="userId">작성자</label>
+                    <input type="text" id="userId" class="form-control" th:value="${notice.siteUser.userId}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="title">제목</label>
+                    <input type="text" id="title" class="form-control" th:value="${notice.notice_title}" readonly>
+                </div>
+                <div class="form-group">
+                    <label for="content">내용</label>
+                    <textarea id="content" class="form-control" rows="5" readonly th:text="${notice.notice_content}"></textarea>
+                </div>
+                <div class="form-group small-text">
+                    <label for="createDate">등록일자</label>
+                    <input type="text" id="createDate" class="form-control" th:value="${#temporals.format(notice.createDate, 'yyyy-MM-dd HH:mm')}" readonly>
+                </div>
+                <div class="form-group small-text">
+                    <label for="modifyDate">수정일자</label>
+                    <input type="text" id="modifyDate" class="form-control" th:value="${#temporals.format(notice.modifyDate, 'yyyy-MM-dd HH:mm')}" readonly>
+                </div>
+
+                <!-- 버튼 그룹을 별도의 div로 감싸서 우측 정렬 -->
+                <div class="btn-toolbar d-flex justify-content-end">
+<!--                    &lt;!&ndash; 수정 버튼 &ndash;&gt;-->
+<!--                    <button type="button" class="btn btn-edit mr-2" th:onclick="|location.href='@{/notice/modify/{id}(id=${notice.notice_id})}'|">수정</button>-->
+<!--                    &lt;!&ndash; 삭제 버튼 &ndash;&gt;-->
+<!--                    <button type="button" class="btn btn-delete mr-2" th:onclick="|location.href='@{/notice/delete/{id}(id=${notice.notice_id})}'|">삭제</button>-->
+
+                    <button type="button" class="btn btn-edit mr-2" sec:authorize="isAuthenticated() and principal.username == 'admin1234'" th:onclick="|location.href='@{/notice/modify/{id}(id=${notice.notice_id})}'|">수정</button>
+
+                    <button type="button" class="btn btn-delete mr-2" sec:authorize="isAuthenticated() and principal.username == 'admin1234'" th:onclick="|location.href='@{/notice/delete/{id}(id=${notice.notice_id})}'|">삭제</button>
+
+
+
+                    <!-- 목록 버튼 -->
+                    <button type="button" class="btn btn-list" th:onclick="|location.href='@{/notice/list}'|">목록</button>
+                </div>
+            </form>
+
         </div>
-
-    </form>
-
-</div>
-</body>
-</html>
+    </body>
+    </div>
+</layout:html>
