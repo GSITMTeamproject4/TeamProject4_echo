@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<div layout:fragment="content" class="container my-3">
+<div layout:fragment="content" class="profile-content" style="margin-top: 100px;">
     <head>
         <meta charset="UTF-8">
         <title>Edit Personal Info</title>
+        <link rel="stylesheet" th:href="@{/css/common/argon-dashboard.min.css}">
         <style>
             .button-container {
                 display: flex;
@@ -11,80 +12,97 @@
                 gap: 10px;
                 margin-top: 20px;
             }
+            .col-md-8{
+                margin: 0 auto;
+            }
         </style>
     </head>
+
     <body class="edit-info">
-    <div style="background-color: white; padding-bottom: 100px;">
-        <!--타이틀-->
-        <main class="main">
-            <div class="page-title" data-aos="fade">
-                <div class="heading">
-                    <div class="container">
-                        <div class="row d-flex justify-content-center text-center">
-                            <div class="col-lg-8">
-                                <h1>개인정보수정</h1>
-                            </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header pb-0">
+                        <div class="d-flex align-items-center">
+                            <p class="mb-0">Edit Profile</p>
                         </div>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-uppercase text-sm">User Information</p>
+                        <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${userEditForm}" enctype="multipart/form-data">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="userId" class="form-control-label">사용자 ID</label>
+                                        <input class="form-control" type="text" id="userId" name="userId" th:value="${user.userId}" readonly>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="name" class="form-control-label">이름</label>
+                                        <input class="form-control" type="text" id="name" th:field="*{userName}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="phoneNum" class="form-control-label">전화번호</label>
+                                        <input class="form-control" type="tel" id="phoneNum" th:field="*{phoneNum}">
+                                        <div class="text-danger" th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="email" class="form-control-label">이메일</label>
+                                        <input class="form-control" type="email" id="email" th:field="*{email}">
+                                        <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="address" class="form-control-label">주소</label>
+                                        <input class="form-control" type="text" id="address" th:field="*{address}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-control-label">성별</label><br>
+                                        <label>
+                                            <input type="radio" name="gender" value="M" th:field="*{gender}" onclick="return false">남성
+                                        </label>
+                                        <label>
+                                            <input type="radio" name="gender" value="F" th:field="*{gender}" onclick="return false">여성
+                                        </label>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="profileImage" class="form-control-label">이미지 업로드</label>
+                                        <input type="file" id="profileImage" name="file" class="form-control-file" onchange="previewImage(event)" th:object="${user}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="button-container">
+                                <button type="submit" class="btn btn-primary">수정</button>
+                                <button type="button" class="btn btn-primary" onclick="changePassword()">비밀번호 변경</button>
+                                <button type="button" class="btn btn-danger" onclick="deleteUser()">탈퇴</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
-        </main>
-        <div class="container my-3">
-
-            <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${userEditForm}" enctype="multipart/form-data">
-                <div class="mb-3">
-                    <label for="userId" class="form-label">사용자 ID : </label>
-                    <input type="text" name="userId" id="userId" class="form-control" th:value="${user.userId}" readonly>
-                </div>
-
-                <div class="mb-3">
-                    <label for="name" class="form-label">이름 : </label>
-                    <input type="text" id="name" th:field="*{userName}" class="form-control">
-                </div>
-
-                <div class="mb-3">
-                    <label for="phoneNum" class="form-label">전화번호 : </label>
-                    <input type="tel" id="phoneNum" th:field="*{phoneNum}" class="form-control">
-                    <div class="text-danger" th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></div>
-                </div>
-
-                <div class="mb-3">
-                    <label>성별</label><br>
-                    <label>
-                        <input type="radio" name="gender" value="M" th:field="*{gender}" onclick="return false">남성
-                    </label>
-                    <label>
-                        <input type="radio" name="gender" value="F" th:field="*{gender}" onclick="return false">여성
-                    </label>
-                </div>
-
-                <div class="mb-3">
-                    <label for="email" class="form-label">이메일 : </label>
-                    <input type="email" id="email" th:field="*{email}" class="form-control">
-                    <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label for="address" class="form-label">주소 : </label>
-                    <input type="text" id="address" th:field="*{address}" class="form-control">
-                    <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-                </div>
-
-                <div class="mb-3">
-                    <label for="profileImage" class="form-label">이미지 업로드 : </label>
-                    <input type="file" id="profileImage" name="file" class="form-control-file" onchange="previewImage(event)" th:object="${user}">
-                </div>
-
-                <div class="button-container">
-                    <button type="submit" class="btn btn-primary">수정</button>
-                    <button type="button" class="btn btn-primary" onclick="changePassword()">비밀번호 변경</button>
-                    <button type="button" class="btn btn-danger" onclick="deleteUser()">탈퇴</button>
-                </div>
-            </form>
-
-            <form id="deleteForm" th:action="@{/mypage/delete/{userId}(userId=${user.userId})}" method="post" style="display: none;">
-            </form>
         </div>
+    </div>
+
+    <form id="deleteForm" th:action="@{/mypage/delete/{userId}(userId=${user.userId})}" method="post" style="display: none;">
+    </form>
+
 
         <script th:inline="javascript">
 

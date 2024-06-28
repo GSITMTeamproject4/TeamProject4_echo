@@ -14,7 +14,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
@@ -49,7 +48,18 @@ public class MypageController {
         this.pointService = pointService;
     }
 
-    @PreAuthorize("isAuthenticated()")
+
+    @GetMapping("/profile/{userId}")
+    public String viewProfile(@PathVariable String userId, Model model, Principal principal) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
+        }
+        SiteUser user = mypageService.getUserById(userId);
+        model.addAttribute("user", user);
+        return "profile_view";
+    }
+
+
     @GetMapping("/edit/{userId}")
     public String editPersonalInfo(@PathVariable String userId, Model model, Principal principal) {
         if (!principal.getName().equals(userId)) {
@@ -69,7 +79,7 @@ public class MypageController {
         return "edit_form";
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @PostMapping("/edit/{userId}")
     public String updatePersonalInfo(@PathVariable String userId,
                                      @Valid @ModelAttribute("userEditForm") SiteUserEditForm userEditForm,
@@ -87,7 +97,7 @@ public class MypageController {
 
         try {
             mypageService.updateUser(userId, userEditForm, file);
-            return "redirect:/mypage/" + userId;
+            return "redirect:/mypage/profile/" + userId;
         } catch (IOException e) {
             model.addAttribute("errorMessage", "이미지 업로드 중 오류가 발생했습니다: " + e.getMessage());
             return "edit_form";
@@ -98,7 +108,6 @@ public class MypageController {
     }
 
 
-    @PreAuthorize("isAuthenticated()")
     @GetMapping("/{userId}")
     public String myPage(@PathVariable String userId, Model model, Principal principal) {
         if (!principal.getName().equals(userId)) {
@@ -111,7 +120,7 @@ public class MypageController {
     }
 
     // 비밀번호 변경 폼을 표시하는 메서드
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/change-password/{userId}")
     public String changePasswordPage(@PathVariable String userId, Model model,Principal principal) {
         if (!principal.getName().equals(userId)) {
@@ -124,7 +133,6 @@ public class MypageController {
 
 
     // 비밀번호 변경 요청을 처리하는 메서드
-    @PreAuthorize("isAuthenticated()")
     @PostMapping("/change-password/{userId}")
     public String changePassword(@PathVariable String userId,
                                  @ModelAttribute("changePasswordForm") @Valid ChangePasswordForm changePwForm,
@@ -148,7 +156,7 @@ public class MypageController {
         return "redirect:/mypage/" + userId;
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @Transactional
     @PostMapping("/delete/{userId}")
     public String deleteUser(@PathVariable String userId, Principal principal,
@@ -166,7 +174,7 @@ public class MypageController {
         return "redirect:/";
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/input-useamount/{userId}")
     public String showUsageForm(@PathVariable String userId, Model model, Principal principal) {
         if (!principal.getName().equals(userId)) {
@@ -187,7 +195,7 @@ public class MypageController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @PostMapping("/input-useamount/{userId}")
     public String processUsageForm(@PathVariable String userId,
                                    @ModelAttribute("useAmountForm") UseAmountForm useAmountForm,
@@ -213,7 +221,7 @@ public class MypageController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/useamount-detail/{userId}")
     public String showUseAmountDetail(@PathVariable String userId,
                                       @RequestParam(required = false) Integer year,
@@ -237,7 +245,7 @@ public class MypageController {
         }
     }
 
-    @PreAuthorize("isAuthenticated()")
+
     @GetMapping("/point-status/{userId}")
     public String showPointHistory(@PathVariable String userId,
                                    Model model,
@@ -276,5 +284,3 @@ public class MypageController {
         return "coupon_status";
     }
 }
-
-
