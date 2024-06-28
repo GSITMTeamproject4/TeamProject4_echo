@@ -6,14 +6,19 @@
 <body>
 <div>
   <h2>장바구니</h2>
-  <div th:each="item : ${cart.items}">
+  <div th:if="${#lists.isEmpty(cart.items)}">
+    <p>장바구니가 비어있습니다</p>
+  </div>
+  <div th:unless="${#lists.isEmpty(cart.items)}" th:each="item : ${cart.items}">
     <p>상품명: <span th:text="${item.product.productName}"></span></p>
     <p>수량: <span th:text="${item.quantity}"></span></p>
     <p>가격: <span th:text="${item.product.price}"></span>원</p>
   </div>
-  <a th:href="@{/order/checkout/{userId}(userId=${user.userId})}">
-    <button>결제하기</button>
-  </a>
+  <div th:unless="${#lists.isEmpty(cart.items)}">
+    <a th:href="@{/order/checkout/{userId}(userId=${user.userId})}">
+      <button>결제하기</button>
+    </a>
+  </div>
 </div>
 </body>
 </html>

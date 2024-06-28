@@ -11,6 +11,108 @@
 
     function requestPay() {
       var merchant_uid = 'ORD' + new Date().getTime(); // 고유한 주문번호 생성
+
+      // 서버에서 전달된 변수들을 JavaScript 변수로 변환
+      var productNames = /*[[${productNames}]]*/ [];
+      var totalAmount = /*[[${totalAmount}]]*/ 0;
+      var buyerEmail = /*[[${buyerEmail}]]*/ '';
+      var buyerName = /*[[${buyerName}]]*/ '';
+      var buyerTel = /*[[${buyerTel}]]*/ '';
+      var buyerAddr = /*[[${buyerAddr}]]*/ '';
+      var buyerPostcode = /*[[${buyerPostcode}]]*/ '';
+      console.log(totalAmount);
+
+      IMP.request_pay({
+        pg: "kakaopay",
+        pay_method: "card",
+        merchant_uid: merchant_uid,   // 주문번호
+        name: productNames.join(", "), // 여러 상품 이름을 쉼표로 구분하여 결제 요청에 포함
+        amount: totalAmount,         // 총 금액
+        buyer_email: buyerEmail,
+        buyer_name: buyerName,
+        buyer_tel: buyerTel,
+        buyer_addr: buyerAddr,
+        buyer_postcode: buyerPostcode
+      }, function (rsp) { // callback
+        if (rsp.success) {
+          $.ajax({
+            type: 'POST',
+            url: '/verify/' + rsp.imp_uid,
+            success: function(data) {
+              if (rsp.paid_amount === data.response.amount) {
+                alert("결제 성공");
+              } else {
+                alert("결제 실패");
+              }
+            },
+            error: function(request, status, error) {
+              alert("결제가 완료되었습니다.");
+              //alert("결제 검증 중 오류가 발생했습니다.");
+              location.href = "/order/success"; // 결제 성공 여부와 상관없이 이동
+            }
+          });
+        } else {
+          alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+        }
+      });
+    }
+<!--    -->
+var IMP = window.IMP;
+IMP.init("imp24163476");
+
+function requestPay() {
+  var merchant_uid = 'ORD' + new Date().getTime(); // 고유한 주문번호 생성
+
+  // 서버에서 전달된 변수들을 JavaScript 변수로 변환
+  var productNames = /*[[${productNames}]]*/ [];
+  var totalAmount = /*[[${totalAmount}]]*/ 0;
+  var buyerEmail = /*[[${buyerEmail}]]*/ '';
+  var buyerName = /*[[${buyerName}]]*/ '';
+  var buyerTel = /*[[${buyerTel}]]*/ '';
+  var buyerAddr = /*[[${buyerAddr}]]*/ '';
+  var buyerPostcode = /*[[${buyerPostcode}]]*/ '';
+  console.log(totalAmount);
+
+  IMP.request_pay({
+    pg: "kakaopay",
+    pay_method: "card",
+    merchant_uid: merchant_uid,   // 주문번호
+    name: productNames.join(", "), // 여러 상품 이름을 쉼표로 구분하여 결제 요청에 포함
+    amount: totalAmount,         // 총 금액
+    buyer_email: buyerEmail,
+    buyer_name: buyerName,
+    buyer_tel: buyerTel,
+    buyer_addr: buyerAddr,
+    buyer_postcode: buyerPostcode
+  }, function (rsp) { // callback
+    if (rsp.success) {
+      $.ajax({
+        type: 'POST',
+        url: '/verify/' + rsp.imp_uid,
+        success: function(data) {
+          if (rsp.paid_amount === data.response.amount) {
+            alert("결제 성공");
+          } else {
+            alert("결제 실패");
+          }
+        },
+        error: function(request, status, error) {
+          alert("결제가 완료되었습니다.");
+          //alert("결제 검증 중 오류가 발생했습니다.");
+          location.href = "/order/success"; // 결제 성공 여부와 상관없이 이동
+        }
+      });
+    } else {
+      alert("결제에 실패하였습니다. 에러 내용: " + rsp.error_msg);
+    }
+  });
+}
+
+    var IMP = window.IMP;
+    IMP.init("imp24163476");
+
+    function requestPay() {
+      var merchant_uid = 'ORD' + new Date().getTime(); // 고유한 주문번호 생성
       IMP.request_pay({
         pg: "kakaopay",
         pay_method: "card",
