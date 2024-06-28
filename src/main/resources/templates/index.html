@@ -6,36 +6,15 @@
         <title>녹색 저탄소</title>
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-        <style>
-            .divBox1{
-                width: 100%;
-                display: flex;
-            }
-            .myPageNav{
-                flex-grow: 0.5;
-                margin: 100px 30px;
-                background: aliceblue;
-            }
-            .divBox2{
-                margin: 100px 10px;
-                width: 60%;
-                flex-grow: 0.5;
-            }
-            .divBox3{
-                display: flex;
-                width: 250px;
-                justify-content: space-between;
-            }
-            .label{
-                font-size: 1em;
-                margin:0;
-            }
-        </style>
+        <link th:href="@{css/common/argon-dashboard.min.css}"/>
+
     </head>
 <div layout:fragment="content" class="divBox1">
     <body>
-    <nav class="myPageNav">
-        마이페이지 들어갈 공간임
+
+    <nav class="myPageNav" style="margin-top: 100px;">
+
+
     </nav>
     <div class="divBox2">
         <div class="div-container">
@@ -70,6 +49,7 @@
         </div>
     </div>
         </div>
+    </div>
 
     <div class="usage-chart-container">
         <div>
@@ -96,7 +76,6 @@
             </div>
         </div>
         <canvas id="usageChart"></canvas>
-    </div>
     </div>
 
     <script>

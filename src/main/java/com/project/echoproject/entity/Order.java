@@ -1,5 +1,7 @@
 package com.project.echoproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -27,11 +29,14 @@ public class Order {
     private String buyerEmail;
     private String buyerAddr;
     private String buyerPostcode;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime orderDate;
     private int totalAmount;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<OrderItem> items = new ArrayList<>();
+    private List<OrderItem> items;
 
     @PrePersist
     protected void onCreate() {

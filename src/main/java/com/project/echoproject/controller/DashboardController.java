@@ -1,6 +1,9 @@
 package com.project.echoproject.controller;
 
+import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
+import com.project.echoproject.service.MypageService;
+import com.project.echoproject.service.SiteUserServiceImpl;
 import com.project.echoproject.service.UseAmountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,10 +20,16 @@ import java.util.Map;
 public class DashboardController {
 
     private final UseAmountService useAmountService;
+    private final SiteUserServiceImpl siteUserServiceImpl;
+    private final MypageService mypageService; // 추가
 
     @Autowired
-    public DashboardController(UseAmountService useAmountService) {
+    public DashboardController(UseAmountService useAmountService,
+                               SiteUserServiceImpl siteUserServiceImpl,
+                               MypageService mypageService) { // 생성자 매개변수 추가
         this.useAmountService = useAmountService;
+        this.siteUserServiceImpl = siteUserServiceImpl;
+        this.mypageService = mypageService; // 초기화
     }
 
     /**
@@ -29,10 +38,18 @@ public class DashboardController {
      * @param principal 현재 사용자 정보를 제공하는 Principal 객체
      * @return index.html 뷰 페이지 이름
      */
+
+
+
     @GetMapping(value = {"/", "/index", "/main", "index"})
     public String dashboard(Model model, Principal principal) {
         if (principal != null) {
             String userId = principal.getName();
+
+            // 사용자 정보를 가져와 모델에 추가 (추가된 부분)
+            SiteUser user = mypageService.getUserById(userId);
+            model.addAttribute("user", user);
+
             LocalDate now = LocalDate.now();
             int currentMonth = now.getMonthValue();
             int currentYear = now.getYear();
