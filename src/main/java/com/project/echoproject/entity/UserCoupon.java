@@ -23,5 +23,8 @@ public class UserCoupon {
     Coupon coupon;
 
     private LocalDateTime insertDate;
-
 }
+
+
+
+
