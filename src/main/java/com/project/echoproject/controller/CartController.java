@@ -1,6 +1,6 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.dto.CartItemDTO;
+import com.project.echoproject.dto.order.CartItemDTO;
 import com.project.echoproject.entity.Cart;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.CartService;

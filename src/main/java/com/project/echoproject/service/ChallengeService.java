@@ -71,13 +71,13 @@ public class ChallengeService {
     }
 
 
-    public Challenge createBoard(String title,  MultipartFile file, SiteUser siteUser) throws IOException {
+    public Challenge createBoard(String title,  MultipartFile file, SiteUser siteUser,String content) throws IOException {
 
         Challenge challenge = new Challenge();
         Date date = new Date();
         challenge.setChallengeDate(date);
         challenge.setChallengeInfo(title);
-
+        challenge.setChallengeContent(content);
         if (!file.isEmpty()) {
             // ImageService를 사용하여 이미지 저장
             Image image = imageService.saveImage(file);
@@ -101,6 +101,10 @@ public class ChallengeService {
 
     public void deleteChallenge(Long id) {
         challengeRepository.deleteById(id);
+    }
+
+    public Challenge getChallengeById(Long id) {
+        return challengeRepository.findById(id).get();
     }
 
 }

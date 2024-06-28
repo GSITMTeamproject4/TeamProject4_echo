@@ -28,4 +28,7 @@ public class Challenge {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "imageId", referencedColumnName = "id")
     private Image image;
+
+    @Column(columnDefinition = "TEXT")
+    private String challengeContent;
 }

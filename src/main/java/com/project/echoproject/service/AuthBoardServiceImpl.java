@@ -109,6 +109,8 @@ public class AuthBoardServiceImpl implements AuthBoardService {
             throw new SecurityException("권한 없음");
         }
 
+        // 관리자가 삭제할 수 있게 추가해야됨
+
         authBoardRepository.delete(authBoard);
     }
 
