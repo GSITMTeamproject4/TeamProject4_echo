@@ -96,7 +96,10 @@
 
             <!-- 버튼 우측정렬 수정된 부분 시작 -->
             <div class="d-flex justify-content-end">
-                <a th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>
+<!--                <a th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>-->
+                <!--id가 admin1234 이고 로그인 한 상태 일때만 보이도록 버튼 수정       -->
+                <a sec:authorize="isAuthenticated() and principal.username == 'admin1234'" th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>
+
             </div>
             <!-- 수정된 부분 끝 -->
 
