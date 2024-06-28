@@ -46,7 +46,7 @@
 
                         <div class="col-lg-6">
 
-                            <form th:action="@{/challenge/add}" method="post" class="php-email-form" enctype="multipart/form-data">
+                            <form th:action="@{/challenge/add}" method="post" class="php-email-form" enctype="multipart/form-data" onsubmit="return addChall(event)">
                                 <div class="row gy-4">
 
                                     <div class="col-md-12">
@@ -86,7 +86,15 @@
             </section><!-- /Contact Section -->
 
         </main>
-
+        <script th:inline="javascript">
+            function addChall(event) {
+                if(confirm("등록하시겠습니까?")){
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
         </body>
     </div>
 </layout:html>
