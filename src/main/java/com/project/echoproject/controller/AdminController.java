@@ -67,6 +67,13 @@ public class AdminController {
         return "redirect:/admin/point";
     }
 
+    @GetMapping("/showChallenge/{id}")
+    public String adminChallengeDetail(@PathVariable("id") Long challengeId, Model model) {
+        Challenge challenge = challengeService.getChallengeById(challengeId);
+        model.addAttribute("challenge", challenge);
+        return "showChallenge"; // 신고된 게시글의 상세 페이지로 이동합니다.
+    }
+
     @GetMapping("/report")
     public String adminReportListBoard(Model model) {
 
@@ -87,5 +94,10 @@ public class AdminController {
         AuthBoard authBoard = authBoardService.getAuthBoard(authBoardId); // 해당 게시글을 가져옴
         model.addAttribute("board", authBoard);
         return "/authBoard/authBoard_detail"; // 신고된 게시글의 상세 페이지로 이동합니다.
+    }
+
+    @GetMapping("/login")
+    public String login() {
+        return "admin/loginFormAdmin";
     }
 }
