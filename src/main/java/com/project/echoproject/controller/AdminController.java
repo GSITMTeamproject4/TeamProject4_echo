@@ -100,4 +100,9 @@ public class AdminController {
     public String login() {
         return "admin/loginFormAdmin";
     }
+
+    @GetMapping("/")
+    public String index() {
+        return "admin";
+    }
 }
