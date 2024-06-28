@@ -81,7 +81,6 @@ public class OrderRestController {
 
         // 반환할 데이터를 로그로 출력하여 확인
         System.out.println("Response Data: " + new ObjectMapper().writeValueAsString(response)); // JSON 데이터 확인
-
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
