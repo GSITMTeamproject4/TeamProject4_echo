@@ -1,14 +1,13 @@
 package com.project.echoproject.controller;
 
 import com.project.echoproject.dto.ChangePasswordForm;
-import com.project.echoproject.dto.SiteUserEditForm;
+import com.project.echoproject.dto.PointDTO;
 import com.project.echoproject.dto.UseAmountForm;
 import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
 import com.project.echoproject.service.*;
 
-import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -20,6 +19,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,7 +37,7 @@ public class MypageController {
     private final ChangePasswordServiceImpl changePasswordServiceImpl;
     private final UseAmountServiceImpl useAmountServiceImpl;
     private final PointService pointService;
-
+    private final SiteUserServiceImpl siteUserServiceImpl;
 
     @Autowired
     public MypageController(MypageService mypageService,
@@ -47,7 +47,9 @@ public class MypageController {
         this.changePasswordServiceImpl = changePasswordServiceImpl;
         this.useAmountServiceImpl = useAmountServiceImpl;
         this.pointService = pointService;
+        this.siteUserServiceImpl = siteUserServiceImpl;
     }
+
 
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/edit/{userId}")
@@ -56,37 +58,21 @@ public class MypageController {
             return "redirect:/";
         }
         SiteUser user = mypageService.getUserById(userId);
-        SiteUserEditForm form = new SiteUserEditForm();
-        form.setUserId(user.getUserId());
-        form.setUserName(user.getUserName());
-        form.setPhoneNum(user.getPhoneNum());
-        form.setEmail(user.getEmail());
-        form.setAddress(user.getAddress());
-        form.setGender(user.getGender());
-
-        model.addAttribute("user", user);  // 현재 사용자 정보
-        model.addAttribute("userEditForm", form);  // 개인정보 수정용 폼
+        model.addAttribute("user", user);
         return "edit_form";
     }
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/edit/{userId}")
     public String updatePersonalInfo(@PathVariable String userId,
-                                     @Valid @ModelAttribute("userEditForm") SiteUserEditForm userEditForm,
-                                     BindingResult bindingResult,
+                                     @ModelAttribute SiteUser updatedUser,
                                      @RequestParam(value = "file", required = false) MultipartFile file,
                                      Model model, Principal principal) {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
         }
-
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("user", mypageService.getUserById(userId));
-            return "edit_form";
-        }
-
         try {
-            mypageService.updateUser(userId, userEditForm, file);
+            mypageService.updateUser(userId, updatedUser, file);
             return "redirect:/mypage/" + userId;
         } catch (IOException e) {
             model.addAttribute("errorMessage", "이미지 업로드 중 오류가 발생했습니다: " + e.getMessage());
@@ -97,7 +83,6 @@ public class MypageController {
         }
     }
 
-
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/{userId}")
     public String myPage(@PathVariable String userId, Model model, Principal principal) {
@@ -106,11 +91,10 @@ public class MypageController {
         }
         SiteUser user = mypageService.getUserById(userId);
         model.addAttribute("user", user);
-        model.addAttribute("year", LocalDate.now().getYear());
         return "mypage";
     }
 
-    // 비밀번호 변경 폼을 표시하는 메서드
+    // 비밀번호 변경 폼을 표시하는 메소드
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/change-password/{userId}")
     public String changePasswordPage(@PathVariable String userId, Model model,Principal principal) {
@@ -123,11 +107,11 @@ public class MypageController {
     }
 
 
-    // 비밀번호 변경 요청을 처리하는 메서드
+    // 비밀번호 변경 요청을 처리하는 메소드
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/change-password/{userId}")
     public String changePassword(@PathVariable String userId,
-                                 @ModelAttribute("changePasswordForm") @Valid ChangePasswordForm changePwForm,
+                                 @ModelAttribute("changePasswordForm") @Validated ChangePasswordForm changePwForm,
                                  BindingResult result, Model model,Principal principal) {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
@@ -221,7 +205,6 @@ public class MypageController {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
         }
-
         try {
             int currentYear = (year != null) ? year : LocalDate.now().getYear();
 
@@ -229,7 +212,6 @@ public class MypageController {
             model.addAttribute("useAmounts", useAmounts);
             model.addAttribute("userId", userId);
             model.addAttribute("year", currentYear);
-
             return "useamount_detail";
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
@@ -276,5 +258,4 @@ public class MypageController {
         return "coupon_status";
     }
 }
-
 

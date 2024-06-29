@@ -6,31 +6,11 @@
 <head>
     <meta charset="UTF-8">
     <title>포인트 현황</title>
-    <style>
-        .point-status {
-            text-align: center;
-        }
-        .table {
-            text-align: center;
-        }
-        .table th, .table td {
-            vertical-align: middle;
-        }
-        .blog-pagination {
-            margin-top: 70px;
-        }
-        .blog-pagination ul {
-            padding: 0;
-            list-style-type: none;
-        }
-        .blog-pagination ul li {
-            display: inline-block;
-            margin: 0 5px;
-        }
-    </style>
 </head>
 <div layout:fragment="content">
-    <div class="point-status" style="background-color: white; padding-bottom: 100px;">
+    <body class="point-status">
+    <div style="background-color: white; padding-bottom: 100px;">
+
         <!--타이틀-->
         <main class="main">
             <div class="page-title" data-aos="fade">
@@ -86,6 +66,9 @@
                 </div>
             </div>
         </section><!-- /Blog Pagination Section -->
+
+
     </div>
+    </body>
 </div>
 </html>

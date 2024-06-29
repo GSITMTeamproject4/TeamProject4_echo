@@ -20,7 +20,7 @@ public class UserCoupon {
 
     @ManyToOne
     @JoinColumn(name = "couponId")
-    Coupon coupon;
+    Coupon couponId;
 
     private LocalDateTime insertDate;
 }

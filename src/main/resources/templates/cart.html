@@ -1,202 +1,24 @@
 <!DOCTYPE html>
-<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-             xmlns:layout="http://www.w3.org/1999/xhtml"
-             layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <title>장바구니</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f9f9f9;
-      margin: 0;
-      padding: 0;
-    }
-
-    .container {
-      width: 80%;
-      margin: 0 auto;
-      background-color: #fff;
-      padding: 20px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
-
-    h2 {
-      color: #333;
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    .item {
-      padding: 15px;
-      border-bottom: 1px solid #eee;
-      margin-bottom: 10px;
-    }
-
-    .item:last-child {
-      border-bottom: none;
-    }
-
-    p {
-      color: #666;
-      margin: 5px 0;
-      font-size: 16px;
-    }
-
-    span {
-      font-weight: bold;
-      color: #333;
-    }
-
-    .checkout-btn {
-      display: block;
-      width: 100%;
-      background-color: #FF6347;
-      border: none;
-      color: white;
-      padding: 15px;
-      text-align: center;
-      text-decoration: none;
-      font-size: 18px;
-      margin-top: 20px;
-      cursor: pointer;
-      border-radius: 4px;
-    }
-
-    .checkout-btn:hover {
-      background-color: #FF4500;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse; /* 테두리 병합 */
-    }
-
-    /* 헤더 행 스타일 */
-    .bar1 {
-      background-color: #bcbcbc; /* 배경색 */
-      color: #ffffff; /* 글자색 */
-      font-weight: bold; /* 글자 두께 */
-
-    }
-    /* 헤더 셀 스타일 */
-    .bar3 {
-      padding: 12px 15px; /* 셀 안 여백 */
-      text-align: center; /* 가운데 정렬 */
-
-      border-bottom: 1px solid #dddddd; /* 아래쪽 테두리 */
-    }
-
-    /* 데이터 셀 스타일 */
-    .bar2 {
-      padding: 10px 15px; /* 셀 안 여백 */
-      text-align: center; /* 가운데 정렬 */
-      border-bottom: 1px solid #dddddd; /* 아래쪽 테두리 */
-    }
-    .abutton, .abutton:link, .abutton:visited, .abutton:active, input[type=button] {
-      background-color: #383838;
-      border: 1px solid #888888;
-      color: #ffffff;
-      cursor: pointer;
-      letter-spacing: -1px;
-      padding: 3px 5px;
-      margin: 2px 3px;
-      margin-top: 2px;
-      width: auto;
-      word-break: keep-all;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 0.9375em;
-    }
-
-    .basketdiv .check input[type=checkbox] {
-
-      transform: scale(1.5);
-    }
-    user agent stylesheet
-    input[type="checkbox" i] {
-      vertical-align: middle;
-      background-color: initial;
-      cursor: default;
-      appearance: auto;
-      box-sizing: border-box;
-      margin: 3px 3px 3px 3px;
-      padding: initial;
-      border: initial;
-    }
-    .tboding{
-      text-align:center;
-    }
-    .abutton, .abutton:link, .abutton:visited, .abutton:active, input[type=button] {
-      background-color: #383838;
-      border: 1px solid #888888;
-      color: #ffffff;
-      cursor: pointer;
-      letter-spacing: -1px;
-      padding: 3px 5px;
-      margin: 2px 3px;
-      width: auto;
-      word-break: keep-all;
-      border-radius: 5px;
-      text-decoration: none;
-      font-size: 0.9375em;
-    }
-  </style>
+  <title>Cart</title>
 </head>
-  <div layout:fragment="content" class="container my-3">
 <body>
-<main class="main">
-  <div class="page-title" data-aos="fade">
-
-      <div class="container">
-        <div class="row d-flex justify-content-center text-center">
-          <div class="col-lg-8">
-            <h1>장바구니</h1>
-
-
-        </div>
-      </div>
-    </div>
+<div>
+  <h2>장바구니</h2>
+  <div th:if="${#lists.isEmpty(cart.items)}">
+    <p>장바구니가 비어있습니다</p>
   </div>
-
-</main>
-<div class="container">
-<table >
-  <tbody class="tboding">
-  <tr class="bar1">
-    <th class="bar3">선택</th>
-    <th class="bar3">상품명</th>
-    <th class="bar3">수량</th>
-    <th class="bar3">가격</th>
-    <th class="bar3">삭제</th>
-  </tr>
-
-  <tr class="item" th:each="item : ${cart.items}">
-    <td class="check"><input type="checkbox" name="buy" value="260" checked="">&nbsp;</td>
-    <td class="bar2" th:text="${item.product.productName}"> </td>
-    <td class="bar2" th:text="${item.quantity}"></td>
-    <td class="bar2" th:text="${item.product.price}">원</td>
-    <td class="basketcmd"><a href="javascript:void(0)" class="abutton" onclick="javascript:basket.delItem();">삭제</a></td>
-  </tr>
-  </tbody>
-  </table>
-
-  <div class="right-align basketrowcmd">
-    <a href="javascript:void(0)" class="abutton" onclick="javascript:basket.delCheckedItem();">선택상품삭제</a>
-    <a href="javascript:void(0)" class="abutton" onclick="javascript:basket.delAllItem();">장바구니비우기</a>
+  <div th:unless="${#lists.isEmpty(cart.items)}" th:each="item : ${cart.items}">
+    <p>상품명: <span th:text="${item.product.productName}"></span></p>
+    <p>수량: <span th:text="${item.quantity}"></span></p>
+    <p>가격: <span th:text="${item.product.price}"></span>원</p>
   </div>
-
-  <div class="bigtext right-align sumcount" id="sum_p_num">상품갯수:</div>
-  <div class="bigtext right-align box blue summoney" id="sum_p_price">합계금액: </div>
-
-  <div id="goorder" class="">
-    <div class="clear"></div>
-    <div class="buttongroup center-align cmd">
-      <a th:href="@{/order/checkout/{userId}(userId=${user.userId})}" class="checkout-btn">
-        결제하기
-      </a>
-    </div>
+  <div th:unless="${#lists.isEmpty(cart.items)}">
+    <a th:href="@{/orders/checkout/{userId}(userId=${user.userId})}">
+      <button>결제하기</button>
+    </a>
   </div>
 </div>
 </body>
-  </div>
-</layout:html>
+</html>

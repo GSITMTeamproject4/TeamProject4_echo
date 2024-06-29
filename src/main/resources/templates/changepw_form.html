@@ -1,77 +1,71 @@
 <!DOCTYPE html>
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div layout:fragment="content" class="container my-3">
-    <head>
-        <meta charset="UTF-8">
-        <title>Change Password</title>
-        <style>
-            .button-container {
-                display: flex;
-                justify-content: center;
-                gap: 10px;
-                margin-top: 20px;
-            }
-        </style>
-    </head>
-    <body class="change-pw">
-    <div style="background-color: white; padding-bottom: 100px;">
-        <!--타이틀-->
-        <main class="main">
-            <div class="page-title" data-aos="fade">
-                <div class="heading">
-                    <div class="container">
-                        <div class="row d-flex justify-content-center text-center">
-                            <div class="col-lg-8">
-                                <h1>비밀번호변경</h1>
-                            </div>
-                        </div>
+<head>
+    <meta charset="UTF-8">
+    <title>Change Password</title>
+    <style>
+        .change-pw{
+            background: white;
+        }
+    </style>
+</head>
+<body class="change-pw">
+<!--타이틀-->
+<main class="main">
+    <div class="page-title" data-aos="fade">
+        <div class="heading">
+            <div class="container">
+                <div class="row d-flex justify-content-center text-center">
+                    <div class="col-lg-8">
+                        <h1>비밀번호변경</h1>
                     </div>
                 </div>
             </div>
-        </main>
-        <div class="container my-3">
+        </div>
+    </div>
+</main>
+<div class="container my-3">
 
-            <!-- 비밀번호 변경 폼 -->
-            <form id="changePwForm" th:action="@{/mypage/change-password/{userId}(userId=${userId})}" method="post" th:object="${changePasswordForm}">
-                <input type="hidden" name="userId" th:value="${userId}">
-                <div class="mb-3">
-                    <label for="currentPassword" class="form-label">현재 비밀번호 : </label>
-                    <input type="password" id="currentPassword" name="currentPassword" class="form-control" th:field="*{currentPassword}" required>
-                    <!-- 필드 에러 표시 -->
-                    <span class="text-danger" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label for="newPassword" class="form-label">새 비밀번호 : </label>
-                    <input type="password" id="newPassword" name="newPassword" class="form-control" th:field="*{newPassword}" required>
-                    <span class="text-danger" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></span>
-                </div>
-
-                <div class="mb-3">
-                    <label for="newPasswordConfirm" class="form-label">새 비밀번호 확인 : </label>
-                    <input type="password" id="newPasswordConfirm" name="newPasswordConfirm" class="form-control" th:field="*{newPasswordConfirm}" required>
-                    <!-- 필드 에러 표시 -->
-                    <span class="text-danger" th:if="${#fields.hasErrors('newPasswordConfirm')}" th:errors="*{newPasswordConfirm}"></span>
-                </div>
-
-                <div class="button-container">
-                    <button type="submit" class="btn btn-primary">변경</button>
-                </div>
-
-            </form>
-
+    <!-- 비밀번호 변경 폼 -->
+    <form id="changePwForm" th:action="@{/mypage/change-password/{userId}(userId=${userId})}" method="post" th:object="${changePasswordForm}">
+        <input type="hidden" name="userId" th:value="${userId}">
+        <div class="mb-3">
+            <label for="currentPassword" class="form-label">현재 비밀번호 : </label>
+            <input type="password" id="currentPassword" name="currentPassword" class="form-control" th:field="*{currentPassword}" required>
+            <!-- 필드 에러 표시 -->
+            <span class="text-danger" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}"></span>
         </div>
 
-        <script th:inline="javascript">
-            function confirmUpdate(event) {
-                event.preventDefault();
-                if (confirm("정말 변경하시겠습니까?")) {
-                    document.getElementById("changePwForm").submit();
-                }
-            }
+        <div class="mb-3">
+            <label for="newPassword" class="form-label">새 비밀번호 : </label>
+            <input type="password" id="newPassword" name="newPassword" class="form-control" th:field="*{newPassword}" required>
+            <span class="text-danger" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></span>
+        </div>
 
-            document.getElementById("changePwForm").addEventListener("submit", confirmUpdate);
-        </script>
-    </body>
+        <div class="mb-3">
+            <label for="newPasswordConfirm" class="form-label">새 비밀번호 확인 : </label>
+            <input type="password" id="newPasswordConfirm" name="newPasswordConfirm" class="form-control" th:field="*{newPasswordConfirm}" required>
+            <!-- 필드 에러 표시 -->
+            <span class="text-danger" th:if="${#fields.hasErrors('newPasswordConfirm')}" th:errors="*{newPasswordConfirm}"></span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" onclick="changePwConfirm()" >변경</button>
+    </form>
+
+</div>
+
+<script th:inline="javascript">
+
+    function changePwConfirm() {
+        if (confirm("정말 변경하시겠습니까?")) {
+            document.getElementById("editForm").submit();
+        }
+    }
+
+</script>
+</body>
 </div>
 </html>
+
+

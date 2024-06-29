@@ -30,8 +30,8 @@ public class CartController {
                                 @RequestParam(value = "quantity", defaultValue = "1") int quantity) {
 
         // 사용자 정보 가져오기
-        String username = userDetails.getUsername();
-        SiteUser user = siteUserService.findByUserId(username);
+        String userId = userDetails.getUsername(); // 이제 이 부분이 userId를 반환합니다.
+        SiteUser user = siteUserService.findByUserId(userId);
         if (user == null) {
             throw new IllegalArgumentException("User not found");
         }

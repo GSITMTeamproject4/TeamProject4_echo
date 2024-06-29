@@ -1,8 +1,8 @@
 package com.project.echoproject.service;
 
 import com.project.echoproject.entity.Image;
-import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.entity.UserRole;
 import com.project.echoproject.repository.SiteUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -23,7 +21,6 @@ public class SiteUserServiceImpl implements SiteUserService {
     private final SiteUserRepository siteUserRepository;
     private final PasswordEncoder passwordEncoder;
     private final ImageService imageService;
-    private final PointService pointService;
 
     @Override
     public SiteUser findByUserId(String userId) {
@@ -56,35 +53,20 @@ public class SiteUserServiceImpl implements SiteUserService {
         // 이미지 파일 처리
         if (file != null && !file.isEmpty()) {
             Image image = imageService.saveImage(file);
-            siteUser.setImgUrl(image.getFilePath());
+            siteUser.setProfileImage(image);
+            image.setSiteUser(siteUser); // 양방향 관계 설정
         }
+
+        siteUser.setProvider("local");
+        siteUser.setProviderId(userId);  // 일반 회원가입의 경우 providerId를 userId와 동일하게 설정
+        siteUser.setRole(UserRole.USER);
 
         return siteUserRepository.save(siteUser);
     }
 
     public SiteUser buyCoupon(String userId, Long balance) {
         SiteUser siteUser = findByUserId(userId);
-        siteUser.setCurrentPoint(balance); // 찾아와서 빼기 하는걸로 수정하기
+        siteUser.setCurrentPoint(balance);
         return siteUserRepository.save(siteUser);
     }
-
-    public List<SiteUser> getAllUsers(){
-        return siteUserRepository.findAll();
-    }
-
-    public void addPointByAdmin(String userId,Long point,String challengeInfo) {
-        SiteUser siteUser = findByUserId(userId);
-        siteUser.setCurrentPoint(siteUser.getCurrentPoint() + point);
-        siteUserRepository.save(siteUser);
-
-        LocalDateTime now = LocalDateTime.now();
-        Point addPoint = new Point();
-        addPoint.setSiteUser(siteUser);
-        addPoint.setPoint(500L);
-        addPoint.setPointInfo(challengeInfo);
-        addPoint.setInsertDate(now);
-        pointService.addPointHistory(addPoint);
-    }
-
-
 }
