@@ -73,8 +73,8 @@ public class OrderServiceImpl implements OrderService {
         BuyerDTO buyerDTO = new BuyerDTO();
         buyerDTO.setUsername(orders.getBuyer().getUserId());
         buyerDTO.setBuyerTel(orders.getBuyer().getPhoneNum());
-        buyerDTO.setBuyerAddr(orders.getBuyer().getAddress());
-        buyerDTO.setBuyerPostcode(orders.getBuyer().getAddress());
+        buyerDTO.setBuyerAddr(orders.getBuyer().getStreetaddr());
+        buyerDTO.setBuyerPostcode(orders.getBuyer().getZipcode());
         orderDTO.setBuyer(buyerDTO);
 
         // Items가 null이 아닌지 확인하고 변환

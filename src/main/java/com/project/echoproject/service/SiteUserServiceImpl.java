@@ -38,7 +38,7 @@ public class SiteUserServiceImpl implements SiteUserService {
     }
 
     @Override
-    public SiteUser create(String userId, String userName, String phoneNum, String gender, String password, String email, MultipartFile file, String address) throws IOException {
+    public SiteUser create(String userId, String userName, String phoneNum, String gender, String password, String email, MultipartFile file, String zipcode, String streetaddr, String detailaddr) throws IOException {
         Optional<SiteUser> existingUser = siteUserRepository.findByUserId(userId);
         if (existingUser.isPresent()) {
             throw new IllegalArgumentException("이미 존재하는 아이디입니다.");
@@ -49,7 +49,9 @@ public class SiteUserServiceImpl implements SiteUserService {
         siteUser.setUserName(userName);
         siteUser.setEmail(email);
         siteUser.setPhoneNum(phoneNum);
-        siteUser.setAddress(address);
+        siteUser.setZipcode(zipcode);
+        siteUser.setStreetaddr(streetaddr);
+        siteUser.setDetailaddr(detailaddr);
 
         if ("male".equalsIgnoreCase(gender)) {
             siteUser.setGender("M");

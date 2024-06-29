@@ -2,12 +2,23 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Cart</title>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
-<div>
+<div th:if="${loginRequired}">
+  <script>
+    alert('로그인이 필요합니다.');
+    window.location.href = '/user/login';
+  </script>
+</div>
+
+<div th:unless="${loginRequired}">
   <h2>장바구니</h2>
   <div th:if="${#lists.isEmpty(cart.items)}">
     <p>장바구니가 비어있습니다</p>
+  </div>
+  <div th:if="${error}" class="error-message">
+    <p th:text="${error}"></p>
   </div>
   <div th:unless="${#lists.isEmpty(cart.items)}" th:each="item : ${cart.items}">
     <p>상품명: <span th:text="${item.product.productName}"></span></p>
@@ -20,5 +31,28 @@
     </a>
   </div>
 </div>
+
+<script>
+  function addToCart(productId, quantity) {
+    $.ajax({
+      url: '/cart/add',
+      type: 'POST',
+      data: {
+        productId: productId,
+        quantity: quantity
+      },
+      success: function(response) {
+        alert('상품이 장바구니에 추가되었습니다.');
+      },
+      error: function(xhr, status, error) {
+        if (xhr.status === 401) {
+          alert('로그인이 필요합니다.');
+        } else {
+          alert('오류가 발생했습니다: ' + xhr.responseText);
+        }
+      }
+    });
+  }
+</script>
 </body>
 </html>

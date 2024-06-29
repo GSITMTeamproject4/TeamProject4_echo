@@ -1,4 +1,5 @@
 var stompClient = null;
+var isFirstConnect = true;
 
 function setConnected(connected) {
     $("#send").prop("disabled", !connected);
@@ -11,6 +12,10 @@ function setConnected(connected) {
 }
 
 function connect() {
+    if (stompClient && stompClient.connected) {
+        return; // 이미 연결되어 있으면 다시 연결하지 않음
+    }
+
     var socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -20,9 +25,12 @@ function connect() {
             showMessage(message.body, 'received_message');
         });
 
-        var welcomeMessage = "안녕하세요!! 반갑습니다!!";
-        showMessage(welcomeMessage, 'sent_message');
-        stompClient.send("/app/sendMessage", {}, JSON.stringify(welcomeMessage));
+        if (isFirstConnect) {
+            var welcomeMessage = "안녕하세요!! 반갑습니다!!";
+            showMessage(welcomeMessage, 'sent_message');
+            stompClient.send("/app/sendMessage", {}, JSON.stringify(welcomeMessage));
+            isFirstConnect = false;
+        }
     });
 }
 
@@ -35,46 +43,58 @@ function disconnect() {
 }
 
 function sendMessage() {
-    let message = $("#msg").val().trim(); // trim()을 사용하여 공백 제거
+    let message = $("#msg").val().trim();
     if (message === "") {
-        console.log("빈 메시지는 전송되지 않습니다."); // 빈 메시지 로그 추가
-        return; // 빈 메시지일 경우 함수 종료
+        console.log("빈 메시지는 전송되지 않습니다.");
+        return;
     }
-    console.log("Sending message: " + message); // 메시지 전송 로그 추가
+    console.log("Sending message: " + message);
     showMessage(message, 'sent_message');
     stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
-    $("#msg").val(''); // 메시지 전송 후 입력 필드 초기화
+    $("#msg").val('');
 }
-
 
 function showMessage(message, messageClass) {
     $("#communicate").append("<div class='" + messageClass + "'>" + message + "</div>");
+    scrollToBottom();
 }
 
 function handleKeyUpEvent(e) {
-    if (e.key === 'Enter' && !e.shiftKey) { // Shift + Enter는 줄바꿈으로 처리
+    if (e.key === 'Enter' && !e.shiftKey) {
         e.preventDefault();
         sendMessage();
     }
 }
 
+function scrollToBottom() {
+    var mainContent = document.getElementById('communicate');
+    mainContent.scrollTop = mainContent.scrollHeight;
+}
+
 $(function () {
-    $(".form-inline").on('submit', function (e) {
+    $("#chatToggle").on('click', function() {
+        $("#chatContainer").toggle();
+        if ($("#chatContainer").is(":visible")) {
+            connect();
+        }
+    });
+
+    $("#chatClose").on('click', function() {
+        $("#chatContainer").hide();
+        // 연결 상태 유지, 창만 닫음
+    });
+
+    $(".chatbot-form").on('submit', function (e) {
         e.preventDefault();
     });
 
-    $("#send").off('click').on('click', function() { sendMessage(); });
-
-    // keyup 이벤트 리스너를 한 번만 등록
-    $("#msg").off('keyup').on('keyup', handleKeyUpEvent);
-
-    // 채팅 시작 버튼을 누르면 자동으로 연결
-    $("#chatModal").on("shown.bs.modal", function () {
-        connect();
+    $("#send").off('click').on('click', function() {
+        sendMessage();
     });
 
-    // 모달을 닫을 때 연결 해제
-    $("#chatModal").on("hidden.bs.modal", function () {
-        disconnect();
+    $("#msg").off('keyup').on('keyup', handleKeyUpEvent);
+
+    $('#chatContainer').on('shown', function () {
+        $('#msg').focus();
     });
 });

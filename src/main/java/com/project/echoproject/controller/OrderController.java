@@ -73,8 +73,8 @@ public class OrderController {
         model.addAttribute("buyerEmail", siteUser.getEmail());
         model.addAttribute("buyerId", siteUser.getUserId());
         model.addAttribute("buyerTel", siteUser.getPhoneNum());
-        model.addAttribute("buyerAddr", siteUser.getAddress());
-        model.addAttribute("buyerPostcode", siteUser.getAddress());
+        model.addAttribute("buyerAddr", siteUser.getStreetaddr());
+        model.addAttribute("buyerPostcode", siteUser.getZipcode());
 
         return "payment";
     }
