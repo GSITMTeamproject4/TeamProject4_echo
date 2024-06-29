@@ -1,4 +1,4 @@
-package com.project.echoproject;
+package com.project.echoproject.config;
 
 import com.project.echoproject.oauth.CustomAuthenticationSuccessHandler;
 import com.project.echoproject.oauth.CustomOAuth2UserServiceImpl;

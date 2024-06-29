@@ -9,4 +9,12 @@ public interface SiteUserService {
     SiteUser findByUserId(String userId);
     SiteUser create(String userId, String userName, String password, String email, String phoneNum, String gender,MultipartFile imgFile,String address) throws IOException;
     SiteUser buyCoupon(String username, Long balance);
+    void requestPasswordReset(String email);
+    boolean resetPassword(String token, String newPassword);
+
+    boolean verifyUserAndSendResetEmail(String userId, String email, String userName);
+
+    void resendPasswordResetEmail(String email);
+
+    String generateResetToken();
 }

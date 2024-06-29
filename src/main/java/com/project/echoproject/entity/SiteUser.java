@@ -56,6 +56,10 @@ public class SiteUser {
 
     private String providerId;
 
+    private String resetToken;
+
+    private LocalDateTime resetTokenExpiry;
+
 
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<LikeBoard> likeBoards;

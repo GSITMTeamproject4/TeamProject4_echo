@@ -61,6 +61,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
     implementation 'org.apache.commons:commons-lang3'
 
+    // mail 관련 gradle
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 }
 

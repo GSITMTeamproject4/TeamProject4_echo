@@ -1,4 +1,4 @@
-package com.project.echoproject;
+package com.project.echoproject.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
