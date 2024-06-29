@@ -1,5 +1,6 @@
 package com.project.echoproject.service;
 
+import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.SiteUserRepository;
@@ -30,28 +31,28 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public void updateUser(String userId, SiteUser updatedUser, MultipartFile file) throws IOException {
-        SiteUser updateInfo = userRepository.findByUserId(userId)
+    public void updateUser(String userId, SiteUserEditForm updatedUser, MultipartFile file) throws IOException {
+        SiteUser user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        updateInfo.setUserName(updatedUser.getUserName());
-        updateInfo.setEmail(updatedUser.getEmail());
-        updateInfo.setPhoneNum(updatedUser.getPhoneNum());
+        user.setUserName(updatedUser.getUserName());
+        user.setNickName(updatedUser.getNickName());
+        user.setEmail(updatedUser.getEmail());
+        user.setPhoneNum(updatedUser.getPhoneNum());
+        user.setGender(updatedUser.getGender());
+        user.setZipcode(updatedUser.getZipcode());
+        user.setStreetaddr(updatedUser.getStreetaddr());
+        user.setDetailaddr(updatedUser.getDetailaddr());
 
         if (file != null && !file.isEmpty()) {
-            // 기존 프로필 이미지가 있다면 삭제
-            if (updateInfo.getProfileImage() != null) {
-                imageService.deleteImage(updateInfo.getProfileImage());
-            }
-
-            // 새 이미지 저장
-            Image newImage = imageService.saveImage(file);
-            updateInfo.setProfileImage(newImage);
-            newImage.setSiteUser(updateInfo);
+            Image image = imageService.saveImage(file);
+            user.setProfileImage(image);
         }
 
-        userRepository.save(updateInfo);
+
+        userRepository.save(user);
     }
+
 
     @Transactional
     @Override
