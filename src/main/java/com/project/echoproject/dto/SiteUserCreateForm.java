@@ -38,12 +38,16 @@ public class SiteUserCreateForm {
     @Email
     private String email;
 
-
-
     @Nullable
     private String imgUrl;
-    @NotEmpty
-    private String address;
+
+    @NotEmpty(message = "우편번호는 필수항목입니다.")
+    private String zipcode;
+
+    @NotEmpty(message = "도로명주소는 필수항목입니다.")
+    private String streetaddr;
+
+    private String detailaddr;
 
 
 }

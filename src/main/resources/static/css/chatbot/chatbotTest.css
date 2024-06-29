@@ -1,0 +1,80 @@
+body {
+    background-color: #f5f5f5;
+}
+
+#main-content {
+    height: 365px;
+    overflow-y: auto;
+    max-width: 940px;
+    padding: 2em 3em;
+    margin: 0 auto 20px;
+    background-color: #fff;
+    border: 1px solid #e5e5e5;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+.communicate {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+}
+
+.sent_message, .received_message {
+    margin-bottom: 5px;
+    display: inline-block;
+    text-align: left;
+    padding: 10px 15px;
+    margin-bottom: 5px;
+    border-radius: 25px;
+}
+
+.sent_message {
+    margin-left: auto;
+    max-width: 200px;
+    background-color: lightgreen;
+}
+
+.received_message {
+    width: 200px;
+    background-color: lightskyblue;
+    margin-right: auto;
+}
+
+.form-inline {
+    display: flex;
+    align-items: center;
+}
+
+.modal-content {
+    height: 600px;
+}
+
+.modal-footer {
+    display: block;
+}
+
+.modal-footer .form-control {
+    width: 450px;
+    margin-right: 30px;
+}
+
+.modal-footer .col-md-6 {
+    width: 100%;
+}
+
+.chatbot-btn {
+    width: 60px;
+    background-color: beige;
+    height: 35px;
+}
+
+.modal-header {
+    background-color: cornflowerblue;
+}
+
+.modal-header .close {
+    border: none;
+    background-color: transparent;
+}

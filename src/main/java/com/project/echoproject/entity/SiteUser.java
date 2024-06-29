@@ -27,12 +27,18 @@ public class SiteUser {
     @Column(nullable = false)
     private String email;
 
+    private String nickName;
+
     // 선택 입력 부분
     private String phoneNum;
 
     private String gender;
 
-    private String address;
+    private String zipcode;
+
+    private String streetaddr;
+
+    private String detailaddr;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "profile_image_id")
@@ -55,6 +61,10 @@ public class SiteUser {
     private String provider;  // "google", "naver", "kakao", "local"
 
     private String providerId;
+
+    private String resetToken;
+
+    private LocalDateTime resetTokenExpiry;
 
 
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)

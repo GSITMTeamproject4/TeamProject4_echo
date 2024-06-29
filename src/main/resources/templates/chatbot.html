@@ -1,57 +1,31 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-             xmlns:layout="http://www.w3.org/1999/xhtml">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:layout="http://www.w3.org/1999/xhtml">
 <head>
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
-
 <body>
 <div class="container" th:fragment="chatbot">
-  <button type="button" class="btn btn-primary chatbot" data-toggle="modal" data-target="#chatModal">
+  <button type="button" class="btn btn-primary chatbot-toggle" id="chatToggle">
     <i class="fa-solid fa-comment"></i>
   </button>
-
-  <!-- 모달 -->
-  <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="chatModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-
-        <!-- header -->
-        <div class="modal-header">
-          <h5 class="modal-title" id="chatModalLabel">저탄소 녹색 Life 챗봇</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
+  <div class="chatbot-container" id="chatContainer">
+    <div class="chatbot-content">
+      <div class="chatbot-header">
+        <h5 class="chatbot-title">저탄소 녹색 Life 챗봇</h5>
+        <button type="button" class="chatbot-close" id="chatClose">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+      <div class="chatbot-body">
+        <div id="communicate" class="communicate"></div>
+      </div>
+      <div class="chatbot-footer">
+        <form class="chatbot-form">
+          <input type="text" id="msg" class="chatbot-input" placeholder="메시지를 입력하세요...">
+          <button id="send" class="chatbot-send" disabled type="submit">
+            <i class="fa-solid fa-paper-plane"></i>
           </button>
-        </div>
-        <!-- header -->
-
-        <!-- body -->
-        <div class="modal-body">
-          <div id="main-content" class="container">
-            <div class="row">
-              <div class="col-md-12">
-                <div id="conversation" class="table table-striped">
-                  <div id="communicate" class="communicate"></div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <!-- body -->
-
-        <!-- footer -->
-        <div class="modal-footer">
-          <div class="col-md-6">
-            <form class="form-inline">
-              <div class="form-group">
-                <input type="text" id="msg" class="form-control" placeholder="내용을 입력하세요....">
-              </div>
-              <button id="send" class="btn btn-default chatbot-btn" disabled type="submit"><i class="fa-solid fa-paper-plane"></i></button>
-            </form>
-          </div>
-        </div>
-        <!-- footer -->
-
+        </form>
       </div>
     </div>
   </div>

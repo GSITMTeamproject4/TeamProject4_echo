@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.w3.org/1999/xhtml">
+<head>
+
+</head>
+
+<body>
+<div class="container" th:fragment="chatbot">
+  <button type="button" class="btn btn-primary chatbot" data-toggle="modal" data-target="#chatModal">
+    <i class="fa-solid fa-comment"></i>
+  </button>
+
+  <!-- 모달 -->
+  <div class="modal fade" id="chatModal" tabindex="-1" role="dialog" aria-labelledby="chatModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+
+        <!-- header -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="chatModalLabel">저탄소 녹색 Life 챗봇</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true"><i class="fa-solid fa-xmark"></i></span>
+          </button>
+        </div>
+        <!-- header -->
+
+        <!-- body -->
+        <div class="modal-body">
+          <div id="main-content" class="container">
+            <div class="row">
+              <div class="col-md-12">
+                <div id="conversation" class="table table-striped">
+                  <div id="communicate" class="communicate"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- body -->
+
+        <!-- footer -->
+        <div class="modal-footer">
+          <div class="col-md-6">
+            <form class="form-inline">
+              <div class="form-group">
+                <input type="text" id="msg" class="form-control" placeholder="내용을 입력하세요....">
+              </div>
+              <button id="send" class="btn btn-default chatbot-btn" disabled type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+          </div>
+        </div>
+        <!-- footer -->
+
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>

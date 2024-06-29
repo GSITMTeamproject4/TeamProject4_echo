@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>회원가입</title>
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 </head>
 <body>
 <h1>회원가입</h1>
@@ -48,9 +49,20 @@
         <div th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
     </div>
     <div>
-        <label for="address">주소:</label>
-        <input type="text" id="address" th:field="*{address}">
-        <div th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
+        <label for="zipcode">우편번호:</label>
+        <input type="text" id="zipcode" th:field="*{zipcode}" readonly>
+        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+    </div>
+    <div>
+        <label for="streetaddr">도로명주소:</label>
+        <input type="text" id="streetaddr" th:field="*{streetaddr}" readonly>
+    </div>
+    <div>
+        <label for="detailaddr">상세주소:</label>
+        <input type="text" id="detailaddr" th:field="*{detailaddr}">
+    </div>
+    <div>
+        <input type="text" id="extraAddress" placeholder="참고항목" readonly>
     </div>
     <div th:if="${#fields.hasGlobalErrors()}">
         <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
@@ -63,5 +75,35 @@
     </div>
 </form>
 <a th:href="@{/authBoard/list}">취소</a>
+<script>
+    function execDaumPostcode() {
+        new daum.Postcode({
+            oncomplete: function(data) {
+                var roadAddr = data.roadAddress;
+                var extraRoadAddr = '';
+
+                if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                    extraRoadAddr += data.bname;
+                }
+                if(data.buildingName !== '' && data.apartment === 'Y'){
+                    extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                }
+                if(extraRoadAddr !== ''){
+                    extraRoadAddr = ' (' + extraRoadAddr + ')';
+                }
+
+                document.getElementById('zipcode').value = data.zonecode;
+                document.getElementById("streetaddr").value = roadAddr;
+                document.getElementById("detailaddr").focus();
+
+                if(roadAddr !== ''){
+                    document.getElementById("extraAddress").value = extraRoadAddr;
+                } else {
+                    document.getElementById("extraAddress").value = '';
+                }
+            }
+        }).open();
+    }
+</script>
 </body>
 </html>

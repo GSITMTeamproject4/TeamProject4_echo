@@ -49,7 +49,9 @@ public class SiteUserController {
                     siteUserCreateForm.getPhoneNum(), siteUserCreateForm.getGender(),
                     siteUserCreateForm.getPassword1(), siteUserCreateForm.getEmail(),
                     profileImage,
-                    siteUserCreateForm.getAddress());
+                    siteUserCreateForm.getZipcode(),
+                    siteUserCreateForm.getStreetaddr(),
+                    siteUserCreateForm.getDetailaddr());
 
         } catch (DataIntegrityViolationException e) {
 

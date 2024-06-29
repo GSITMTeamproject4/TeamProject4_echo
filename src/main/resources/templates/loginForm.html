@@ -8,8 +8,7 @@
 <div class="container my-3">
   <form th:action="@{/user/login}" method="post">
     <div th:if="${param.error}">
-      <div class="alert alert-danger">
-        사용자ID 또는 비밀번호를 확인해 주세요.
+      <div class="alert alert-danger" th:text="${param.exception}">
       </div>
     </div>
     <div class="mb-3">
@@ -27,6 +26,7 @@
   <a href="/oauth2/authorization/google">Google 로그인</a><br>
   <a href="/oauth2/authorization/naver">Naver 로그인</a><br>
   <a href="/oauth2/authorization/kakao">Kakao 로그인</a><br>
+  <a th:href="@{/api/password/find}">비밀번호 찾기</a>
 </div>
 </body>
 </html>
