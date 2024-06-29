@@ -3,6 +3,7 @@ package com.project.echoproject.controller;
 import com.project.echoproject.dto.ChangePasswordForm;
 import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.dto.UseAmountForm;
+import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
@@ -61,8 +62,11 @@ public class MypageController {
         form.setUserName(user.getUserName());
         form.setPhoneNum(user.getPhoneNum());
         form.setEmail(user.getEmail());
-        form.setAddress(user.getAddress());
         form.setGender(user.getGender());
+        //entity가 바뀌면서 address가 밑의 부분으로 바뀌었습니다!
+        form.getZipcode();
+        form.getStreetaddr();
+        form.getDetailaddr();
 
         model.addAttribute("user", user);  // 현재 사용자 정보
         model.addAttribute("userEditForm", form);  // 개인정보 수정용 폼

@@ -25,61 +25,61 @@ public class OrderServiceImpl implements OrderService {
 
     @Transactional
     @Override
-    public Order createOrder(String orderNumber, String buyerTel, String buyerEmail, String buyerAddr, String buyerPostcode, int totalAmount, String userId) {
+    public Orders createOrder(String orderNumber, String buyerTel, String buyerEmail, String buyerAddr, String buyerPostcode, int totalAmount, String userId) {
         SiteUser siteUser = siteUserRepository.findById(userId).orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         Cart cart = cartRepository.findByUser(siteUser).orElseThrow(() -> new IllegalArgumentException("Cart not found"));
 
-        Order order = new Order();
-        order.setOrderNumber(orderNumber);
-        order.setBuyer(siteUser);
-        order.setBuyerTel(buyerTel);
-        order.setBuyerEmail(buyerEmail);
-        order.setBuyerAddr(buyerAddr);
-        order.setBuyerPostcode(buyerPostcode);
-        order.setTotalAmount(totalAmount);
+        Orders orders = new Orders();
+        orders.setOrderNumber(orderNumber);
+        orders.setBuyer(siteUser);
+        orders.setBuyerTel(buyerTel);
+        orders.setBuyerEmail(buyerEmail);
+        orders.setBuyerAddr(buyerAddr);
+        orders.setBuyerPostcode(buyerPostcode);
+        orders.setTotalAmount(totalAmount);
 
         List<OrderItem> orderItems = cart.getItems().stream().map(cartItem -> {
             OrderItem orderItem = new OrderItem();
-            orderItem.setOrder(order);
+            orderItem.setOrders(orders);
             orderItem.setProduct(cartItem.getProduct());
             orderItem.setQuantity(cartItem.getQuantity());
             return orderItem;
         }).collect(Collectors.toList());
 
-        order.setItems(orderItems);
-        orderRepository.save(order);
+        orders.setItems(orderItems);
+        orderRepository.save(orders);
 
 
-        return order;
+        return orders;
     }
 
     @Override
     public OrderDTO getOrderDetails(String orderNumber) {
         // 주문 정보를 데이터베이스에서 조회
-        Order order = orderRepository.findByOrderNumber(orderNumber);
+        Orders orders = orderRepository.findByOrderNumber(orderNumber);
 
         // Order가 null인 경우 처리
-        if (order == null) {
+        if (orders == null) {
             // 예외를 던지거나, 빈 OrderDTO를 반환하거나, 적절한 방법으로 처리
             throw new RuntimeException("Order not found for orderNumber: " + orderNumber);
         }
 
         // Order 엔티티를 OrderDTO로 변환
         OrderDTO orderDTO = new OrderDTO();
-        orderDTO.setOrderNumber(order.getOrderNumber());
-        orderDTO.setTotalAmount(order.getTotalAmount());
+        orderDTO.setOrderNumber(orders.getOrderNumber());
+        orderDTO.setTotalAmount(orders.getTotalAmount());
 
         BuyerDTO buyerDTO = new BuyerDTO();
-        buyerDTO.setUsername(order.getBuyer().getUserId());
-        buyerDTO.setBuyerTel(order.getBuyer().getPhoneNum());
-        buyerDTO.setBuyerAddr(order.getBuyer().getAddress());
-        buyerDTO.setBuyerPostcode(order.getBuyer().getAddress());
+        buyerDTO.setUsername(orders.getBuyer().getUserId());
+        buyerDTO.setBuyerTel(orders.getBuyer().getPhoneNum());
+        buyerDTO.setBuyerAddr(orders.getBuyer().getStreetaddr());
+        buyerDTO.setBuyerPostcode(orders.getBuyer().getZipcode());
         orderDTO.setBuyer(buyerDTO);
 
         // Items가 null이 아닌지 확인하고 변환
-        if (order.getItems() != null) {
-            List<ItemDTO> itemDTOList = order.getItems().stream().map(item -> {
+        if (orders.getItems() != null) {
+            List<ItemDTO> itemDTOList = orders.getItems().stream().map(item -> {
                 ItemDTO itemDTO = new ItemDTO();
                 itemDTO.setProductName(item.getProduct().getProductName());
                 itemDTO.setQuantity(item.getQuantity());
@@ -103,4 +103,8 @@ public class OrderServiceImpl implements OrderService {
         cartRepository.save(cart);
     }
 
+    @Override
+    public Orders getOrderByOrderNumber(String orderNumber) {
+        return orderRepository.findByOrderNumber(orderNumber);
+    }
 }

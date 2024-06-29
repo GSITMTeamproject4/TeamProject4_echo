@@ -50,7 +50,7 @@
         if (rsp.success) {
           $.ajax({
             type: 'POST',
-            url: 'api/order/verify/' + rsp.imp_uid,
+            url: 'api/orders/verify/' + rsp.imp_uid,
             success: function(data) {
               console.log("Verification response:", data); // 검증 응답 로그 추가
               if (rsp.paid_amount === data.response.amount) {
@@ -123,24 +123,23 @@
 
         $.ajax({
           type: 'POST',
-          url: '/api/order/success',
+          url: '/api/orders/success',
           data: orderData,
           cache: false,
           contentType: 'application/json',
           beforeSend: function(xhr) {
-            xhr.setRequestHeader(header, token); // CSRF 토큰 설정
+            xhr.setRequestHeader(header, token);
           },
           success: function(response) {
             console.log("Order data sent successfully:", response);
-            // 성공 시 페이지 이동
-            window.location.href = "/order/success";
+            // 성공 시 주문 상세 페이지로 이동
+            window.location.href = "/orders/success/" + response.orderNumber;
           },
           error: function(xhr, status, error) {
-            console.error("Failed to send order data:", error);
+            console.error("Failed to send orders data:", error);
             console.error("Response Text:", xhr.responseText);
             console.error("Response Status:", status);
             console.error("Response Headers:", xhr.getAllResponseHeaders());
-            //window.location.href = "/order/success";
           }
         });
       } catch (e) {
@@ -165,7 +164,7 @@
 <button onclick="sendOrderData('ORD' + new Date().getTime(), false)">주문 데이터 전송</button> <!-- 주문 데이터 전송 버튼 생성 -->
 
 <!-- CSRF 토큰이 포함된 폼 추가 post 요청할 때 무조건 토큰 있어야 됨-->
-<form th:action="@{/api/order/success}" method="post">
+<form th:action="@{/api/orders/success}" method="post">
   <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
   <!-- 기타 폼 필드 -->
 </form>

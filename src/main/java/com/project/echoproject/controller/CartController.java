@@ -6,14 +6,15 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.CartService;
 import com.project.echoproject.service.SiteUserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/cart")
@@ -25,15 +26,17 @@ public class CartController {
 
     @PostMapping("/add")
     @ResponseBody
-    public String addItemToCart(@AuthenticationPrincipal UserDetails userDetails,
-                                @RequestParam("productId") Long productId,
-                                @RequestParam(value = "quantity", defaultValue = "1") int quantity) {
+    public ResponseEntity<String> addItemToCart(@RequestParam("productId") Long productId,
+                                                @RequestParam(value = "quantity", defaultValue = "1") int quantity) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
+        }
 
-        // 사용자 정보 가져오기
-        String username = userDetails.getUsername();
-        SiteUser user = siteUserService.findByUserId(username);
+        String userId = authentication.getName();
+        SiteUser user = siteUserService.findByUserId(userId);
         if (user == null) {
-            throw new IllegalArgumentException("User not found");
+            return ResponseEntity.status(404).body("User not found");
         }
 
         // CartItemDTO 생성
@@ -45,24 +48,33 @@ public class CartController {
         cartService.addItemToCart(user.getUserId(), cartItemDTO);
 
         // 성공 메시지 반환
-        return "success";
+        return ResponseEntity.ok("success");
     }
 
-    @RequestMapping("/view")
-    public String viewCart(@AuthenticationPrincipal UserDetails userDetails, Model model) {
-        // 사용자 정보 가져오기
-        String username = userDetails.getUsername();
-        SiteUser user = siteUserService.findByUserId(username);
-        if (user == null) {
-            throw new IllegalArgumentException("User not found");
+    @GetMapping("/view")
+    public String viewCart(Model model) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
+            model.addAttribute("loginRequired", true);
+            return "cart";
         }
 
         // 장바구니 정보 가져오기
-        Cart cart = cartService.getCart(user.getUserId());
+        String userId = authentication.getName();
+        SiteUser user = siteUserService.findByUserId(userId);
+        if (user == null) {
+            model.addAttribute("error", "사용자를 찾을 수 없습니다.");
+            return "cart";
+        }
 
         // 모델에 장바구니와 사용자 정보 추가
-        model.addAttribute("cart", cart);
-        model.addAttribute("user", user);
+        try {
+            Cart cart = cartService.getCart(user.getUserId());
+            model.addAttribute("cart", cart);
+            model.addAttribute("user", user);
+        } catch (Exception e) {
+            model.addAttribute("error", "장바구니를 불러오는 중 오류가 발생했습니다.");
+        }
 
         // 장바구니 페이지로 이동
         return "cart";

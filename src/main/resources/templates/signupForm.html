@@ -9,6 +9,7 @@
         <link rel="stylesheet" th:href="@{/css/common/nucleo-svg.css}">
         <link rel="stylesheet" th:href="@{/css/common/argon-dashboard.min.css}">
         <link rel="stylesheet" th:href="@{/css/common/login.css}">
+        <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
         <style>
             .button-container {
                 display: flex;
@@ -27,95 +28,114 @@
         </style>
     </head>
     <div layout:fragment="content" class="container my-3">
-<!--        여기밑-->
+        <!--        여기밑-->
         <body>
         <div style="background-color: white; padding-bottom: 100px;">
-        <!--타이틀-->
+            <!--타이틀-->
             <main class="main-content  mt-0">
                 <div id="containing">
 
 
 
 
-                <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://png.pngtree.com/thumb_back/fw800/background/20231010/pngtree-captivating-3d-world-environment-day-poster-amidst-a-serene-natural-setting-image_13599890.png'); background-position: top;">
-                    <span class="mask opacity-6"></span>
-                    <div class="container">
-                        <div class="row justify-content-center">
-                            <div class="col-lg-5 text-center mx-auto">
-                                <h1 class="text-white mb-2 mt-5">welcome!</h1>
-                                <p class="text-lead text-white">환경을 위한 그린 첼린지에 도전하세요!</p>
+                    <div class="page-header align-items-start min-vh-50 pt-5 pb-11 m-3 border-radius-lg" style="background-image: url('https://png.pngtree.com/thumb_back/fw800/background/20231010/pngtree-captivating-3d-world-environment-day-poster-amidst-a-serene-natural-setting-image_13599890.png'); background-position: top;">
+                        <span class="mask opacity-6"></span>
+                        <div class="container">
+                            <div class="row justify-content-center">
+                                <div class="col-lg-5 text-center mx-auto">
+                                    <h1 class="text-white mb-2 mt-5">welcome!</h1>
+                                    <p class="text-lead text-white">환경을 위한 그린 첼린지에 도전하세요!</p>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="container">
-                    <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
-                        <div class="col-xl-4 col-lg-5 col-md-7 mx-auto boxing">
-                            <div class="card z-index-0 boxing2">
-                                <div class="card-header text-center pt-4">
-                                    <h5>회원가입</h5>
-                                </div>
+                    <div class="container">
+                        <div class="row mt-lg-n10 mt-md-n11 mt-n10 justify-content-center">
+                            <div class="col-xl-4 col-lg-5 col-md-7 mx-auto boxing">
+                                <div class="card z-index-0 boxing2">
+                                    <div class="card-header text-center pt-4">
+                                        <h5>회원가입</h5>
+                                    </div>
 
-                                <form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data">
-                                <div class="card-body">
+                                    <form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data">
+                                        <div class="card-body">
 
-                                        <div class="mb-3">
+                                            <div class="mb-3">
 
-                                            <label for="userId" >사용자 ID : </label>
-                                            <input type="text" id="userId" th:field="*{userId}" class="form-control">
-                                            <div class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
+                                                <label for="userId" >사용자 ID : </label>
+                                                <input type="text" id="userId" th:field="*{userId}" class="form-control">
+                                                <div class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
 
-                                        <div class="mb-3">
-                                            <label for="userName" >이름 : </label>
-                                            <input type="text" id="userName" th:field="*{userName}" class="form-control">
-                                            <div class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="phoneNum" >전화번호 : </label>
-                                            <input type="text" id="phoneNum" th:field="*{phoneNum}" class="form-control">
-                                            <div class="text-danger" th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="gender" >성별 : </label>
-                                            <select id="gender" th:field="*{gender}" class="form-control">
-                                                <option value="" th:if="*{gender} == ''">선택하세요</option>
-                                                <option value="male">남성</option>
-                                                <option value="female">여성</option>
-                                            </select>
-                                            <div class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password1" >비밀번호 : </label>
-                                            <input type="password" id="password1" th:field="*{password1}" class="form-control">
-                                            <div class="text-danger" th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}"></div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="password2" >비밀번호 확인:</label>
-                                            <input type="password" id="password2" th:field="*{password2}" class="form-control">
-                                            <div class="text-danger" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="email" >이메일 : </label>
-                                            <input type="email" id="email" th:field="*{email}" class="form-control">
-                                            <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="address" >주소:</label>
-                                            <input type="text" id="address" th:field="*{address}" class="form-control">
-                                            <div class="text-danger" th:if="${#fields.hasErrors('address')}" th:errors="*{address}"></div>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label for="profileImage" >이미지 업로드 : </label>
-                                            <input type="file" id="profileImage" name="profileImage" class="form-control-file">
-                                        </div>
-
-                                        <div class="text-center">
-                                            <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2" >가입하기</button>
-                                        </div>
-                                        <a th:href="@{/authBoard/list}" class="btn btn-secondary">취소</a>
+                                                <div class="mb-3">
+                                                    <label for="userName" >이름 : </label>
+                                                    <input type="text" id="userName" th:field="*{userName}" class="form-control">
+                                                    <div class="text-danger" th:if="${#fields.hasErrors('userName')}" th:errors="*{userName}"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="phoneNum" >전화번호 : </label>
+                                                    <input type="text" id="phoneNum" th:field="*{phoneNum}" class="form-control">
+                                                    <div class="text-danger" th:if="${#fields.hasErrors('phoneNum')}" th:errors="*{phoneNum}"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="gender" >성별 : </label>
+                                                    <select id="gender" th:field="*{gender}" class="form-control">
+                                                        <option value="" th:if="*{gender} == ''">선택하세요</option>
+                                                        <option value="male">남성</option>
+                                                        <option value="female">여성</option>
+                                                    </select>
+                                                    <div class="text-danger" th:if="${#fields.hasErrors('gender')}" th:errors="*{gender}"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="password1" >비밀번호 : </label>
+                                                    <input type="password" id="password1" th:field="*{password1}" class="form-control">
+                                                    <div class="text-danger" th:if="${#fields.hasErrors('password1')}" th:errors="*{password1}"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="password2" >비밀번호 확인:</label>
+                                                    <input type="password" id="password2" th:field="*{password2}" class="form-control">
+                                                    <div class="text-danger" th:if="${#fields.hasErrors('password2')}" th:errors="*{password2}"></div>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="email" >이메일 : </label>
+                                                    <input type="email" id="email" th:field="*{email}" class="form-control">
+                                                    <div class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></div>
+                                                </div>
 
 
-                                        <p class="text-sm mt-3 mb-0">Already have an account? <a href="javascript:;" class="text-dark font-weight-bolder">Sign in</a></p>
+                                                <!--                                            주소대신 추가한 부분입니다-->
+                                                <div class="mb-3">
+                                                    <label for="zipcode">우편번호:</label>
+                                                    <input type="text" id="zipcode" th:field="*{zipcode}" readonly >
+                                                    <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="streetaddr">도로명주소:</label>
+                                                    <input type="text" id="streetaddr" th:field="*{streetaddr}" readonly>
+                                                </div>
+                                                <div class="mb-3">
+                                                    <label for="detailaddr">상세주소:</label>
+                                                    <input type="text" id="detailaddr" th:field="*{detailaddr}">
+                                                </div>
+                                                <div class="mb-3">
+                                                    <input type="text" id="extraAddress" placeholder="참고항목" readonly>
+                                                </div>
+                                                <div th:if="${#fields.hasGlobalErrors()}">
+                                                    <div th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
+                                                </div>
+
+
+                                                <div class="mb-3">
+                                                    <label for="profileImage" >이미지 업로드 : </label>
+                                                    <input type="file" id="profileImage" name="profileImage" class="form-control-file">
+                                                </div>
+
+                                                <div class="text-center">
+                                                    <button type="submit" class="btn bg-gradient-dark w-100 my-4 mb-2" >가입하기</button>
+                                                </div>
+                                                <a th:href="@{/authBoard/list}" class="btn btn-secondary">취소</a>
+
+
+                                                <p class="text-sm mt-3 mb-0">Already have an account? <a th:href="@{login}" class="text-dark font-weight-bolder">Sign in</a></p>
                                     </form>
                                 </div>
                             </div>
@@ -128,6 +148,36 @@
             <!-- -------- END FOOTER 3 w/ COMPANY DESCRIPTION WITH LINKS & SOCIAL ICONS & COPYRIGHT ------- -->
             <!--   Core JS Files   -->
 
+            <script>
+                function execDaumPostcode() {
+                    new daum.Postcode({
+                        oncomplete: function(data) {
+                            var roadAddr = data.roadAddress;
+                            var extraRoadAddr = '';
+
+                            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+                                extraRoadAddr += data.bname;
+                            }
+                            if(data.buildingName !== '' && data.apartment === 'Y'){
+                                extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+                            }
+                            if(extraRoadAddr !== ''){
+                                extraRoadAddr = ' (' + extraRoadAddr + ')';
+                            }
+
+                            document.getElementById('zipcode').value = data.zonecode;
+                            document.getElementById("streetaddr").value = roadAddr;
+                            document.getElementById("detailaddr").focus();
+
+                            if(roadAddr !== ''){
+                                document.getElementById("extraAddress").value = extraRoadAddr;
+                            } else {
+                                document.getElementById("extraAddress").value = '';
+                            }
+                        }
+                    }).open();
+                }
+            </script>
         </body>
     </div>
 </layout:html>

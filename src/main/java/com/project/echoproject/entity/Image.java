@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-
 import java.time.LocalDateTime;
 
 @Getter
@@ -17,14 +16,16 @@ public class Image {
     private Long id;
 
     private String fileName;
-
     private String fileType;
-
-    private String filePath; // 파일 경로를 저장할 필드
-
+    private String filePath;
     private LocalDateTime uploadTime;
 
     @Transient
-    private String base64; // Base64 문자열 저장할 필드
+    private String base64;
 
+    @OneToOne(mappedBy = "profileImage")
+    private SiteUser siteUser;
+
+    @OneToOne(mappedBy = "productImage")
+    private Product product;
 }

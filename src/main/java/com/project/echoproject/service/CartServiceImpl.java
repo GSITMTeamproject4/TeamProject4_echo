@@ -65,7 +65,11 @@ public class CartServiceImpl implements CartService {
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
         return cartRepository.findByUser(user)
-                .orElseThrow(() -> new IllegalArgumentException("Cart not found"));
+                .orElseGet(() -> {
+                    Cart newCart = new Cart();
+                    newCart.setUser(user);
+                    return cartRepository.save(newCart);
+                });
     }
 }
 

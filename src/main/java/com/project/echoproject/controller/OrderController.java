@@ -2,7 +2,7 @@ package com.project.echoproject.controller;
 
 import com.project.echoproject.entity.Cart;
 import com.project.echoproject.entity.CartItem;
-import com.project.echoproject.entity.Order;
+import com.project.echoproject.entity.Orders;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.CartRepository;
 import com.project.echoproject.repository.SiteUserRepository;
@@ -10,16 +10,15 @@ import com.project.echoproject.service.CartService;
 import com.project.echoproject.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
     private final SiteUserRepository siteUserRepository;
@@ -67,7 +66,6 @@ public class OrderController {
                 .map(item -> item.getProduct().getId())
                 .collect(Collectors.toList());
 
-        // 모델에 데이터 추가
         model.addAttribute("productIds", productIds);
         model.addAttribute("productNames", productNames);
         model.addAttribute("quantities", quantities);
@@ -75,26 +73,20 @@ public class OrderController {
         model.addAttribute("buyerEmail", siteUser.getEmail());
         model.addAttribute("buyerId", siteUser.getUserId());
         model.addAttribute("buyerTel", siteUser.getPhoneNum());
-        model.addAttribute("buyerAddr", siteUser.getAddress());
-        model.addAttribute("buyerPostcode", siteUser.getAddress());
+        model.addAttribute("buyerAddr", siteUser.getStreetaddr());
+        model.addAttribute("buyerPostcode", siteUser.getZipcode());
 
         return "payment";
     }
 
-    @GetMapping("/success")
-    public String orderSuccess(Model model) {
-        // RedirectAttributes로부터 전달된 데이터를 가져옴
-        if (model.containsAttribute("order")) {
-            Order order = (Order) model.getAttribute("order");
-            model.addAttribute("order", order);
-        } else {
-            // 장바구니가 비어있을 때 에러 메시지를 추가
-            model.addAttribute("errorMessage", "Cart is empty or order not found.");
-//            return "/error/error_cart"; // 에러 페이지로 리다이렉트
-        }
 
+    @GetMapping("/success/{orderNumber}")
+    public String orderSuccess(@PathVariable String orderNumber, Model model) {
+        Orders order = orderService.getOrderByOrderNumber(orderNumber);
+        if (order == null) {
+            return "redirect:/error";
+        }
+        model.addAttribute("order", order);
         return "orderSuccess";
     }
-
-
 }

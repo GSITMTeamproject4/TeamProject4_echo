@@ -1,5 +1,6 @@
 package com.project.echoproject.dto;
 
+import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
@@ -30,4 +31,12 @@ public class SiteUserEditForm {
 
     @Pattern(regexp = ".*\\.(png|jpg)$", message = "파일은 PNG 또는 JPG 형식이어야 합니다.")
     private String imgUrl;
+
+    @NotEmpty(message = "우편번호는 필수항목입니다.")
+    private String zipcode;
+
+    @NotEmpty(message = "도로명주소는 필수항목입니다.")
+    private String streetaddr;
+
+    private String detailaddr;
 }

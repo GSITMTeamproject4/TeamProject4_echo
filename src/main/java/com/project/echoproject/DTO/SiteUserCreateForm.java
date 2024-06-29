@@ -11,8 +11,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class SiteUserCreateForm {
-    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{5,15}$", message = "아이디는 최소 5자 이상의 영어와 숫자의 조합이어야 합니다.")
-    @Size(min =5, message = "아이디는 최소 5자 이상이어야 합니다." ,max = 15)
+
+    @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{8,}$", message = "아이디는 최소 8자 이상의 영어와 숫자 조합이어야 합니다.")
+    @Size(min = 8, message = "비밀번호는 최소 8자 이상이어야 합니다." ,max = 15)
     @NotEmpty(message = "사용자 ID는 필수 항목입니다.")
     private String userId;
 
@@ -38,10 +39,16 @@ public class SiteUserCreateForm {
     private String email;
 
 
-    @Pattern(regexp = ".*\\.(png|jpg)$", message = "파일은 PNG 또는 JPG 형식이어야 합니다.")
-    private String imgUrl=null;
-    @NotEmpty
-    private String address;
+
+    @Nullable
+    private String imgUrl;
+    @NotEmpty(message = "우편번호는 필수항목입니다.")
+    private String zipcode;
+
+    @NotEmpty(message = "도로명주소는 필수항목입니다.")
+    private String streetaddr;
+
+    private String detailaddr;
 
 
 }
