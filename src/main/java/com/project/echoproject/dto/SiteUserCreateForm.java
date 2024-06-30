@@ -38,9 +38,10 @@ public class SiteUserCreateForm {
     @Email
     private String email;
 
+
+
     @Nullable
     private String imgUrl;
-
     @NotEmpty(message = "우편번호는 필수항목입니다.")
     private String zipcode;
 

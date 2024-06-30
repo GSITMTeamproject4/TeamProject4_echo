@@ -50,141 +50,133 @@
 </head>
 
 <body>
-  <header th:fragment="header">
-    <div id="header" class="header d-flex align-items-center fixed-top">
-      <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
-        <a th:href="@{/index}" class="logo d-flex align-items-center me-auto me-xl-0">
-          <h1 class="sitename">저탄소 녹색 Life</h1><span>.</span>
-        </a>
-        <nav id="navmenu" class="navmenu">
+<header th:fragment="header">
+  <div id="header" class="header d-flex align-items-center fixed-top">
+    <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
+      <a th:href="@{/index}" class="logo d-flex align-items-center me-auto me-xl-0">
+        <h1 class="sitename">저탄소 녹색 Life</h1><span>.</span>
+      </a>
+      <nav id="navmenu" class="navmenu">
+        <ul>
+          <li><a th:href="@{/authBoard/list}">그린라이프 인증</a></li>
+          <li><a th:href="@{/challenge/status}">저탄소 실천 챌린지</a></li>
+          <li class="dropdown">
+            <a href="#"><span>환경 알리미</span> <i class="fa-solid fa-chevron-down"></i></a>
+            <ul>
+              <li><a th:href="@{/ecoNews}">에코 뉴스 모아보기</a></li>
+              <li><a th:href="@{/analysis}">재활용 도우미</a></li>
+            </ul>
+          </li>
+          <li><a th:href="@{/product}">에코 쇼핑mall</a></li>
+          <li><a th:href="@{/mall}">그린쿠폰 mall</a></li>
+          <li><a th:href="@{/notice/list}">공지사항</a></li>
+        </ul>
+        <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
+      </nav>
+      <div class="user-btn">
+        <a class="btn-getstarted" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
+        <a class="btn-getstarted" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+        <a class="btn-getstarted" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+      </div>
+
+    </div>
+  </div>
+</header>
+
+<th:block layout:fragment="content">
+  <!-- 메인 컨텐츠 삽입 -->
+</th:block>
+
+<!-- 챗봇 -->
+<div th:replace="chatbot :: chatbot"></div>
+
+<footer th:fragment="footer">
+  <div id="footer" class="footer position-relative">
+    <div class="container footer-top">
+      <div class="row gy-4">
+        <div class="col-lg-5 col-md-12 footer-about">
+          <a href="index.html" class="logo d-flex align-items-center">
+            <span class="sitename">저탄소 녹색 Life</span>
+          </a>
+          <p>이젠아카데미 GSITM 4조</p>
+          <div class="social-links d-flex mt-4">
+            <a href=""><i class="fa-brands fa-twitter"></i></a>
+            <a href=""><i class="fa-brands fa-facebook-f"></i></a>
+            <a href=""><i class="fa-brands fa-instagram"></i></a>
+            <a href=""><i class="fa-solid fa-link"></i></a>
+          </div>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Links</h4>
+          <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About us</a></li>
+            <li><a href="#">서비스정책</a></li>
+            <li><a href="#">개인정보보호</a></li>
+          </ul>
+        </div>
+
+        <div class="col-lg-2 col-6 footer-links">
+          <h4>Our Services</h4>
           <ul>
             <li><a th:href="@{/authBoard/list}">그린라이프 인증</a></li>
-            <li><a th:href="@{/challenge/status}">저탄소 실천 챌린지</a></li>
-            <li class="dropdown">
-              <a href="#"><span>환경 알리미</span> <i class="fa-solid fa-chevron-down"></i></a>
-              <ul>
-                <li><a href="#">에코 뉴스 모아보기</a></li>
-                <li><a th:href="@{/analysis}">재활용 도우미</a></li>
-              </ul>
-            </li>
-<!--            <li><a href="index.html#pricing">에코 쇼핑mall</a></li>-->
-            <li><a th:href="@{/product}">에코 쇼핑mall</a></li>
-            <li><a th:href="@{/mall}">그린쿠폰 mall</a></li>
-            <li><a th:href="@{/notice/list}">공지사항</a></li>
-<!--            <li class="dropdown">-->
-<!--              <a href="#"><span>공지사항</span> <i class="fa-solid fa-chevron-down"></i></a>-->
-<!--              <ul>-->
-<!--                <li><a href="#">사이트 이용방법</a></li>-->
-<!--                <li><a href="#">챌린지 이용방법</a></li>-->
-<!--              </ul>-->
-<!--            </li>-->
+            <li><a href="#">저탄소 실천 챌린지</a></li>
+            <li><a href="#">환경 알리미</a></li>
+            <li><a href="#">이달의 에코챔피언</a></li>
+            <li><a href="#">그린쿠폰 mall</a></li>
+            <li><a href="#">공지사항</a></li>
           </ul>
-          <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
-        </nav>
-        <div class="user-btn">
-          <a class="btn-getstarted" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-          <a class="btn-getstarted" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
-          <a class="btn-getstarted" sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+        </div>
+
+        <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
+          <h4>Contact Us</h4>
+          <p>서초대로77길 41</p>
+          <p>서울 서초구</p>
+          <p class="mt-4"><strong>Phone:</strong> <span>02-0000-0000</span></p>
+          <p><strong>Email:</strong> <span>gsitm4@google.com</span></p>
         </div>
 
       </div>
     </div>
-  </header>
 
-  <th:block layout:fragment="content">
-    <!-- 메인 컨텐츠 삽입 -->
-  </th:block>
-
-  <!-- 챗봇 -->
-  <div th:replace="chatbot :: chatbot"></div>
-
-  <footer th:fragment="footer">
-    <div id="footer" class="footer position-relative">
-      <div class="container footer-top">
-        <div class="row gy-4">
-          <div class="col-lg-5 col-md-12 footer-about">
-            <a href="index.html" class="logo d-flex align-items-center">
-              <span class="sitename">저탄소 녹색 Life</span>
-            </a>
-            <p>이젠아카데미 GSITM 4조</p>
-            <div class="social-links d-flex mt-4">
-              <a href=""><i class="fa-brands fa-twitter"></i></a>
-              <a href=""><i class="fa-brands fa-facebook-f"></i></a>
-              <a href=""><i class="fa-brands fa-instagram"></i></a>
-              <a href=""><i class="fa-solid fa-link"></i></a>
-            </div>
-          </div>
-
-          <div class="col-lg-2 col-6 footer-links">
-            <h4>Links</h4>
-            <ul>
-              <li><a href="#">Home</a></li>
-              <li><a href="#">About us</a></li>
-              <li><a href="#">서비스정책</a></li>
-              <li><a href="#">개인정보보호</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-2 col-6 footer-links">
-            <h4>Our Services</h4>
-            <ul>
-              <li><a th:href="@{/authBoard/list}">그린라이프 인증</a></li>
-              <li><a href="#">저탄소 실천 챌린지</a></li>
-              <li><a href="#">환경 알리미</a></li>
-              <li><a href="#">이달의 에코챔피언</a></li>
-              <li><a href="#">그린쿠폰 mall</a></li>
-              <li><a href="#">공지사항</a></li>
-            </ul>
-          </div>
-
-          <div class="col-lg-3 col-md-12 footer-contact text-center text-md-start">
-            <h4>Contact Us</h4>
-            <p>서초대로77길 41</p>
-            <p>서울 서초구</p>
-            <p class="mt-4"><strong>Phone:</strong> <span>02-0000-0000</span></p>
-            <p><strong>Email:</strong> <span>gsitm4@google.com</span></p>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="container copyright text-center mt-4">
-        <p>© <span>Copyright</span> <strong class="sitename">GSITM4</strong> <span>All Rights Reserved</span></p>
-      </div>
+    <div class="container copyright text-center mt-4">
+      <p>© <span>Copyright</span> <strong class="sitename">GSITM4</strong> <span>All Rights Reserved</span></p>
     </div>
-  </footer>
+  </div>
+</footer>
 
 
 
-  <!-- Scroll Top -->
-  <a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="fa-solid fa-arrow-up"></i></a>
+<!-- Scroll Top -->
+<a href="#" id="scroll-top" class="scroll-top d-flex align-items-center justify-content-center"><i class="fa-solid fa-arrow-up"></i></a>
 
-  <!-- Vendor JS Files -->
-  <script th:src="@{/js/common/aos.js}"></script>
-  <script th:src="@{/js/common/bootstrap.bundle.min.js}"></script>
-  <script th:src="@{/js/common/glightbox.min.js}"></script>
-  <script th:src="@{/js/common/purecounter_vanilla.js}"></script>
-  <script th:src="@{/js/common/imagesloaded.pkgd.min.js}"></script>
-  <script th:src="@{/js/common/isotope.pkgd.min.js}"></script>
-  <script th:src="@{/js/common/swiper-bundle.min.js}"></script>
+<!-- Vendor JS Files -->
+<script th:src="@{/js/common/aos.js}"></script>
+<script th:src="@{/js/common/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/js/common/glightbox.min.js}"></script>
+<script th:src="@{/js/common/purecounter_vanilla.js}"></script>
+<script th:src="@{/js/common/imagesloaded.pkgd.min.js}"></script>
+<script th:src="@{/js/common/isotope.pkgd.min.js}"></script>
+<script th:src="@{/js/common/swiper-bundle.min.js}"></script>
 
-  <!-- argon 관련 js -->
-  <script th:src="@{/js/common/popper.min.js}"></script>
-  <script async defer src="https://buttons.github.io/buttons.js"></script>
+<!-- argon 관련 js -->
+<script th:src="@{/js/common/popper.min.js}"></script>
+<script async defer src="https://buttons.github.io/buttons.js"></script>
 
-  <!-- chatbot 관련 js -->
-  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-  <script th:src="@{/js/chatBot/chatbot.js}"></script>
+<!-- chatbot 관련 js -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.1/sockjs.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script th:src="@{/js/chatBot/chatbot.js}"></script>
 
-  <!-- 개별 js 삽입 -->
-  <th:block layout:fragment="script"></th:block>
+<!-- 개별 js 삽입 -->
+<th:block layout:fragment="script"></th:block>
 
-  <!-- Main JS File -->
-  <script th:src="@{/js/common/main.js}"></script>
+<!-- Main JS File -->
+<script th:src="@{/js/common/main.js}"></script>
 
 </body>
 </html>

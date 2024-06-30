@@ -54,7 +54,7 @@ public class MallController {
         model.addAttribute("buyCoupon", buyCoupon);
         return "buy";
     }
-// 연결
+
 //    @GetMapping("/pay")
 //    public String payCoupon(@RequestParam Long id, Model model, Principal principal) {
 //        Coupon coupon = couponService.getCoupon(id);
@@ -119,7 +119,7 @@ public class MallController {
             // 쿠폰내역 insert
             UserCoupon addCoupon = new UserCoupon();
             addCoupon.setUserId(updateUser);
-            addCoupon.setCouponId(coupon);
+            addCoupon.setCoupon(coupon);
             addCoupon.setInsertDate(now);
             userCouponService.addCoupon(addCoupon);
 

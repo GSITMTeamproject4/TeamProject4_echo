@@ -15,7 +15,8 @@ public class Challenge {
     private Long challengeId;
 
     @ManyToOne
-    private SiteUser userId;
+    @JoinColumn(name = "userId")
+    private SiteUser siteUser;
 
     private String challengeInfo;
 
@@ -27,4 +28,7 @@ public class Challenge {
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "imageId", referencedColumnName = "id")
     private Image image;
+
+    @Column(columnDefinition = "TEXT")
+    private String challengeContent;
 }

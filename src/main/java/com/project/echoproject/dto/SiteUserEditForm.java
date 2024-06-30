@@ -15,8 +15,6 @@ public class SiteUserEditForm {
     @NotEmpty(message = "이름은 필수 항목입니다.")
     private String userName;
 
-    private String nickName;
-
     @Pattern(regexp = "^010-[0-9]{4}-[0-9]{4}$", message = "전화번호 형식은 010-****-**** 여야 합니다.")
     @NotEmpty(message = "전화번호는 필수 항목입니다.")
     private String phoneNum;
@@ -25,10 +23,13 @@ public class SiteUserEditForm {
     @Email(message = "올바른 이메일 형식이 아닙니다.")
     private String email;
 
+    @NotEmpty(message = "주소는 필수 항목입니다.")
+    private String address;
+
     @NotEmpty(message = "성별은 필수 항목입니다.")
     private String gender;
 
-    @Nullable
+    @Pattern(regexp = ".*\\.(png|jpg)$", message = "파일은 PNG 또는 JPG 형식이어야 합니다.")
     private String imgUrl;
 
     @NotEmpty(message = "우편번호는 필수항목입니다.")
