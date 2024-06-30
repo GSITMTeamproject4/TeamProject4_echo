@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,35 +39,32 @@ public class OrderController {
     public String checkout(@PathVariable String userId, Model model) {
         SiteUser siteUser = siteUserRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         Cart cart = cartRepository.findByUser(siteUser)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
-
         List<CartItem> cartItems = cart.getItems();
-
         if (cartItems.isEmpty()) {
             throw new RuntimeException("Cart is empty");
         }
 
-        int totalAmount = cartItems.stream()
-                .mapToInt(item -> item.getProduct().getPrice() * item.getQuantity())
-                .sum();
+        List<String> productNames = new ArrayList<>();
+        List<Integer> quantities = new ArrayList<>();
+        List<Long> productIds = new ArrayList<>();
+        List<Integer> prices = new ArrayList<>();
+        int totalAmount = 0;
 
-        List<String> productNames = cartItems.stream()
-                .map(item -> item.getProduct().getProductName())
-                .collect(Collectors.toList());
-
-        List<Integer> quantities = cartItems.stream()
-                .map(CartItem::getQuantity)
-                .collect(Collectors.toList());
-
-        List<Long> productIds = cartItems.stream()
-                .map(item -> item.getProduct().getId())
-                .collect(Collectors.toList());
+        for (CartItem item : cartItems) {
+            productNames.add(item.getProduct().getProductName());
+            quantities.add(item.getQuantity());
+            productIds.add(item.getProduct().getId());
+            int price = item.getProduct().getPrice();
+            prices.add(price);
+            totalAmount += price * item.getQuantity();
+        }
 
         model.addAttribute("productIds", productIds);
         model.addAttribute("productNames", productNames);
         model.addAttribute("quantities", quantities);
+        model.addAttribute("prices", prices);
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("buyerEmail", siteUser.getEmail());
         model.addAttribute("buyerId", siteUser.getUserId());
