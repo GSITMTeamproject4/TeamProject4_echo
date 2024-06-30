@@ -1,5 +1,6 @@
 package com.project.echoproject.controller;
 
+import com.project.echoproject.service.ChatBotService;
 import com.project.echoproject.service.ChatBotServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,7 +20,7 @@ import java.io.IOException;
 @RequestMapping("/chatbot")
 public class ChatBotController {
 
-    private final ChatBotServiceImpl chatbotService;
+    private final ChatBotService chatbotService;
 
     @MessageMapping("/sendMessage")
     @SendTo("/topic/public")
