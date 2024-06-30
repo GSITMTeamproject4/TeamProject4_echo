@@ -56,6 +56,7 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
             model.addAttribute("loginRequired", true);
+            model.addAttribute("cart", new Cart()); // 빈 카트 객체 추가
             return "cart";
         }
 
@@ -70,6 +71,9 @@ public class CartController {
         // 모델에 장바구니와 사용자 정보 추가
         try {
             Cart cart = cartService.getCart(user.getUserId());
+            if (cart == null) {
+                cart = new Cart(); // 빈 카트 객체 생성
+            }
             model.addAttribute("cart", cart);
             model.addAttribute("user", user);
         } catch (Exception e) {
