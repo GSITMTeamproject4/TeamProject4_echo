@@ -31,9 +31,4 @@ public class PointService {
         return pointRepository.findBySiteUser_UserIdOrderByInsertDateDesc(userId, pageable);
     }
 
-    // 사용자의 전체 포인트 내역 개수 조회
-    public long countPointHistoryByUserId(String userId) {
-        return pointRepository.countBySiteUser_UserId(userId);
-    }
-
 }
