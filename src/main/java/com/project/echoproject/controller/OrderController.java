@@ -11,8 +11,6 @@ import com.project.echoproject.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import org.springframework.web.servlet.view.RedirectView;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -87,6 +85,6 @@ public class OrderController {
             return "redirect:/error";
         }
         model.addAttribute("order", order);
-        return "orderSuccess";
+        return "order_success";
     }
 }
