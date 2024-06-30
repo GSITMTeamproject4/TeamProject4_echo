@@ -40,6 +40,8 @@
 
   <!-- Main CSS File -->
   <link rel="stylesheet" th:href="@{/css/common/main.css}">
+  <link rel="stylesheet" th:href="@{/css/common/header.css}">
+  <link rel="stylesheet" th:href="@{/css/common/footer.css}">
 
   <!-- chatbot CSS File -->
   <link rel="stylesheet" th:href="@{/css/chatbot/chatbot.css}">
@@ -54,7 +56,7 @@
   <div id="header" class="header d-flex align-items-center fixed-top">
     <div class="container-fluid position-relative d-flex align-items-center justify-content-between">
       <a th:href="@{/index}" class="logo d-flex align-items-center me-auto me-xl-0">
-        <h1 class="sitename">저탄소 녹색 Life</h1><span>.</span>
+        <img th:src="@{/img/logo.png}" class="logo_img">
       </a>
       <nav id="navmenu" class="navmenu">
         <ul>
@@ -96,7 +98,7 @@
       <div class="row gy-4">
         <div class="col-lg-5 col-md-12 footer-about">
           <a href="index.html" class="logo d-flex align-items-center">
-            <span class="sitename">저탄소 녹색 Life</span>
+            <span class="sitename"><img th:src="@{/img/logo.png}" class="logo_img"></span>
           </a>
           <p>이젠아카데미 GSITM 4조</p>
           <div class="social-links d-flex mt-4">
