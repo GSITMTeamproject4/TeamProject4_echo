@@ -12,8 +12,3 @@ public interface MypageService {
     void deleteUser(String userId);
     String encodeImageToBase64(String filePath) throws IOException;
 }
-
-
-
-
-

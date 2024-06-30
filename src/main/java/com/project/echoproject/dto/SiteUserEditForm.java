@@ -38,4 +38,6 @@ public class SiteUserEditForm {
     private String streetaddr;
 
     private String detailaddr;
+
 }
+

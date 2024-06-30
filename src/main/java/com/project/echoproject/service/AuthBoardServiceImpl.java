@@ -127,6 +127,5 @@ public class AuthBoardServiceImpl implements AuthBoardService {
         Pageable pageable = PageRequest.of(page, size, Sort.by("postCreateDate").descending());
         return authBoardRepository.findBySiteUser_UserId(userId, pageable);
     }
-
-
 }
+

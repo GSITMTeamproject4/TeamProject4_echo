@@ -26,8 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.Comparator;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -307,3 +305,4 @@ public class MypageController {
         return "coupon_status";
     }
 }
+
