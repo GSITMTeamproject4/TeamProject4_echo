@@ -59,10 +59,18 @@ public class SiteUserServiceImpl implements SiteUserService {
         siteUser.setStreetaddr(streetaddr);
         siteUser.setDetailaddr(detailaddr);
 
-        if ("male".equalsIgnoreCase(gender)) {
-            siteUser.setGender("M");
-        } else if ("female".equalsIgnoreCase(gender)) {
-            siteUser.setGender("F");
+        if (userName == null || userName.isEmpty()) {
+            siteUser.setUserName(userId);  // userName이 없으면 userId를 사용
+        } else {
+            siteUser.setUserName(userName);
+        }
+
+        if (gender != null) {
+            if ("male".equalsIgnoreCase(gender)) {
+                siteUser.setGender("M");
+            } else if ("female".equalsIgnoreCase(gender)) {
+                siteUser.setGender("F");
+            }
         }
 
         siteUser.setPassword(passwordEncoder.encode(password));

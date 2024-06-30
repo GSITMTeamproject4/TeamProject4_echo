@@ -42,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/challenge/add").authenticated()
                         .requestMatchers("/mall/buy/{id}").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
+                        .requestMatchers("/authBoard/create", "/authBoard/modify/**", "/authBoard/delete/**", "/authBoard/report/**").authenticated()
                         .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin

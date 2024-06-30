@@ -42,6 +42,8 @@ public class AuthBoardController {
         // 로그인한 유저 데이터 보내기
         if (userDetails != null) {
             model.addAttribute("userName", userDetails.getUsername());
+        } else {
+            model.addAttribute("userName", null);  // 비로그인 사용자를 위한 처리
         }
         return "authBoard/authBoard_list";
     }
@@ -83,12 +85,12 @@ public class AuthBoardController {
         List<AuthBoard> boards = authBoardService.getAllBoards();
         model.addAttribute("boards", boards);
 
-        // principal이 null인지 확인하고, null이 아니면 사용자 ID를 가져옴
-        if (principal != null) {
+        // principal이 null인 경우 (로그인하지 않은 사용자)
+        if (principal == null) {
+            model.addAttribute("currentUserId", null);
+        } else {
             String currentUserId = principal.getName();
             model.addAttribute("currentUserId", currentUserId);
-        } else {
-            model.addAttribute("currentUserId", null);
         }
 
         return "authBoard/authBoard_detail";

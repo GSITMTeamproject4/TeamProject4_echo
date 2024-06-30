@@ -7,6 +7,7 @@ import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @Setter
@@ -17,13 +18,14 @@ public class SiteUserCreateForm {
     @NotEmpty(message = "사용자 ID는 필수 항목입니다.")
     private String userId;
 
-    @NotEmpty(message = "이름은 필수 항목입니다.")
+    @Nullable
     private String userName;
+
     @Pattern(regexp = "^010-[0-9]{4}-[0-9]{4}$", message = "전화번호 형식은 010-****-**** 여야 합니다.")
-    @NotEmpty(message = "전화번호는 필수 항목입니다.")
+    @Nullable
     private String phoneNum;
 
-    @NotEmpty(message = "성별은 필수 항목입니다.")
+    @Nullable
     private String gender;
 
     @NotEmpty(message = "비밀번호는 필수 항목입니다.")
@@ -38,17 +40,16 @@ public class SiteUserCreateForm {
     @Email
     private String email;
 
-
+    @Nullable
+    private MultipartFile file;
 
     @Nullable
-    private String imgUrl;
-    @NotEmpty(message = "우편번호는 필수항목입니다.")
     private String zipcode;
 
-    @NotEmpty(message = "도로명주소는 필수항목입니다.")
+    @Nullable
     private String streetaddr;
 
+    @Nullable
     private String detailaddr;
-
 
 }
