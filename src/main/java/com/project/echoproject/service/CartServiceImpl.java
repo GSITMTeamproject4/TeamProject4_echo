@@ -10,6 +10,7 @@ import com.project.echoproject.repository.CartItemRepository;
 import com.project.echoproject.repository.CartRepository;
 import com.project.echoproject.repository.ProductRepository;
 import com.project.echoproject.repository.SiteUserRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -70,6 +71,24 @@ public class CartServiceImpl implements CartService {
                     newCart.setUser(user);
                     return cartRepository.save(newCart);
                 });
+    }
+
+    @Override
+    @Transactional
+    public CartItem updateItemQuantity(Long cartItemId, int quantity) {
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new IllegalArgumentException("CartItem not found"));
+        cartItem.setQuantity(quantity);
+        return cartItemRepository.save(cartItem);  // save 메서드는 저장된 엔티티를 반환합니다.
+    }
+    @Override
+    @Transactional
+    public void removeItemFromCart(Long cartItemId) {
+        CartItem cartItem = cartItemRepository.findById(cartItemId)
+                .orElseThrow(() -> new IllegalArgumentException("CartItem not found"));
+        Cart cart = cartItem.getCart();
+        cart.getItems().remove(cartItem);
+        cartItemRepository.delete(cartItem);
     }
 }
 
