@@ -9,7 +9,3 @@ public interface UseAmountService {
     void saveUseAmount(String userId, UseAmountForm useAmountForm);
     Map<Integer, UseAmount> getMonthlyUseAmounts(String userId, int year);
 }
-
-
-
-

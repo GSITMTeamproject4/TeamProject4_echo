@@ -39,12 +39,15 @@ public class CartController {
             return ResponseEntity.status(404).body("User not found");
         }
 
+        // CartItemDTO 생성
         CartItemDTO cartItemDTO = new CartItemDTO();
         cartItemDTO.setProductId(productId);
         cartItemDTO.setQuantity(quantity);
 
+        // 장바구니에 아이템 추가
         cartService.addItemToCart(user.getUserId(), cartItemDTO);
 
+        // 성공 메시지 반환
         return ResponseEntity.ok("success");
     }
 
@@ -53,9 +56,11 @@ public class CartController {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || !authentication.isAuthenticated() || authentication.getPrincipal().equals("anonymousUser")) {
             model.addAttribute("loginRequired", true);
+            model.addAttribute("cart", new Cart()); // 빈 카트 객체 추가
             return "cart";
         }
 
+        // 장바구니 정보 가져오기
         String userId = authentication.getName();
         SiteUser user = siteUserService.findByUserId(userId);
         if (user == null) {
@@ -63,14 +68,19 @@ public class CartController {
             return "cart";
         }
 
+        // 모델에 장바구니와 사용자 정보 추가
         try {
             Cart cart = cartService.getCart(user.getUserId());
+            if (cart == null) {
+                cart = new Cart(); // 빈 카트 객체 생성
+            }
             model.addAttribute("cart", cart);
             model.addAttribute("user", user);
         } catch (Exception e) {
             model.addAttribute("error", "장바구니를 불러오는 중 오류가 발생했습니다.");
         }
 
+        // 장바구니 페이지로 이동
         return "cart";
     }
 }

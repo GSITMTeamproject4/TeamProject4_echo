@@ -13,14 +13,3 @@ public class UseAmountForm {
     private long useElectricity;
     private long useGas;
 }
-
-
-
-
-
-
-
-
-
-
-

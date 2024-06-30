@@ -33,7 +33,7 @@ public class ChallengeController {
     @GetMapping("/state")
     public @ResponseBody List<Map<String, Object>> monthPlan(Principal principal) {
         SiteUser siteUser = siteUserService.findByUserId(principal.getName());
-            return challengeService.getChallengeList(siteUser);
+        return challengeService.getChallengeList(siteUser);
     }
 
     @GetMapping("/add")
@@ -51,7 +51,7 @@ public class ChallengeController {
             String userId = principal.getName(); // 현재 로그인한 사용자의 ID를 가져옴
             SiteUser siteUser = siteUserService.findByUserId(userId); // 사용자 정보를 조회
 
-            challengeService.createBoard(challenge_info, file, siteUser);
+            challengeService.createBoard(challenge_info, file, siteUser,content);
             return "redirect:/challenge"; // 게시판 목록으로 리다이렉트
         } catch (IOException e) {
             model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
