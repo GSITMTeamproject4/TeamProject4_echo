@@ -49,15 +49,13 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>No.</th>
                     <th>날짜</th>
                     <th>출처</th>
                     <th>포인트 변동</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr th:each="point, iterStat : ${pointHistory}">
-                    <td th:text="${totalItems - (currentPage * size) - iterStat.index}"></td>
+                <tr th:each="point : ${pointHistory}">
                     <td th:text="${#temporals.format(point.insertDate, 'yyyy-MM-dd')}"></td>
                     <td th:text="${point.pointInfo}"></td>
                     <td>
@@ -67,7 +65,6 @@
                 </tr>
                 </tbody>
             </table>
-
         </div>
 
         <!-- Blog Pagination Section -->

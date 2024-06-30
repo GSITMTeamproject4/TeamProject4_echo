@@ -1,0 +1,88 @@
+<!--<!DOCTYPE html>-->
+<!--<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"-->
+<!--             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{/admin/layout_admin}">-->
+<!--    <head>-->
+<!--        <meta charset="UTF-8">-->
+<!--        <title>저탄소 녹색 Life</title>-->
+
+<!--        &lt;!&ndash; 부트스트랩 CSS 링크 &ndash;&gt;-->
+<!--        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">-->
+
+<!--    </head>-->
+<!--    &lt;!&ndash; 부트스트랩 JS 및 필수 JavaScript 추가 &ndash;&gt;-->
+<!--    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>-->
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>-->
+<!--    </body>-->
+<!--</layout:html>-->
+<!DOCTYPE html>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml"
+             layout:decorate="~{/admin/layout_admin}">
+    <head>
+        <meta charset="UTF-8">
+        <title>저탄소 녹색 Life</title>
+    </head>
+    <div layout:fragment="content">
+        <body class="blog-page">
+        <!--타이틀-->
+        <main class="main">
+            <div class="page-title" data-aos="fade">
+                <div class="heading">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-8">
+                                <h1>관리자 페이지</h1>
+<!--                                <p class="mb-0"> 일반 유저는 접속불가능한 사이트입니다 </p>-->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        <!--about-->
+        <div id="about" class="about section">
+            <div class="container aos-init aos-animate" data-aos="fade-up" data-aos-delay="100">
+                <div class="row align-items-xl-center gy-5">
+                    <!--챌린지 설명 칸-->
+                    <div class="col=xl=7">
+                        <div class="row gy-4 icon-boxes">
+                            <!-- 전자 영수증 칸 -->
+                            <div class="col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="200">
+                                <div class="icon-box">
+                                    <h3>메뉴 소개</h3>
+                                    <p>저탄소 녹색 Life 홈페이지를 관리하기 위한 메뉴입니다.</p>
+                                </div>
+                            </div>
+                            <!-- 다회용기 사용 칸 -->
+                            <div class="col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="300">
+                                <div class="icon-box">
+                                    <h3>챌린지 관리</h3>
+                                    <p>사용자가 업로드한 인증 사진을 확인한 후 500p를 지급합니다.</p>
+                                </div>
+                            </div>
+                            <!-- 텀블러 사용 칸 -->
+                            <div class="col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="400">
+                                <div class="icon-box">
+                                    <h3>신고 관리</h3>
+                                    <p>신고된 게시글을 확인한 후 해당 게시글을 삭제 처리합니다.</p>
+                                </div>
+                            </div>
+                            <!-- 전자 메일함 칸 -->
+                            <div class="col-md-6 aos-init aos-animate" data-aos="fade-up" data-aos-delay="500">
+                                <div class="icon-box">
+                                    <h3>공지사항</h3>
+                                    <p>공지사항 내용을 작성/수정/삭제 할 수 있습니다.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--이동 버튼-->
+<!--                    <div class="col-xl-5 content">-->
+<!--                        <a type="button" class="read-more" th:href="@{/challenge/add}"><span>인증하러 가기</span></a>-->
+<!--                    </div>-->
+                </div>
+            </div>
+        </div>
+        </body>
+    </div>
+</layout:html>

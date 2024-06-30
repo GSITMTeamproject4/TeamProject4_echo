@@ -4,6 +4,7 @@ import com.project.echoproject.entity.SiteUser;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface SiteUserService {
     SiteUser findByUserId(String userId);
@@ -17,4 +18,7 @@ public interface SiteUserService {
     void resendPasswordResetEmail(String email);
 
     String generateResetToken();
+
+    List<SiteUser> getAllUsers();
+    void addPointByAdmin(String userId,Long point,String challengInfo);
 }

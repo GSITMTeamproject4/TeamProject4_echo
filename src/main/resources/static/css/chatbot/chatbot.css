@@ -29,7 +29,7 @@
 .chatbot-content {
     display: flex;
     flex-direction: column;
-    height: 100%;
+   height: 100%;
 }
 
 .chatbot-header {
@@ -66,17 +66,26 @@
     padding: 10px;
 }
 
-.chatbot-form {
-    display: flex;
-    align-items: center;
-}
-
 .chatbot-input {
     flex-grow: 1;
     border: 1px solid #ddd;
     border-radius: 20px;
     padding: 8px 15px;
     font-size: 14px;
+}
+
+.chatbot-send {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    margin-left: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chatbot-send {

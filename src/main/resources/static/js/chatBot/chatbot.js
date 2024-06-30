@@ -15,7 +15,6 @@ function connect() {
     if (stompClient && stompClient.connected) {
         return; // 이미 연결되어 있으면 다시 연결하지 않음
     }
-
     var socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -43,24 +42,24 @@ function disconnect() {
 }
 
 function sendMessage() {
-    let message = $("#msg").val().trim();
+    let message = $("#msg").val().trim(); // trim()을 사용하여 공백 제거
     if (message === "") {
-        console.log("빈 메시지는 전송되지 않습니다.");
-        return;
+        console.log("빈 메시지는 전송되지 않습니다."); // 빈 메시지 로그 추가
+        return; // 빈 메시지일 경우 함수 종료
     }
-    console.log("Sending message: " + message);
+    console.log("Sending message: " + message); // 메시지 전송 로그 추가
     showMessage(message, 'sent_message');
     stompClient.send("/app/sendMessage", {}, JSON.stringify(message));
-    $("#msg").val('');
+    $("#msg").val(''); // 메시지 전송 후 입력 필드 초기화
 }
+
 
 function showMessage(message, messageClass) {
     $("#communicate").append("<div class='" + messageClass + "'>" + message + "</div>");
-    scrollToBottom();
 }
 
 function handleKeyUpEvent(e) {
-    if (e.key === 'Enter' && !e.shiftKey) {
+    if (e.key === 'Enter' && !e.shiftKey) { // Shift + Enter는 줄바꿈으로 처리
         e.preventDefault();
         sendMessage();
     }
@@ -88,10 +87,12 @@ $(function () {
         e.preventDefault();
     });
 
+    // 채팅 시작 버튼을 누르면 자동으로 연결
     $("#send").off('click').on('click', function() {
         sendMessage();
     });
 
+    // 모달을 닫을 때 연결 해제
     $("#msg").off('keyup').on('keyup', handleKeyUpEvent);
 
     $('#chatContainer').on('shown', function () {

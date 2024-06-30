@@ -1,0 +1,21 @@
+.loging{
+    text-decoration: underline blue;
+}
+.text-green{
+    text:green;
+}
+.text-gray{
+    text: #676666;
+}
+.carding-body {
+    font-family: Open Sans, sans-serif;
+    padding: 1.5rem;
+    width: 800px;
+}
+.boxing{
+    margin-right: 430px !important;
+}
+
+.boxing2{
+    width:430px;
+}
