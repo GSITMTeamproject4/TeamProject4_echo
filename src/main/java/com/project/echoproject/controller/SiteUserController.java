@@ -5,16 +5,11 @@ import com.project.echoproject.service.SiteUserSecurityServiceImpl;
 import com.project.echoproject.service.SiteUserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
+
+import java.io.IOException;
 
 // 이 컨트롤러는 "/user"로 시작하는 URL 요청을 처리합니다.
 @RequestMapping("/user")
@@ -28,46 +23,42 @@ public class SiteUserController {
     // 회원가입 페이지를 반환하는 메서드입니다.
     @GetMapping("/signup")
     public String signup(SiteUserCreateForm siteUserCreateForm) {
-        return "signupForm";  // 회원가입 폼 뷰를 반환합니다.
+        return "sign_up";  // 회원가입 폼 뷰를 반환합니다.
     }
 
     // 회원가입 폼 제출을 처리하는 메서드입니다.
     @PostMapping("/signup")
     public String signup(@Valid @ModelAttribute SiteUserCreateForm siteUserCreateForm,
-                         BindingResult bindingResult,
-                         @RequestParam("profileImage") MultipartFile profileImage) {
+                         BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return "signupForm";  // 폼 데이터에 오류가 있을 경우, 다시 회원가입 폼을 반환합니다.
+            return "sign_up";
         }
-
-        // 비밀번호 확인 필드가 일치하지 않을 경우, 오류 메시지를 추가하고 다시 폼을 반환합니다.
         if (!siteUserCreateForm.getPassword1().equals(siteUserCreateForm.getPassword2())) {
-            bindingResult.rejectValue("password2", "passwordInCorrect", "2개의 패스워드가 일치하지 않습니다.");
-            return "signupForm";
+            bindingResult.rejectValue("password2", "passwordInCorrect",
+                    "2개의 패스워드가 일치하지 않습니다.");
+            return "sign_up";
         }
-
         try {
-            // 서비스 계층을 통해 새 사용자 생성 요청을 처리합니다.
-            siteUserService.create(siteUserCreateForm.getUserId(), siteUserCreateForm.getUserName(),
-                    siteUserCreateForm.getPhoneNum(), siteUserCreateForm.getGender(),
-                    siteUserCreateForm.getPassword1(), siteUserCreateForm.getEmail(),
-                    profileImage,
+            siteUserService.create(siteUserCreateForm.getUserId(),
+                    siteUserCreateForm.getUserName(),
+                    siteUserCreateForm.getPhoneNum(),
+                    siteUserCreateForm.getGender(),
+                    siteUserCreateForm.getPassword1(),
+                    siteUserCreateForm.getEmail(),
+                    siteUserCreateForm.getFile(),
                     siteUserCreateForm.getZipcode(),
                     siteUserCreateForm.getStreetaddr(),
                     siteUserCreateForm.getDetailaddr());
-        } catch (DataIntegrityViolationException e) {
-            // 데이터 무결성 위반 예외가 발생한 경우, 이미 등록된 사용자라는 오류 메시지를 추가하고 폼을 반환합니다.
-            bindingResult.reject("signupFailed", "이미 등록된 사용자입니다.");
-            return "signupForm";
-        } catch (Exception e) {
-            // 기타 예외가 발생한 경우, 오류 메시지를 추가하고 폼을 반환합니다.
-            bindingResult.reject("signupFailed", e.getMessage());
-            return "signupForm";
+        } catch (IllegalArgumentException e) {
+            bindingResult.rejectValue("userId", "userIdDuplicate", e.getMessage());
+            return "sign_up";
+        } catch (IOException e) {
+            bindingResult.rejectValue("file", "fileUploadError", "파일 업로드 중 오류가 발생했습니다.");
+            return "sign_up";
         }
-
-        // 회원가입이 성공하면 메인 페이지로 리디렉션합니다.
-        return "index";
+        return "index";  // 성공 시 메인 페이지로 리다이렉트
     }
+
 
     // 로그인 페이지를 반환하는 메서드입니다.
     @GetMapping("/login")

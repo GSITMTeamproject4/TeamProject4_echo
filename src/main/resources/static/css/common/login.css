@@ -19,3 +19,18 @@
 .boxing2{
     width:430px;
 }
+
+.button-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 20px;
+}
+#containing{
+    --bs-qutter-x:1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x)*1);
+    padding-left: calc(var(--bs-gutter-x)*1);
+    max-width: 1140px;
+}
