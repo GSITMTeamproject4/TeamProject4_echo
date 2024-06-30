@@ -1,0 +1,31 @@
+.login_section {
+    border: none;
+}
+
+.login_start {
+    background-color: transparent;
+    border: none;
+}
+
+.social_logo {
+    width: 40px;
+}
+
+.social_left {
+    margin-right: 10px;
+}
+
+.social_right {
+    margin-left: 10px;
+}
+
+.sign_up_text {
+    margin-top: 10px;
+}
+
+.login_error {
+    color: white;
+    width: 368px;
+    text-align: center;
+    margin: 20px auto;
+}
