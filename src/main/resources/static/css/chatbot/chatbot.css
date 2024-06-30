@@ -127,3 +127,7 @@
     display: flex;
     flex-direction: column;
 }
+
+.chatbot-form {
+    display: flex;
+}
