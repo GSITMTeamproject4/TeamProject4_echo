@@ -11,6 +11,4 @@ public interface AuthBoardRepository extends JpaRepository<AuthBoard, Long> {
     Page<AuthBoard> findAll(Pageable pageable);
 
     Page<AuthBoard> findBySiteUser_UserId(String userId, Pageable pageable);
-
-
 }

@@ -69,6 +69,7 @@ public class MypageServiceImpl implements MypageService {
 
         // SiteUserEditForm에서 SiteUser로 데이터 복사
         user.setUserName(updatedUser.getUserName()); // 사용자의 이름 업데이트
+        user.setNickName(updatedUser.getNickName());
         user.setEmail(updatedUser.getEmail()); // 사용자의 이메일 업데이트
         user.setPhoneNum(updatedUser.getPhoneNum()); // 사용자의 전화번호 업데이트
         user.setZipcode(updatedUser.getZipcode()); // 사용자의 주소 업데이트

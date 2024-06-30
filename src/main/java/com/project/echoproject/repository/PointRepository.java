@@ -13,5 +13,3 @@ public interface PointRepository extends JpaRepository<Point, Long> {
     long countBySiteUser_UserId(String userId);
 }
 
-
-
