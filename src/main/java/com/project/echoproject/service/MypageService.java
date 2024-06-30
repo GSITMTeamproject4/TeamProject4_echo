@@ -13,7 +13,3 @@ public interface MypageService {
     String encodeImageToBase64(String filePath) throws IOException;
 }
 
-
-
-
-

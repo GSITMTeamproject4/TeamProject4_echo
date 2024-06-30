@@ -2,6 +2,7 @@ package com.project.echoproject.service;
 
 import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.Image;
+import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.AuthBoardRepository;
 import com.project.echoproject.repository.ImageRepository;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -120,4 +122,11 @@ public class AuthBoardServiceImpl implements AuthBoardService {
         return authBoardRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<AuthBoard> getBoardsByAuthorIdPaged(String userId, int page, int size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("postCreateDate").descending());
+        return authBoardRepository.findBySiteUser_UserId(userId, pageable);
+    }
 }
+
+
