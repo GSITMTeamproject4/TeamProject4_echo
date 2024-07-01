@@ -79,6 +79,12 @@ public class SiteUser {
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<Point> points;
 
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<AuthBoard> authBoards;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<Challenge> challenges;
+
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;

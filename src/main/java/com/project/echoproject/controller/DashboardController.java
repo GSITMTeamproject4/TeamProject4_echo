@@ -48,6 +48,7 @@ public class DashboardController {
     public String dashboard(Model model, Principal principal) {
         if (principal != null) {
             String userId = principal.getName();
+            model.addAttribute("year", LocalDate.now().getYear());
 
             // 사용자 정보 가져오기
             SiteUser user = mypageService.getUserById(userId);

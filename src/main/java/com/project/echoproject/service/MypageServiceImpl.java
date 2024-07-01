@@ -6,6 +6,7 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.SiteUserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,11 +18,13 @@ public class MypageServiceImpl implements MypageService {
 
     private final SiteUserRepository userRepository;
     private final ImageService imageService;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired  // 생성자를 통해 의존성을 주입합니다.
-    public MypageServiceImpl(SiteUserRepository userRepository, ImageService imageService) {
+    public MypageServiceImpl(SiteUserRepository userRepository, ImageService imageService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.imageService = imageService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     // 주어진 사용자 ID로 사용자를 검색합니다.
@@ -84,7 +87,6 @@ public class MypageServiceImpl implements MypageService {
 
         userRepository.save(user);
     }
-
 
     // 주어진 사용자 ID에 해당하는 사용자를 삭제합니다.
     @Transactional  // 트랜잭션 범위 내에서 실행되도록 표시합니다.
