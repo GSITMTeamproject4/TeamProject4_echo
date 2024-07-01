@@ -56,9 +56,8 @@
                                 </div>
 
                                 <div class="col-md-12 text-center">
-<!--                                    css 부딫혀서 button대신 submit으로 해놓음(배경 빨간색 하기위해-->
-                                    <button type="submit" class="btn btn-primary" th:onclick="|location.href='@{/mall}'|">mall으로 이동</button>
-
+<!--                                    <button type="button" class="btn btn-primary" th:onclick="|location.href='@{/mall}'|">mall으로 이동</button>-->
+                                    <a th:href="@{/mall}" class = "btn btn-primary">mall으로 이동</a>
                                 </div>
 
                             </div>
