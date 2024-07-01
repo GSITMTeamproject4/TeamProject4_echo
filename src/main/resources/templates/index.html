@@ -57,13 +57,13 @@
                                                 </p>
                                             </div>
                                             <div class="user-profile-actions mt-4">
-                                                <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}" class="btn btn-primary btn-sm user-profile-btn">
+                                                <a th:href="@{/mypage/profile/{userId}(userId=${user.userId})}" class="btn btn-primary btn-sm user-profile-btn">
                                                     프로필 수정
                                                 </a>
                                                 <a th:href="@{/mypage/my-posts/{userId}(userId=${user.userId})}" class="btn btn-secondary btn-sm user-profile-btn">
                                                     나의 게시글 보기
                                                 </a>
-                                                <a th:href="@{/order}" class="btn btn-secondary btn-sm user-profile-btn">
+                                                <a th:href="@{/order}" class="btn btn-secondary btn-sm user-profile-btn btn-third">
                                                     나의 구매목록 보기
                                                 </a>
                                                 <a th:href="@{/mypage/useamount-detail/{userId}(userId=${user.userId}, year=${year})}" class="btn btn-info btn-sm user-profile-btn usage_btn">
@@ -101,10 +101,10 @@
                                                 <p>로그인하여 서비스를 이용해보세요.</p>
                                             </div>
                                             <div class="user-actions mt-4">
-                                                <a th:href="@{/loginForm}" class="btn btn-primary btn-sm">
+                                                <a th:href="@{/user/login}" class="btn btn-primary btn-sm">
                                                     로그인
                                                 </a>
-                                                <a th:href="@{/join}" class="btn btn-info btn-sm">
+                                                <a th:href="@{/user/signup}" class="btn btn-info btn-sm">
                                                     회원가입
                                                 </a>
                                             </div>
