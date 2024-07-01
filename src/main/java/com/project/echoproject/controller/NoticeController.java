@@ -35,7 +35,7 @@ public class NoticeController {
             model.addAttribute("userName", userDetails.getUsername());
         }
         model.addAttribute("noticeList", noticeList);
-        return "notice/notice_list";
+        return "notice_list";
     }
 
     // 게시글 Detail 조회
@@ -119,4 +119,8 @@ public class NoticeController {
         this.noticeService.delete(notice);
         return "redirect:/notice/list";
     }
+
+
+
+
 }
