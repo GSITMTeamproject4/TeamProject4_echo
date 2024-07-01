@@ -43,6 +43,7 @@ public class SecurityConfig {
                         .requestMatchers("/mall/buy/{id}").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
                         .requestMatchers("/authBoard/create", "/authBoard/modify/**", "/authBoard/delete/**", "/authBoard/report/**").authenticated()
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin
