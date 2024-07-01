@@ -5,6 +5,11 @@
 
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
+        <style>
+            .custom{
+                margin-bottom: 100px;
+            }
+        </style>
     </th:block>
 
     <th:block layout:fragment="script">
@@ -55,7 +60,7 @@
                                     <div class="col-md-12">
                                         <input type="text" name="price" class="form-control" placeholder="가격을 입력하세요" required>
                                     </div>
-                                    <input type="file" id="file" name="file" accept="image/*" required>
+                                    <input type="file" id="file" name="file" class="custom" accept="image/*" required>
                                     <div class="col-md-12 text-center">
                                         <div class="error-message"></div>
 
@@ -65,7 +70,6 @@
 
                                 </div>
                             </form>
-
                         </div><!-- End Contact Form -->
 
                     </div>
