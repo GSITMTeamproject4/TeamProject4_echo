@@ -89,7 +89,6 @@ public class MypageController {
     public String updatePersonalInfo(@PathVariable String userId,
                                      @Valid @ModelAttribute("userEditForm") SiteUserEditForm userEditForm,
                                      BindingResult bindingResult,
-                                     @RequestParam(value = "file", required = false) MultipartFile file,
                                      Model model, Principal principal) {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
@@ -101,7 +100,7 @@ public class MypageController {
         }
 
         try {
-            mypageService.updateUser(userId, userEditForm, file);
+            mypageService.updateUser(userId, userEditForm);
             return "redirect:/mypage/profile/" + userId;
         } catch (IOException e) {
             model.addAttribute("errorMessage", "이미지 업로드 중 오류가 발생했습니다: " + e.getMessage());
