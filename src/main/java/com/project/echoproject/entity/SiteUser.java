@@ -40,7 +40,7 @@ public class SiteUser {
 
     private String detailaddr;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id")
     private Image profileImage;
 
