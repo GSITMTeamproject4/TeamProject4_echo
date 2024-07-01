@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     @Autowired
     @Lazy
     private CustomUserDetailsService userDetailsService;
@@ -43,6 +42,7 @@ public class SecurityConfig {
                         .requestMatchers("/mall/buy/{id}").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
                         .requestMatchers("/authBoard/create", "/authBoard/modify/**", "/authBoard/delete/**", "/authBoard/report/**").authenticated()
+                        .requestMatchers("/admin/**").hasAuthority("ADMIN")
                         .anyRequest().permitAll()
                 )
                 .formLogin(formLogin -> formLogin
@@ -83,8 +83,8 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-        @Autowired
-        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(userDetailsService).passwordEncoder(authProviderConfig.passwordEncoder());
-        }
+    }
 }
