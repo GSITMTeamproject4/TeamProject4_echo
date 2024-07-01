@@ -7,10 +7,13 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UserRole;
 import com.project.echoproject.repository.SiteUserRepository;
 import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.mail.MailException;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,9 +22,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -104,21 +106,44 @@ public class SiteUserServiceImpl implements SiteUserService {
     // 비밀번호 초기화 요청 메서드
     @Override
     public void requestPasswordReset(String email) {
-        SiteUser user = siteUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        List<SiteUser> users = siteUserRepository.findByEmail(email);
+        if (users.isEmpty()) {
+            logger.warn("User not found with email: {}", email);
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
 
-        String token = UUID.randomUUID().toString();
-        user.setResetToken(token);
-        user.setResetTokenExpiry(LocalDateTime.now().plusHours(24));
-        siteUserRepository.save(user);
+        boolean hasLocalAccount = false;
+        List<String> socialProviders = new ArrayList<>();
+        SiteUser localUser = null;
 
-        try {
-            emailService.sendPasswordResetEmail(user.getEmail(), token);
-        } catch (MessagingException e) {
-            // 로깅 추가
-            logger.error("비밀번호 재설정 이메일 전송 실패", e);
-            // 예외 처리 방법에 따라 RuntimeException 또는 다른 예외 던지기
-            throw new RuntimeException("비밀번호 재설정 이메일 전송 실패", e);
+        for (SiteUser user : users) {
+            if ("local".equals(user.getProvider())) {
+                hasLocalAccount = true;
+                localUser = user;
+            } else {
+                socialProviders.add(user.getProvider());
+            }
+        }
+
+        if (hasLocalAccount) {
+            String token = UUID.randomUUID().toString();
+            localUser.setResetToken(token);
+            localUser.setResetTokenExpiry(LocalDateTime.now().plusHours(24));
+            siteUserRepository.save(localUser);
+
+            try {
+                emailService.sendPasswordResetEmail(email, token, socialProviders);
+            } catch (MessagingException e) {
+                logger.error("Failed to send password reset email to: {}", email, e);
+                throw new RuntimeException("Failed to send password reset email", e);
+            }
+        } else if (!socialProviders.isEmpty()) {
+            try {
+                emailService.sendSocialLoginReminderEmail(email, socialProviders);
+            } catch (MessagingException e) {
+                logger.error("Failed to send social login reminder email to: {}", email, e);
+                throw new RuntimeException("Failed to send social login reminder email", e);
+            }
         }
     }
 
@@ -142,7 +167,10 @@ public class SiteUserServiceImpl implements SiteUserService {
     @Override
     public boolean verifyUserAndSendResetEmail(String userId, String email, String userName) {
         logger.info("userId: {}, email: {}, userName: {}로 사용자 확인 시도", userId, email, userName);
-        Optional<SiteUser> siteUser = siteUserRepository.findByUserIdAndEmailAndUserName(userId, email, userName);
+        List<SiteUser> users = siteUserRepository.findByEmail(email);
+        Optional<SiteUser> siteUser = users.stream()
+                .filter(user -> user.getUserId().equals(userId) && user.getUserName().equals(userName))
+                .findFirst();
         if (siteUser.isPresent()) {
             logger.info("사용자 확인. 비밀번호 재설정 이메일 전송 시도");
             requestPasswordReset(email);
@@ -155,8 +183,10 @@ public class SiteUserServiceImpl implements SiteUserService {
     // 비밀번호 재설정 이메일 재전송 메서드
     @Override
     public void resendPasswordResetEmail(String email) {
-        SiteUser user = siteUserRepository.findByEmail(email)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with email: " + email));
+        List<SiteUser> users = siteUserRepository.findByEmail(email);
+        if (users.isEmpty()) {
+            throw new UsernameNotFoundException("User not found with email: " + email);
+        }
         requestPasswordReset(email);
     }
 
@@ -179,5 +209,48 @@ public class SiteUserServiceImpl implements SiteUserService {
         addPoint.setPointInfo(challengeInfo);
         addPoint.setInsertDate(now);
         pointService.addPointHistory(addPoint); // 포인트 히스토리 추가
+    }
+
+    // 이메일로 아이디 찾기
+    @Override
+    public String findUserIdByEmail(String email) {
+        logger.info("Attempting to find user ID for email: {}", email);
+        List<SiteUser> users = siteUserRepository.findByEmail(email);
+        if (users.isEmpty()) {
+            logger.warn("No user found for email: {}", email);
+            throw new RuntimeException("해당 이메일로 등록된 사용자가 없습니다.");
+        }
+        // 여러 사용자가 있을 경우 첫 번째 사용자의 ID를 반환
+        return users.get(0).getUserId();
+    }
+
+    // 이메일 아이디 찾기 전송
+    @Override
+    public void sendUserIdEmail(String email) throws MessagingException {
+        logger.info("Attempting to send user ID email to: {}", email);
+        List<SiteUser> users = siteUserRepository.findByEmail(email);
+        if (users.isEmpty()) {
+            logger.warn("No user found for email: {}", email);
+            throw new RuntimeException("해당 이메일로 등록된 사용자가 없습니다.");
+        }
+
+        try {
+            emailService.sendUserIdEmail(email);
+            logger.info("User ID email sent successfully to: {}", email);
+        } catch (MessagingException e) {
+            logger.error("Failed to send user ID email to: {}", email, e);
+            throw e;
+        }
+    }
+
+    @Override
+    public List<String> checkEmailDuplication(String email) {
+        List<SiteUser> users = siteUserRepository.findByEmail(email);
+        if (users.isEmpty()) {
+            return Collections.emptyList();
+        }
+        return users.stream()
+                .map(user -> user.getProvider() + " (" + user.getUserId() + ")")
+                .collect(Collectors.toList());
     }
 }
