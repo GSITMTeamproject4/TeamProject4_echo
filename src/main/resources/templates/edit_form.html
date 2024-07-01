@@ -123,12 +123,17 @@
     </form>
 
     <script th:inline="javascript">
-        
-        function confirmUpdate() {
+
+
+
+        function confirmUpdate(event) {
+            event.preventDefault();
             if (confirm("정말 수정하시겠습니까?")) {
                 document.getElementById("editForm").submit();
             }
         }
+        document.getElementById("editForm").addEventListener("submit", confirmUpdate);
+
 
         function changePassword() {
             var userId = /*[[${user.userId}]]*/ '';
