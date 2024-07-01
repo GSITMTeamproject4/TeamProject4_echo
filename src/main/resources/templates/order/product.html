@@ -24,7 +24,8 @@
                                 <article>
 
                                     <div class="post-img">
-                                        <img th:src="${product.productImage}" alt="" class="flex-shrink-0">
+<!--                                        <img th:src="${product.productImage}" alt="" class="flex-shrink-0">-->
+                                        <img th:if="${product.productImage != null}" th:src="@{|/uploads/${product.productImage.filePath}|}" alt="Board Image" id="preview" class="flex-shrink-0">/>
                                     </div>
                                     <h2 class="title">
                                         <a th:href="@{/product/{id}(id=${product.id})}">
