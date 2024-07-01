@@ -1,0 +1,61 @@
+.eco-notice-detail {
+    max-width: 80%;
+    margin: 40px auto;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    padding: 30px;
+}
+.eco-notice-header {
+    border-bottom: 2px solid #f0f0f0;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+.eco-notice-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+.eco-notice-meta {
+    font-size: 14px;
+    color: #777;
+}
+.eco-notice-content {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #444;
+    margin-bottom: 30px;
+}
+.eco-notice-footer {
+    border-top: 1px solid #f0f0f0;
+    padding-top: 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+.eco-btn {
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border: none;
+    cursor: pointer;
+}
+.eco-btn-edit {
+    background-color: #218c74;  /* 더 어두운 초록색 */
+    color: #fff;
+    margin-right: 10px;
+}
+.eco-btn-edit:hover {
+    background-color: #1a6f5b;  /* 호버 시 더 어두운 색상 */
+}
+.eco-btn-delete {
+    background-color: #e74c3c;
+    color: #fff;
+}
+.eco-btn-delete:hover {
+    background-color: #c0392b;
+}
