@@ -18,4 +18,7 @@ public class Product {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image productImage;
+
+    @Column(length = 200, nullable = false)
+    private String checkImg;
 }
