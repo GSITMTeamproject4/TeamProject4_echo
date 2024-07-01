@@ -1,6 +1,6 @@
 package com.project.echoproject.service;
 
-import com.project.echoproject.entity.Order;
+import com.project.echoproject.entity.Orders;
 import com.project.echoproject.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,8 +15,11 @@ public class PurchasedService {
     public PurchasedService(OrderRepository orderRepository) {
         this.orderItemRepository = orderRepository;
     }
-    public List<Order> getAllOrders() {
+
+    public List<Orders> getAllOrders() {
         return orderItemRepository.findAll();
     }
 }
+
+
 

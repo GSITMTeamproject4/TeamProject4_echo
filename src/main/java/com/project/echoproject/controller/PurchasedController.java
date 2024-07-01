@@ -1,6 +1,6 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.entity.Order;
+import com.project.echoproject.entity.Orders;
 import com.project.echoproject.service.OrderService;
 import com.project.echoproject.service.PurchasedService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,10 @@ public class PurchasedController {
     public PurchasedController(  PurchasedService purchasedService) {
         this.purchasedService = purchasedService;
     }
+
     @GetMapping("/order")
     public String showOrderList(Model model) {
-        List<Order> orders = purchasedService.getAllOrders();
+        List<Orders> orders = purchasedService.getAllOrders();
         model.addAttribute("orders", orders);
         return "orderItem"; // order-list.html 템플릿을 반환
     }

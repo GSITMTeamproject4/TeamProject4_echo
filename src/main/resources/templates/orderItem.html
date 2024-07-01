@@ -41,16 +41,17 @@
                 <thead>
                 <tr>
 
-                    <th>상품번호</th>
+                    <th>상품</th>
                     <th>주문번호</th>
                     <th>총액</th>
                     <th>주문날짜</th>
                 </tr>
+
                 </thead>
                 <tbody>
                 <!-- 예시로 수량 표시 -->
                 <tr th:each="order : ${orders}">
-                    <td th:text="${order.orderNumber}"></td>
+                    <td th:text="${order.items}"></td>
                     <td th:text="${order.orderNumber}"></td>
                     <td th:text="${order.totalAmount}"></td>
                     <td th:text="${order.orderDate}"></td>
