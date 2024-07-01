@@ -110,10 +110,6 @@ public class AdminController {
         return "admin/loginFormAdmin";
     }
 
-    @GetMapping("/")
-    public String index() {
-        return "admin";
-    }
 
     @GetMapping("coupon")
     public String adminCouponManage() {
@@ -140,10 +136,6 @@ public class AdminController {
             return "authBoard/authBoard_create";
         }
     }
-//    @GetMapping("/notice")
-//    public String notice() {
-//        return "admin/notice_list_admin";
-//    }
 
     @GetMapping("/item")
     public String item() {
