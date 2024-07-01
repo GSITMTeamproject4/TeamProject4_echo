@@ -19,7 +19,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
     @Autowired
     @Lazy
     private CustomUserDetailsService userDetailsService;
@@ -84,8 +83,8 @@ public class SecurityConfig {
         return authenticationConfiguration.getAuthenticationManager();
     }
 
-        @Autowired
-        public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
             auth.userDetailsService(userDetailsService).passwordEncoder(authProviderConfig.passwordEncoder());
-        }
+    }
 }
