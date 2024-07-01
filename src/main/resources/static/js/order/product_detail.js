@@ -38,3 +38,15 @@ document.addEventListener('DOMContentLoaded', function() {
         alert('찜 목록에 추가되었습니다.');
     });
 });
+
+function purchaseNow() {
+    const quantity = document.getElementById('product-detail-quantity').value;
+    const productId = [[${product.id}]];
+    const productName = [[${product.productName}]];
+    const price = [[${product.price}]];
+    const totalAmount = price * quantity;
+
+    // URL 파라미터로 데이터 전달
+    const url = `/orders/checkout/${userId}?productId=${productId}&productName=${encodeURIComponent(productName)}&quantity=${quantity}&price=${price}&totalAmount=${totalAmount}`;
+    window.location.href = url;
+}
