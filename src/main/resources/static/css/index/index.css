@@ -145,6 +145,16 @@ h5 {
     margin: 0.25rem;
 }
 
+.profile_card_img {
+    width: 140px;
+    height: 140px;
+}
+
+.profile_img {
+    width: 100% !important;
+    height: 100% !important;
+}
+
 /*----비로그인-----*/
 .guest-profile {
     overflow: hidden;

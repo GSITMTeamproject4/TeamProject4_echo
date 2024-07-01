@@ -52,7 +52,7 @@
                     </h2>
                   </a>
                   <div class="d-flex align-items-center">
-                    <img th:src="${board.siteUser.profileImage.filePath != null ? '/uploads/' + board.siteUser.profileImage.filePath : '/default-profile.png'}" class="img-fluid post-author-img flex-shrink-0">
+                    <img th:src="${board.siteUser.profileImage.filePath != null ? '/uploads/' + board.siteUser.profileImage.filePath : '/default-profile.png'}" class="img-fluid post-author-img flex-shrink-0 auth_profile_img">
                     <div class="post-meta">
                       <p th:text="${board.siteUser.userName}" class="post-author"></p>
                       <p class="post-date">
