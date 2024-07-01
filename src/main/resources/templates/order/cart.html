@@ -10,6 +10,18 @@
   <div layout:fragment="content">
     <body>
       <main class="main cart_main">
+        <div class="page-title" data-aos="fade">
+          <div class="heading heading-bottom">
+            <div class="container">
+              <div class="row d-flex justify-content-center text-center">
+                <div class="col-lg-8">
+                  <h1>에코 쇼핑 Mall</h1>
+                  <p class="mb-0">친환경 제품을 만나보세요</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
         <h1 class="cart_title">장바구니</h1>
         <h2 class="cart_subtitle">주문 상품</h2>
         <table class="cart_table">
@@ -26,7 +38,7 @@
           <tbody>
           <tr th:each="item : ${cart.items}">
             <td>
-              <img th:src="${item.product.productImage}" class="cart_product_image" alt="Product Image">
+              <img th:if="${item.product.productImage != null}" th:src="@{|/uploads/${item.product.productImage.filePath}|}" alt="Board Image" id="preview" class="img-preview img-max-width"/>
               <span th:text="${item.product.productName}"></span>
             </td>
             <td>
