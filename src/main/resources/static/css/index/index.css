@@ -4,10 +4,10 @@
 }
 
 .user-login-div1{
-    width: 800px;
+    width: 600px;
     padding-bottom: 330px;
     position: relative;
-    right: 12%;
+    right: 2%;
 }
 
 .user-login-div2{
@@ -18,7 +18,7 @@
 .user-login-div3{
     width: 300px;
     position: relative;
-    right: 12%;
+    right: 40%;
     line-height: 2;
 }
 
