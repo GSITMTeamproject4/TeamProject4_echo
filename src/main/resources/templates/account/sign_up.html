@@ -104,11 +104,23 @@
                 }
 
                 document.addEventListener('DOMContentLoaded', function() {
-                    const csrfToken = /*[[${_csrf.token}]]*/ 'default_token';
-                    const csrfHeader = /*[[${_csrf.headerName}]]*/ 'X-CSRF-TOKEN';
+                    // CSRF 메타 태그 추가
+                    const csrfTokenMeta = document.createElement('meta');
+                    csrfTokenMeta.name = '_csrf';
+                    csrfTokenMeta.content = /*[[${_csrf.token}]]*/ '';
+                    document.head.appendChild(csrfTokenMeta);
 
+                    const csrfHeaderMeta = document.createElement('meta');
+                    csrfHeaderMeta.name = '_csrf_header';
+                    csrfHeaderMeta.content = /*[[${_csrf.headerName}]]*/ '';
+                    document.head.appendChild(csrfHeaderMeta);
+
+                    // 이메일 확인 이벤트 리스너 추가
                     document.getElementById('email').addEventListener('blur', function() {
                         const email = this.value;
+                        const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+                        const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+
                         fetch('/user/check-email', {
                             method: 'POST',
                             headers: {
@@ -120,13 +132,8 @@
                             .then(response => response.json())
                             .then(data => {
                                 const messageElement = document.getElementById('email-message');
-                                if (data.available) {
-                                    messageElement.textContent = "사용 가능한 이메일입니다.";
-                                    messageElement.style.color = 'green';
-                                } else {
-                                    messageElement.textContent = "이미 사용 중인 이메일입니다.";
-                                    messageElement.style.color = 'red';
-                                }
+                                messageElement.textContent = data.message;
+                                messageElement.style.color = data.available ? 'green' : 'red';
                             })
                             .catch(error => {
                                 console.error('Error:', error);

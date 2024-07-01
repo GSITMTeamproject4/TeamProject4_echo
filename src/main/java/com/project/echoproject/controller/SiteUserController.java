@@ -110,12 +110,8 @@ public class SiteUserController {
     @PostMapping("/check-email")
     @ResponseBody
     public ResponseEntity<?> checkEmail(@RequestParam String email) {
-        List<String> existingProviders = siteUserService.checkEmailDuplication(email);
-        if (existingProviders.isEmpty()) {
-            return ResponseEntity.ok().body(Map.of("message", "사용 가능한 이메일입니다.", "available", true));
-        } else {
-            String message = "이미 사용 중인 이메일입니다.";
-            return ResponseEntity.ok().body(Map.of("message", message, "available", false));
-        }
+        boolean isAvailable = siteUserService.checkEmailDuplication(email).isEmpty();
+        String message = isAvailable ? "사용 가능한 이메일입니다." : "이미 가입된 이메일입니다.";
+        return ResponseEntity.ok().body(Map.of("available", isAvailable, "message", message));
     }
 }
