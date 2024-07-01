@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/dashboard")
+@RequestMapping("/index")
 public class DataController {
 
     private final ObjectMapper objectMapper;

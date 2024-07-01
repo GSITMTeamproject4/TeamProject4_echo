@@ -8,12 +8,14 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Product {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String productName;
     private int price;
-    private String imageUrl;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image productImage;
 }

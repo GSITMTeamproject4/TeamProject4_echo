@@ -2872,3 +2872,7 @@ section,
   height: 40px;
   border-radius: 4px;
 }
+
+.btn-cart {
+  background-color: #75b798 !important;
+}

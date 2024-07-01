@@ -9,6 +9,10 @@ import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -40,10 +44,10 @@ public class EcoNewsService {
             if (itemsNode.isArray()) {
                 for (JsonNode itemNode : (ArrayNode) itemsNode) {
                     Map<String, String> newsItem = new HashMap<>();
-                    newsItem.put("title", itemNode.get("title").asText());
+                    newsItem.put("title", cleanText(itemNode.get("title").asText()));
                     newsItem.put("link", itemNode.get("link").asText());
-                    newsItem.put("description", itemNode.get("description").asText());
-                    newsItem.put("pubDate", itemNode.get("pubDate").asText());  // pubDate 추가
+                    newsItem.put("description", cleanText(itemNode.get("description").asText()));
+                    newsItem.put("pubDate", formatDate(itemNode.get("pubDate").asText()));  // pubDate 추가 및 형식 변환
                     newsList.add(newsItem);
                 }
             }
@@ -95,5 +99,33 @@ public class EcoNewsService {
             throw new RuntimeException("API 응답 읽기 실패", e);
         }
         return responseBody.toString();
+    }
+
+    private String cleanText(String text) {
+        if (text == null) {
+            return "";
+        }
+        // 태그와 이스케이프 문자 등을 빈칸으로 대체
+        return text.replaceAll("<.*?>", "")
+                .replaceAll("&quot;", "\"")
+                .replaceAll("&amp;", "&")
+                .replaceAll("&lt;", "<")
+                .replaceAll("&gt;", ">")
+                .replaceAll("\\n", " ")
+                .replaceAll("\\r", " ")
+                .replaceAll("\\t", " ");
+    }
+
+    private String formatDate(String dateStr) {
+        try {
+            // pubDate 예시: "Thu, 01 Jun 2023 00:00:00 +0900"
+            DateTimeFormatter inputFormatter = DateTimeFormatter.RFC_1123_DATE_TIME;
+            ZonedDateTime zonedDateTime = ZonedDateTime.parse(dateStr, inputFormatter);
+            DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            return zonedDateTime.format(outputFormatter);
+        } catch (DateTimeParseException e) {
+            // 변환 실패 시 원본 문자열 반환
+            return dateStr;
+        }
     }
 }

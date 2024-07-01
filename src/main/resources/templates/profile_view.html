@@ -2,135 +2,159 @@
 <html layout:decorate="~{layout}" xmlns:layout="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <div layout:fragment="content" class="profile-content" style="margin-top: 100px;">
 
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/mypage/profile_view.css}">
-    </th:block>
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/mypage/profile_view.css}">
+  </th:block>
 
-    <head>
-        <meta charset="UTF-8">
-        <title>My Profile</title>
-        <link rel="stylesheet" th:href="@{/css/common/argon-dashboard.min.css}">
-    </head>
-    <body class="profile-view">
-    <div class="container-fluid py-4">
-        <div class="row">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header pb-0">
-                        <div class="d-flex align-items-center">
-                            <p class="mb-0">Profile Information</p>
-                            <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}"class="btn btn-primary btn-sm ms-auto">Settings</a>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <p class="text-uppercase text-sm">User Information</p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="userId" class="form-control-label">사용자 ID</label>
-                                    <input class="form-control" type="text" id="userId" th:value="${user.userId}" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="userName" class="form-control-label">이름</label>
-                                    <input class="form-control" type="text" id="userName" th:value="${user.userName}" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="phoneNum" class="form-control-label">전화번호</label>
-                                    <input class="form-control" type="text" id="phoneNum" th:value="${user.phoneNum}" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="gender" class="form-control-label">성별</label>
-                                    <input class="form-control" type="text" id="gender" th:value="${user.gender == 'M' ? '남성' : '여성'}" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="email" class="form-control-label">Email</label>
-                                    <input class="form-control" type="email" id="email" th:value="${user.email}" readonly>
-                                </div>
-                            </div>
-
-                            <div class="col-md-6">
-                                <div class="form-group">
-                                    <label for="address" class="form-control-label">주소</label>
-                                    <input class="form-control" type="text" id="address" th:value="${user.address}" readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-md-4">
-                    <div class="card card-profile">
-                        <img src="/background.jpg" alt="Image placeholder" class="card-img-top">
-                        <div class="row justify-content-center">
-                            <div class="col-4 col-lg-4 order-lg-2">
-                                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
-                                        <img th:src="${user.imgUrl != null ? '/uploads/' + user.imgUrl : '/default-profile.png'}"
-                                             class="rounded-circle img-fluid border border-2 border-white"
-                                             alt="Profile Image">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
-                            <div class="d-flex justify-content-between">
-                                <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
-                                <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-block d-lg-none"><i class="ni ni-collection"></i></a>
-                                <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-none d-lg-block">Message</a>
-                                <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-block d-lg-none"><i class="ni ni-email-83"></i></a>
-                            </div>
-                        </div>
-                        <div class="card-body pt-0">
-                            <div class="row">
-                                <div class="col">
-                                    <div class="d-flex justify-content-center">
-                                        <div class="d-grid text-center">
-                                            <span class="text-lg font-weight-bolder">22</span>
-                                            <span class="text-sm opacity-8">Friends</span>
-                                        </div>
-                                        <div class="d-grid text-center mx-4">
-                                            <span class="text-lg font-weight-bolder">10</span>
-                                            <span class="text-sm opacity-8">Photos</span>
-                                        </div>
-                                        <div class="d-grid text-center">
-                                            <span class="text-lg font-weight-bolder">89</span>
-                                            <span class="text-sm opacity-8">Comments</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center mt-4">
-                                <h5>
-                                    Mark Davis<span class="font-weight-light">, 35</span>
-                                </h5>
-                                <div class="h6 font-weight-300">
-                                    <i class="ni location_pin mr-2"></i>Bucharest, Romania
-                                </div>
-                                <div class="h6 mt-4">
-                                    <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
-                                </div>
-                                <div>
-                                    <i class="ni education_hat mr-2"></i>University of Computer Science
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <head>
+    <meta charset="UTF-8">
+    <title>My Profile</title>
+    <link rel="stylesheet" th:href="@{/css/common/argon-dashboard.min.css}">
+  </head>
+  <body class="profile-view">
+  <div class="container-fluid py-4">
+    <div class="row">
+      <div class="col-md-8">
+        <div class="card">
+          <div class="card-header pb-0">
+            <div class="d-flex align-items-center">
+              <p class="mb-0">Profile Information</p>
+              <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}"class="btn btn-primary btn-sm ms-auto">Settings</a>
             </div>
+          </div>
+          <div class="card-body">
+            <p class="text-uppercase text-sm">User Information</p>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="userId" class="form-control-label">사용자 ID</label>
+                  <input class="form-control" type="text" id="userId" th:value="${user.userId}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="userName" class="form-control-label">이름</label>
+                  <input class="form-control" type="text" id="userName" th:value="${user.userName}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="nickName" class="form-control-label">닉네임</label>
+                  <input class="form-control" type="text" id="nickName" th:value="${user.nickName}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="phoneNum" class="form-control-label">전화번호</label>
+                  <input class="form-control" type="text" id="phoneNum" th:value="${user.phoneNum}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="gender" class="form-control-label">성별</label>
+                  <input class="form-control" type="text" id="gender" th:value="${user.gender == 'M' ? '남성' : '여성'}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="email" class="form-control-label">Email</label>
+                  <input class="form-control" type="email" id="email" th:value="${user.email}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="zipcode" class="form-control-label">우편번호</label>
+                  <input class="form-control" type="text" id="zipcode" th:value="${user.zipcode}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="streetaddr" class="form-control-label">도로명주소</label>
+                  <input class="form-control" type="text" id="streetaddr" th:value="${user.streetaddr}" readonly>
+                </div>
+              </div>
+
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label for="detailaddr" class="form-control-label">상세주소</label>
+                  <input class="form-control" type="text" id="detailaddr" th:value="${user.detailaddr}" readonly>
+                </div>
+              </div>
 
 
+            </div>
+          </div>
+        </div>
 
-
-    </body>
+        <div class="col-md-4">
+          <div class="card card-profile">
+            <img src="/background.jpg" alt="Image placeholder" class="card-img-top">
+            <div class="row justify-content-center">
+              <div class="col-4 col-lg-4 order-lg-2">
+                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                  <div class="profile-image-container">
+                    <img th:src="${user.profileImage != null ? '/uploads/' + user.profileImage.filePath : '/default-profile.png'}"
+                         class="rounded-circle img-fluid border border-2 border-white"
+                         alt="Profile Image">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
+              <div class="d-flex justify-content-between">
+                <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-none d-lg-block">Connect</a>
+                <a href="javascript:;" class="btn btn-sm btn-info mb-0 d-block d-lg-none"><i class="ni ni-collection"></i></a>
+                <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-none d-lg-block">Message</a>
+                <a href="javascript:;" class="btn btn-sm btn-dark float-right mb-0 d-block d-lg-none"><i class="ni ni-email-83"></i></a>
+              </div>
+            </div>
+            <div class="card-body pt-0">
+              <div class="row">
+                <div class="col">
+                  <div class="d-flex justify-content-center">
+                    <div class="d-grid text-center">
+                      <span class="text-lg font-weight-bolder">22</span>
+                      <span class="text-sm opacity-8">Friends</span>
+                    </div>
+                    <div class="d-grid text-center mx-4">
+                      <span class="text-lg font-weight-bolder">10</span>
+                      <span class="text-sm opacity-8">Photos</span>
+                    </div>
+                    <div class="d-grid text-center">
+                      <span class="text-lg font-weight-bolder">89</span>
+                      <span class="text-sm opacity-8">Comments</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="text-center mt-4">
+                <h5>
+                  Mark Davis<span class="font-weight-light">, 35</span>
+                </h5>
+                <div class="h6 font-weight-300">
+                  <i class="ni location_pin mr-2"></i>Bucharest, Romania
+                </div>
+                <div class="h6 mt-4">
+                  <i class="ni business_briefcase-24 mr-2"></i>Solution Manager - Creative Tim Officer
+                </div>
+                <div>
+                  <i class="ni education_hat mr-2"></i>University of Computer Science
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  </body>
 </div>
 </html>
+
+
+

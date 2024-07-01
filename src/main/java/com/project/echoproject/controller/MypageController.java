@@ -3,6 +3,7 @@ package com.project.echoproject.controller;
 import com.project.echoproject.dto.ChangePasswordForm;
 import com.project.echoproject.dto.SiteUserEditForm;
 import com.project.echoproject.dto.UseAmountForm;
+import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.Point;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
@@ -25,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.security.Principal;
 import java.time.LocalDate;
-import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -36,16 +36,18 @@ public class MypageController {
     private final ChangePasswordServiceImpl changePasswordServiceImpl;
     private final UseAmountServiceImpl useAmountServiceImpl;
     private final PointService pointService;
+    private final AuthBoardServiceImpl authBoardService;
 
 
     @Autowired
     public MypageController(MypageService mypageService,
                             ChangePasswordServiceImpl changePasswordServiceImpl,
-                            UseAmountServiceImpl useAmountServiceImpl, PointService pointService, SiteUserServiceImpl siteUserServiceImpl) {
+                            UseAmountServiceImpl useAmountServiceImpl, PointService pointService, SiteUserServiceImpl siteUserServiceImpl, AuthBoardServiceImpl authBoardServiceImpl) {
         this.mypageService = mypageService;
         this.changePasswordServiceImpl = changePasswordServiceImpl;
         this.useAmountServiceImpl = useAmountServiceImpl;
         this.pointService = pointService;
+        this.authBoardService = authBoardServiceImpl;
     }
 
 
@@ -69,10 +71,13 @@ public class MypageController {
         SiteUserEditForm form = new SiteUserEditForm();
         form.setUserId(user.getUserId());
         form.setUserName(user.getUserName());
+        user.setNickName(form.getNickName());
         form.setPhoneNum(user.getPhoneNum());
         form.setEmail(user.getEmail());
-        form.setAddress(user.getAddress());
         form.setGender(user.getGender());
+        form.setZipcode(user.getZipcode());
+        form.setStreetaddr(user.getStreetaddr());
+        form.setDetailaddr(user.getDetailaddr());
 
         model.addAttribute("user", user);  // 현재 사용자 정보
         model.addAttribute("userEditForm", form);  // 개인정보 수정용 폼
@@ -84,7 +89,6 @@ public class MypageController {
     public String updatePersonalInfo(@PathVariable String userId,
                                      @Valid @ModelAttribute("userEditForm") SiteUserEditForm userEditForm,
                                      BindingResult bindingResult,
-                                     @RequestParam(value = "file", required = false) MultipartFile file,
                                      Model model, Principal principal) {
         if (!principal.getName().equals(userId)) {
             return "redirect:/";
@@ -96,7 +100,7 @@ public class MypageController {
         }
 
         try {
-            mypageService.updateUser(userId, userEditForm, file);
+            mypageService.updateUser(userId, userEditForm);
             return "redirect:/mypage/profile/" + userId;
         } catch (IOException e) {
             model.addAttribute("errorMessage", "이미지 업로드 중 오류가 발생했습니다: " + e.getMessage());
@@ -256,22 +260,38 @@ public class MypageController {
         }
 
         int size = 9; // 페이지당 표시할 항목 수
-        long totalItems = pointService.countPointHistoryByUserId(userId);
+        Page<Point> pointHistoryPage = pointService.getPointHistoryByUserIdPaged(userId, page, size);
 
-        if (totalItems <= 9) {
-            // 9개 이하일 경우 전체 리스트 반환
-            List<Point> pointHistory = pointService.getPointHistoryByUserId(userId);
-            model.addAttribute("pointHistory", pointHistory);
-            model.addAttribute("totalPages", 1);
-        } else {
-            // 9개 초과 시 페이징 처리
-            Page<Point> pointHistoryPage = pointService.getPointHistoryByUserIdPaged(userId, page, size);
-            model.addAttribute("pointHistory", pointHistoryPage.getContent());
-            model.addAttribute("totalPages", pointHistoryPage.getTotalPages());
+        model.addAttribute("pointHistory", pointHistoryPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", pointHistoryPage.getTotalPages());
+        model.addAttribute("totalItems", pointHistoryPage.getTotalElements());
+        model.addAttribute("size", size);
+
+        return "point_status";
+    }
+
+
+    @GetMapping("/my-posts/{userId}")
+    public String getMyPosts(@PathVariable String userId,
+                             Model model,
+                             Principal principal,
+                             @RequestParam(defaultValue = "0") int page) {
+        if (!principal.getName().equals(userId)) {
+            return "redirect:/";
         }
 
+        int size = 9; // 페이지당 표시할 게시글 수
+
+        Page<AuthBoard> myPostsPage = authBoardService.getBoardsByAuthorIdPaged(userId, page, size);
+
+        model.addAttribute("myPosts", myPostsPage.getContent());
         model.addAttribute("currentPage", page);
-        return "point_status";
+        model.addAttribute("totalPages", myPostsPage.getTotalPages());
+        model.addAttribute("totalItems", myPostsPage.getTotalElements());
+        model.addAttribute("size", size);
+
+        return "myPost";
     }
 
     @GetMapping("/challenge")

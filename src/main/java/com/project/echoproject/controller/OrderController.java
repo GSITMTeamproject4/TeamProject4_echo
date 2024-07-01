@@ -2,7 +2,7 @@ package com.project.echoproject.controller;
 
 import com.project.echoproject.entity.Cart;
 import com.project.echoproject.entity.CartItem;
-import com.project.echoproject.entity.Order;
+import com.project.echoproject.entity.Orders;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.CartRepository;
 import com.project.echoproject.repository.SiteUserRepository;
@@ -10,16 +10,13 @@ import com.project.echoproject.service.CartService;
 import com.project.echoproject.service.OrderService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/order")
+@RequestMapping("/orders")
 public class OrderController {
 
     private final SiteUserRepository siteUserRepository;
@@ -41,60 +38,50 @@ public class OrderController {
     public String checkout(@PathVariable String userId, Model model) {
         SiteUser siteUser = siteUserRepository.findByUserId(userId)
                 .orElseThrow(() -> new RuntimeException("User not found"));
-
         Cart cart = cartRepository.findByUser(siteUser)
                 .orElseThrow(() -> new RuntimeException("Cart not found"));
-
         List<CartItem> cartItems = cart.getItems();
-
         if (cartItems.isEmpty()) {
             throw new RuntimeException("Cart is empty");
         }
 
-        int totalAmount = cartItems.stream()
-                .mapToInt(item -> item.getProduct().getPrice() * item.getQuantity())
-                .sum();
+        List<String> productNames = new ArrayList<>();
+        List<Integer> quantities = new ArrayList<>();
+        List<Long> productIds = new ArrayList<>();
+        List<Integer> prices = new ArrayList<>();
+        int totalAmount = 0;
 
-        List<String> productNames = cartItems.stream()
-                .map(item -> item.getProduct().getProductName())
-                .collect(Collectors.toList());
+        for (CartItem item : cartItems) {
+            productNames.add(item.getProduct().getProductName());
+            quantities.add(item.getQuantity());
+            productIds.add(item.getProduct().getId());
+            int price = item.getProduct().getPrice();
+            prices.add(price);
+            totalAmount += price * item.getQuantity();
+        }
 
-        List<Integer> quantities = cartItems.stream()
-                .map(CartItem::getQuantity)
-                .collect(Collectors.toList());
-
-        List<Long> productIds = cartItems.stream()
-                .map(item -> item.getProduct().getId())
-                .collect(Collectors.toList());
-
-        // 모델에 데이터 추가
         model.addAttribute("productIds", productIds);
         model.addAttribute("productNames", productNames);
         model.addAttribute("quantities", quantities);
+        model.addAttribute("prices", prices);
         model.addAttribute("totalAmount", totalAmount);
         model.addAttribute("buyerEmail", siteUser.getEmail());
         model.addAttribute("buyerId", siteUser.getUserId());
         model.addAttribute("buyerTel", siteUser.getPhoneNum());
-        model.addAttribute("buyerAddr", siteUser.getAddress());
-        model.addAttribute("buyerPostcode", siteUser.getAddress());
+        model.addAttribute("buyerAddr", siteUser.getStreetaddr());
+        model.addAttribute("buyerPostcode", siteUser.getZipcode());
 
-        return "payment";
+        return "order/payment";
     }
 
-    @GetMapping("/success")
-    public String orderSuccess(Model model) {
-        // RedirectAttributes로부터 전달된 데이터를 가져옴
-        if (model.containsAttribute("order")) {
-            Order order = (Order) model.getAttribute("order");
-            model.addAttribute("order", order);
-        } else {
-            // 장바구니가 비어있을 때 에러 메시지를 추가
-            model.addAttribute("errorMessage", "Cart is empty or order not found.");
-//            return "/error/error_cart"; // 에러 페이지로 리다이렉트
+
+    @GetMapping("/success/{orderNumber}")
+    public String orderSuccess(@PathVariable String orderNumber, Model model) {
+        Orders order = orderService.getOrderByOrderNumber(orderNumber);
+        if (order == null) {
+            return "redirect:/error";
         }
-
-        return "orderSuccess";
+        model.addAttribute("order", order);
+        return "order/order_success";
     }
-
-
 }

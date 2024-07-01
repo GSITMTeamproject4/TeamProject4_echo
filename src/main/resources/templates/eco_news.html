@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<!--<html lang="ko">-->
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/ecoNews/eco_news.css}">
+    </th:block>
+
+
+    <div layout:fragment="content">
+        <body>
+            <main class="main">
+                <div class="page-title" data-aos="fade">
+
+                    <!-- news header -->
+                    <div class="heading">
+                        <div class="container">
+                            <div class="row d-flex justify-content-center text-center">
+                                <div class="col-lg-8">
+                                    <h1>'저탄소' 실시간 뉴스 Top 10</h1>
+                                    <p class="mb-0">저탄소 관련 이슈와 정책, 기술 발전, 기업의 노력을 다루는 최신 소식을 포함합니다<br>
+                                        환경에 관한 최신 뉴스를 확인해보세요</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- news header -->
+
+                    <div class="news_container container news_section">
+                        <div class="list-style-none row gy-4">
+
+                            <th:block th:each="news : ${newsList}">
+                                <div class="col-lg-6">
+                                    <!-- ifcss 확인 -->
+                                    <div class="ifcss ecoNews_padding">☆</div>
+                                    <div class="ecoNews_item">
+                                        <div class="news-item">
+                                            <div class="news-details ecoNews_padding">
+                                                <h4 class="title">
+                                                    <a th:href="${news.link}" th:text="${news.title}"></a>
+                                                </h4>
+                                                <p th:text="${news.description}"></p>
+                                            </div>
+                                            <div class="news-date float_right">
+                                                <p th:text="${news.pubDate}">날짜</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </th:block>
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </body>
+    </div>
+</layout:html>

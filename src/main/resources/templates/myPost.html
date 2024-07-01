@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>My Posts</title>
+    <style>
+        .table {
+            text-align: center;
+        }
+        .table th, .table td {
+            vertical-align: middle;
+        }
+        .userPosts {
+            background-color: white;
+            padding-bottom: 100px;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="userPosts">
+        <!--타이틀-->
+        <main class="main">
+            <div class="page-title" data-aos="fade">
+                <div class="heading">
+                    <div class="container">
+                        <div class="row d-flex justify-content-center text-center">
+                            <div class="col-lg-8">
+                                <h1>My Posts</h1>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <div class="container my-3">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>No.</th>
+                    <th>제목</th>
+                    <th>작성일</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="post, iterStat : ${myPosts}">
+                    <td th:text="${totalItems - (currentPage * size) - iterStat.index}"></td>
+                    <td>
+                        <a th:href="@{/authBoard/detail/{id}(id=${post.listId})}" th:text="${post.boardTitle}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(post.postCreateDate, 'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+                </tbody>
+
+
+            </table>
+        </div>
+        <div class="text-center mt-3">
+            <a href="/authBoard/list" class="btn btn-primary">그린라이프인증 게시판으로 가기</a>
+        </div>
+    </div>
+
+    <!-- Blog Pagination Section -->
+    <section id="blog-pagination" class="blog-pagination section" th:if="${totalPages > 0}">
+        <div class="container">
+            <div class="d-flex justify-content-center">
+                <ul>
+                    <li th:if="${currentPage > 0}">
+                        <a th:href="@{/mypage/my-posts/{userId}(userId=${userId}, page=${currentPage - 1})}"><i class="fa-solid fa-chevron-left"></i></a>
+                    </li>
+                    <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                        th:classappend="${pageNum == currentPage} ? 'active'">
+                        <a th:href="@{/mypage/my-posts/{userId}(userId=${userId}, page=${pageNum})}" th:text="${pageNum + 1}"></a>
+                    </li>
+                    <li th:if="${currentPage < totalPages - 1}">
+                        <a th:href="@{/mypage/my-posts/{userId}(userId=${userId}, page=${currentPage + 1})}"><i class="fa-solid fa-chevron-right"></i></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section><!-- /Blog Pagination Section -->
+</div>
+</body>
+</html>

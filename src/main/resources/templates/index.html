@@ -1,8 +1,329 @@
 <!DOCTYPE html>
 <layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
-             xmlns:layout="http://www.w3.org/1999/xhtml"
-             layout:decorate="~{layout}">
+             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+    <head>
+        <meta charset="UTF-8">
+        <title>녹색 저탄소</title>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link th:href="@{css/common/argon-dashboard.min.css}"/>
+        <link rel="stylesheet" th:href="@{/css/index/index.css}">
+    </head>
+    <div layout:fragment="content"  class="divBox1">
+        <body>
+<!--  유저 페이지-->
+        <div class="col-md-4">
+            <div class="card card-profile">
+                <img src="/background.jpg" alt="Image placeholder" class="card-img-top">
+            </div>
+            <div class="card-header text-center border-0 pt-0 pt-lg-2 pb-4 pb-lg-3">
+                    <div class="d-flex justify-content-between">
+                        <!-- 유저가 로그인 했을 때       -->
+                        <th:block th:if="${user != null}">
+                            <div class="row justify-content-center">
+                                <div class="col-4 col-lg-4 order-lg-2 user-login-div1" >
+                                    <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0 user-login-div2" >
+                                        <div class="profile-image-container">
+                                            <img th:src="${user.profileImage != null ? '/uploads/' + user.profileImage.filePath : '/default-profile.png'}"
+                                                 class="rounded-circle img-fluid border border-2 border-white"
+                                                 alt="Profile Image">
+                                        </div>
+                                    </div>
+                                    <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}"
+                                       class="btn btn-sm btn-info mb-0 d-none d-lg-block">
+                                        개인정보 수정하기
+                                    </a>
+                                    <div class="card-body pt-0 user-login-div3" >
+                                        <div class="row user-login-div4">
+                                            <div class="col">
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="d-grid text-center" >
+                                                        <span class="text-lg font-weight-bolder" th:text="${user.currentPoint}">
+                                                           point
+                                                        </span>
+                                                        <span class="text-sm opacity-8" >
+                                                        <a th:href="@{/mypage/point-status/{userId}(userId=${user.userId})}">
+                                                            포인트
+                                                        </a>
+                                                            </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4 user-login-div5" >
+                                            <h5 th:text="${user.nickName}"/>
+                                            <div>
+                                                <i class="ni business_briefcase-24 mr-2"></i>
+                                                <a th:href="@{/mypage/useamount-detail/{userId}(userId=${user.userId}, year=${year})}">
+                                                    나의 전기/가스 사용량 보기
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <i class="ni education_hat mr-2"></i>
+                                                <a th:href="@{/challenge}">   나의 챌린지 현황 보기   </a>
+                                            </div>
+                                            <div>
+                                                <i class="ni education_hat mr-2"></i>
+                                                <a th:href="@{/user/coupons}">
+                                                    나의 보유 쿠폰 보기
+                                                </a>
+                                            </div>
+                                            <div>
+                                                <i class="ni education_hat mr-2"></i>
+                                                <a th:href="@{/mypage/my-posts/{userId}(userId=${user.userId})}">
+                                                    나의 게시글 보기
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
-<div layout:fragment="content">임시 index</div>
+                        </th:block>
 
+                        <!-- 유저가 로그인하지 않았을 때-->
+                        <th:block th:if="${user == null}">
+                            <div class="row justify-content-center">
+                                <div class="col-4 col-lg-4 order-lg-2 user-null-div1" >
+                                    <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
+                                        <div class="profile-image-container">
+                                            <img src= "/default-profile.png"
+                                                 class="rounded-circle img-fluid border border-2 border-white"
+                                                 alt="Profile Image">
+                                        </div>
+                                        <a th:href="@{loginForm}" class="btn btn-sm btn-info mb-0 d-none d-lg-block user-null-a">로그인을 해주세요</a>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+
+                        </th:block>
+                    </div>
+                </div>
+        </div>
+
+
+<!--        대시보드-->
+<div class="container-fluid py-4 dashboard-div1" >
+    <div class="row dashboard-div2">
+<!--        현재 전기 사용량-->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3 dashboard-div3" >
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">현재 달 전기 사용량</p>
+                                <h5 class="font-weight-bolder" ></h5>
+
+                                <p class="mb-0">
+                                <p class="text-success text-sm font-weight-bolder" th:text="${currentElectricity}">현재 달 전기 사용량</p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        전월 대비 전기 사용량-->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3 dashboard-div3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">전월 대비 전기 증감률</p>
+                                <h5 class="font-weight-bolder"></h5>
+                                <p class="mb-0">
+                                    <p id="electricityDiffMsg" th:text="${electricityDiffMsg}" class="text-success text-sm font-weight-bolder">전기 사용량 증감률 메시지</p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        현재 가스 사용량-->
+        <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
+            <div class="card">
+                <div class="card-body p-3 dashboard-div3">
+                    <div class="row">
+                        <div class="col-8">
+                            <div class="numbers">
+                                <p class="text-sm mb-0 text-uppercase font-weight-bold">현재 달 가스 사용량</p>
+                                <h5 class="font-weight-bolder"></h5>
+                                <p class="mb-0">
+                                <p id="currentGas" th:text="${currentGas}" class="text-success text-sm font-weight-bolder">현재 달 가스 사용량</p>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!--        전월 대비 가스 사용량--><div class="col-xl-3 col-sm-6">
+        <div class="card">
+            <div class="card-body p-3 dashboard-div3">
+                <div class="row">
+                    <div class="col-8">
+                        <div class="numbers">
+                            <p class="text-sm mb-0 text-uppercase font-weight-bold">전월 대비 가스 증감률</p>
+                            <h5 class="font-weight-bolder"></h5>
+                            <p class="mb-0">
+                            <p  id="gasDiffMsg" th:text="${gasDiffMsg}" class="text-success text-sm font-weight-bolder">가스 사용량 증감률 메시지</p>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    </div>
+
+    <div class="divBox2">
+        <div>
+            <h6 class="divBox2-h6">서울 및 경기도 시군구별 전기 및 가스 사용량</h6>
+            <div class="divBox3">
+                <label for="regionSelect" class="label">지역 선택: </label>
+                <select id="regionSelect">
+                    <option value="seoul" selected>서울</option>
+                    <option value="gyeonggi">경기도</option>
+                </select>
+
+                <!-- 서울 지역 시군구 선택 -->
+                <select id="seoulSubSelect">
+                    <option value="gangnam" selected>강남</option>
+                    <option value="gangbuk">강북</option>
+                </select>
+
+                <!-- 경기도 지역 시군구 선택 -->
+                <select id="gyeonggiSubSelect" style="display: none;">
+                    <option value="gyeongginorth">북부</option>
+                    <option value="gyeonggicentral">중부</option>
+                    <option value="gyeonggisouth">남부</option>
+                </select>
+            </div>
+        </div>
+        <!--            차트가 들어가야 할 곳-->
+        <canvas id="usageChart" ></canvas>
+    </div>
+    </div>
+
+        <script>
+                document.addEventListener('DOMContentLoaded', function() {
+                    var ctx = document.getElementById('usageChart').getContext('2d');
+                    var usageChart;
+
+                    function updateChart(region, subregion) {
+                        var fetchDataUrl = '/index/data?region=' + region;
+                        if (subregion) {
+                            fetchDataUrl += '&subregion=' + subregion;
+                        }
+
+                        fetch(fetchDataUrl)
+                            .then(response => response.json())
+                            .then(data => {
+                                var labels = Object.keys(data.labelsBySIGUNGU_CD).map(function(sigungu) {
+                                    return data.labelsBySIGUNGU_CD[sigungu];
+                                });
+
+                                var eleData = Object.values(data.eleUsageBySIGUNGU_CD);
+                                var gasData = Object.values(data.gasUsageBySIGUNGU_CD);
+                                console.log(eleData);
+                                console.log(gasData);
+
+                                if (!usageChart) {
+                                    usageChart = new Chart(ctx, {
+                                        type: 'bar',
+                                        data: {
+                                            labels: labels,
+                                            datasets: [
+                                                {
+                                                    label: '전기 사용량',
+                                                    data: eleData,
+                                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                                    borderWidth: 1
+                                                },
+                                                {
+                                                    label: '가스 사용량',
+                                                    data: gasData,
+                                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                                                    borderWidth: 1
+                                                }
+                                            ]
+                                        },
+                                        options: {
+                                            responsive: true,
+                                            plugins: {
+                                                legend: {
+                                                    position: 'top',
+                                                },
+                                                title: {
+                                                    display: true,
+                                                    text: '서울 및 경기도 시군구별 전기 및 가스 사용량'
+                                                }
+                                            }
+                                        }
+                                    });
+                                } else {
+                                    usageChart.data.labels = labels;
+                                    usageChart.data.datasets[0].data = eleData;
+                                    usageChart.data.datasets[1].data = gasData;
+                                    usageChart.update();
+                                }
+                            })
+                            .catch(error => {
+                                console.error('Error:', error.message);
+                                showError('데이터를 가져오는 도중 오류가 발생했습니다: ' + error.message);
+                            });
+                    }
+
+                    document.getElementById('regionSelect').addEventListener('change', function(event) {
+                        var region = event.target.value;
+                        var subregionSelect = document.getElementById(region + 'SubSelect');
+                        var subregion = subregionSelect ? subregionSelect.value : null;
+                        updateChart(region, subregion);
+
+                        // 지역 선택에 따라서 시군구 선택 옵션 변경
+                        if (region === 'seoul') {
+                            document.getElementById('seoulSubSelect').style.display = 'inline-block';
+                            document.getElementById('gyeonggiSubSelect').style.display = 'none';
+                        } else if (region === 'gyeonggi') {
+                            document.getElementById('seoulSubSelect').style.display = 'none';
+                            document.getElementById('gyeonggiSubSelect').style.display = 'inline-block';
+                        }
+                    });
+
+                    document.getElementById('seoulSubSelect').addEventListener('change', function(event) {
+                        var subregion = event.target.value;
+                        updateChart('seoul', subregion);
+                    });
+
+                    document.getElementById('gyeonggiSubSelect').addEventListener('change', function(event) {
+                        var subregion = event.target.value;
+                        updateChart('gyeonggi', subregion);
+                    });
+
+                    // 기본값으로 서울 강남 지역 그래프 표시
+                    updateChart('seoul', 'gangnam');
+
+                    function showError(message) {
+                        console.error(message);
+                        var errorDiv = document.createElement('div');
+                        errorDiv.textContent = message;
+                        errorDiv.style.color = 'red';
+                        document.body.appendChild(errorDiv);
+                    }
+                });
+            </script>
+
+
+
+        </body>
+    </div>
 </layout:html>
