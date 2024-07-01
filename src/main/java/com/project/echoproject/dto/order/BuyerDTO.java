@@ -9,5 +9,6 @@ public class BuyerDTO {
     private String username;
     private String buyerTel;
     private String buyerAddr;
+    private String buyerEmail;
     private String buyerPostcode;
 }
