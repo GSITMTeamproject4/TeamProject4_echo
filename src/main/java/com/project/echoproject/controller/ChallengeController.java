@@ -33,7 +33,7 @@ public class ChallengeController {
     @GetMapping("/state")
     public @ResponseBody List<Map<String, Object>> monthPlan(Principal principal) {
         SiteUser siteUser = siteUserService.findByUserId(principal.getName());
-            return challengeService.getChallengeList(siteUser);
+        return challengeService.getChallengeList(siteUser);
     }
 
     @GetMapping("/add")

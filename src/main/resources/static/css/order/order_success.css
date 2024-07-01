@@ -1,0 +1,60 @@
+.order_success_main {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    color: #333;
+    max-width: 800px;
+    margin: 100px auto;
+    padding: 20px;
+}
+.order_success_title, .order_success_info_title {
+    color: #444;
+}
+
+.order_success_title {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.order-info, .payment-info, .delivery-info {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+}
+.order-items {
+    margin-bottom: 20px;
+}
+.order_success_item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+}
+.order_success_item img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 15px;
+}
+.item-info {
+    flex-grow: 1;
+}
+.order_success_total {
+    font-weight: bold;
+    text-align: right;
+    font-size: 1.2em;
+    margin-top: 20px;
+}
+.order_success_actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 30px;
+}
+.order_success_btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}

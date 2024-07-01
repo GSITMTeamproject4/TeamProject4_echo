@@ -37,10 +37,10 @@ public class AuthBoard {
     @JoinColumn(name = "userId", nullable = false)
     private SiteUser siteUser;
 
-    @OneToMany(mappedBy = "authBoard", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "authBoard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<LikeBoard> likeBoards;
 
-    @OneToMany(mappedBy = "authBoard", cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "authBoard", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ReportBoard> reportBoards;
 
     @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)

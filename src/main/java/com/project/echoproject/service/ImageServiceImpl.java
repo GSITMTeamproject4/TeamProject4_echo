@@ -10,6 +10,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.UUID;
@@ -22,6 +24,7 @@ public class ImageServiceImpl implements ImageService {
     private static final Logger logger = LoggerFactory.getLogger(ImageService.class);
     private static final String UPLOAD_DIR = "uploads/";
 
+    @Override
     public Image saveImage(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             throw new IOException("File is empty");
@@ -55,10 +58,26 @@ public class ImageServiceImpl implements ImageService {
         return imageRepository.save(image); // 이미지 저장 후 반환
     }
 
+    @Override
     public String encodeImageToBase64(String filePath) throws IOException {
         String rootPath = new File("").getAbsolutePath();
         String fullPath = rootPath + File.separator + UPLOAD_DIR + filePath;
         byte[] imageData = java.nio.file.Files.readAllBytes(new File(fullPath).toPath());
         return Base64.getEncoder().encodeToString(imageData);
+    }
+
+    @Override
+    public void deleteImage(Image image) {
+        if (image != null) {
+            // 파일 시스템에서 이미지 파일 삭제
+            try {
+                Files.deleteIfExists(Paths.get(image.getFilePath()));
+            } catch (IOException e) {
+                // 로그 기록 또는 예외 처리
+            }
+
+            // 데이터베이스에서 이미지 엔티티 삭제
+            imageRepository.delete(image);
+        }
     }
 }

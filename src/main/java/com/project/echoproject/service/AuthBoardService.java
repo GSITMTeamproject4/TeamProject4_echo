@@ -19,4 +19,9 @@ public interface AuthBoardService {
 
     // 페이징 처리
     Page<AuthBoard> getAuthBoards(int page, int size);
+
+    // 사용자 ID로 게시글 목록 조회
+    Page<AuthBoard> getBoardsByAuthorIdPaged(String userId, int page, int size);
 }
+
+

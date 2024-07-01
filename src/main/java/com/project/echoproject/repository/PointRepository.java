@@ -12,3 +12,4 @@ public interface PointRepository extends JpaRepository<Point, Long> {
     Page<Point> findBySiteUser_UserIdOrderByInsertDateDesc(String userId, Pageable pageable);
     long countBySiteUser_UserId(String userId);
 }
+

@@ -21,16 +21,17 @@ public class DashboardController {
 
     private final UseAmountService useAmountService;
     private final SiteUserServiceImpl siteUserServiceImpl;
-    private final MypageService mypageService; // 추가
+    private final MypageService mypageService;
 
     @Autowired
     public DashboardController(UseAmountService useAmountService,
                                SiteUserServiceImpl siteUserServiceImpl,
-                               MypageService mypageService) { // 생성자 매개변수 추가
+                               MypageService mypageService) {
         this.useAmountService = useAmountService;
         this.siteUserServiceImpl = siteUserServiceImpl;
-        this.mypageService = mypageService; // 초기화
+        this.mypageService = mypageService;
     }
+
 
     /**
      * 대시보드 페이지를 처리하는 메서드.
@@ -38,47 +39,51 @@ public class DashboardController {
      * @param principal 현재 사용자 정보를 제공하는 Principal 객체
      * @return index.html 뷰 페이지 이름
      */
-
-
-
     @GetMapping(value = {"/", "/index", "/main", "index"})
     public String dashboard(Model model, Principal principal) {
         if (principal != null) {
             String userId = principal.getName();
 
-            // 사용자 정보를 가져와 모델에 추가 (추가된 부분)
+            // 사용자 정보 가져오기
             SiteUser user = mypageService.getUserById(userId);
             model.addAttribute("user", user);
 
+            // 현재 날짜와 시간 정보 설정
             LocalDate now = LocalDate.now();
             int currentMonth = now.getMonthValue();
             int currentYear = now.getYear();
 
-            // 현재 연도 데이터 가져오기
+            // 현재 연도의 월별 사용량 데이터 가져오기
             Map<Integer, UseAmount> useAmounts = useAmountService.getMonthlyUseAmounts(userId, currentYear);
 
+            // 현재 월의 사용량과 이전 월의 사용량 가져오기
             UseAmount currentUseAmount = useAmounts.get(currentMonth);
             UseAmount previousUseAmount = useAmounts.get(currentMonth - 1);
 
+            // 현재 월의 사용량 정보를 모델에 추가
             if (currentUseAmount != null) {
                 model.addAttribute("currentElectricity", currentUseAmount.getUseElectricity() + " (KWh)");
                 model.addAttribute("currentGas", currentUseAmount.getUseGas() + " (M³)");
             }
 
+            // 이전 월의 사용량 정보를 모델에 추가
             if (previousUseAmount != null) {
+                // 전기와 가스 사용량의 백분율 차이 계산
                 double electricityDiff = calculateDifference(currentUseAmount.getUseElectricity(), previousUseAmount.getUseElectricity());
                 double gasDiff = calculateDifference(currentUseAmount.getUseGas(), previousUseAmount.getUseGas());
 
+                // 모델에 전기와 가스의 백분율 차이를 문자열 형태로 추가
                 model.addAttribute("electricityDiff", String.format("%.1f%%", electricityDiff));
                 model.addAttribute("gasDiff", String.format("%.1f%%", gasDiff));
 
-                // Format the messages using formatDifferenceMessage method
+                // 백분율 차이를 설명하는 메시지를 포맷하여 모델에 추가
                 String electricityDiffMsg = formatDifferenceMessage(electricityDiff, "전기");
                 String gasDiffMsg = formatDifferenceMessage(gasDiff, "가스");
 
                 model.addAttribute("electricityDiffMsg", electricityDiffMsg);
                 model.addAttribute("gasDiffMsg", gasDiffMsg);
             } else {
+                // 이전 월의 데이터가 없을 경우 N/A로 표시
                 model.addAttribute("electricityDiff", "N/A");
                 model.addAttribute("gasDiff", "N/A");
                 model.addAttribute("electricityDiffMsg", "");
@@ -86,7 +91,7 @@ public class DashboardController {
             }
         }
 
-        return "index";
+        return "index"; // index.html 뷰 페이지 반환
     }
 
     /**
@@ -109,9 +114,9 @@ public class DashboardController {
     private String formatDifferenceMessage(double diff, String type) {
         double absDiff = Math.abs(diff);
         if (diff > 0) {
-            return type + " 사용량이 " + String.format("%.1f%%를 더 쓰셨네요!", absDiff);
+            return type + " 사용량을 " + String.format("%.1f%%를 더 쓰셨네요!", absDiff);
         } else if (diff < 0) {
-            return type + " 사용량이 " + String.format("%.1f%%를 줄이셨네요!", absDiff);
+            return type + " 사용량을 " + String.format("%.1f%%를 줄이셨네요!", absDiff);
         } else {
             return type + " 사용량이 변화가 없습니다.";
         }

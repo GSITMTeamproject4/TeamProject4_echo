@@ -2,122 +2,134 @@
 <layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
              xmlns:layout="http://www.w3.org/1999/xhtml"
              layout:decorate="~{layout}">
-    <th:block layout:fragment="css">
-        <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_detail.css}">
-    </th:block>
-    <th:block layout:fragment="script">
-        <script th:src="@{/js/authBoard/authBoard_list.js}"></script>
-    </th:block>
-    <div layout:fragment="content">
-        <body class="blog-details-page">
 
-        <main class="main detail-main">
+  <th:block layout:fragment="css">
+    <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_detail.css}">
+  </th:block>
 
-            <!-- Page Title -->
-            <div class="page-title" data-aos="fade">
-                <div class="heading">
-                    <div class="container">
-                        <div class="row d-flex justify-content-center text-center">
-                            <div class="col-lg-8">
-                                <h1>그린라이프 인증</h1>
-                                <p class="mb-0">그린라이프 인증은 쓰레기를 재활용하여 멋지게 활용한 모습을 인증하고 자랑하는 게시판입니다<br>
-                                    마음껏 자랑하여 좋아요를 받아보세요 </p>
-                            </div>
-                        </div>
-                    </div>
+  <th:block layout:fragment="script">
+    <script th:src="@{/js/authBoard/authBoard_list.js}"></script>
+  </th:block>
+
+  <div layout:fragment="content">
+    <body class="blog-details-page">
+
+      <main class="main detail-main">
+
+        <!-- Page Title -->
+        <div class="page-title" data-aos="fade">
+          <div class="heading">
+            <div class="container">
+              <div class="row d-flex justify-content-center text-center">
+                <div class="col-lg-8">
+                  <h1>그린라이프 인증</h1>
+                  <p class="mb-0">그린라이프 인증은 쓰레기를 재활용하여 멋지게 활용한 모습을 인증하고 자랑하는 게시판입니다<br>
+                    마음껏 자랑하여 좋아요를 받아보세요 </p>
                 </div>
-                <nav class="breadcrumbs">
-                    <div class="container">
-                        <ol>
-                            <li class="current">상세 글 보기</li>
-                            <li><a th:href="@{/authBoard/list}">목록으로</a></li>
-                        </ol>
+              </div>
+            </div>
+          </div>
+          <nav class="breadcrumbs">
+            <div class="container">
+              <ol>
+                <li class="current">상세 글 보기</li>
+                <li><a th:href="@{/authBoard/list}">목록으로</a></li>
+              </ol>
+            </div>
+          </nav>
+        </div><!-- End Page Title -->
+
+        <div class="container detail-container">
+          <div class="row">
+
+            <div class="col-lg-8">
+
+              <!-- Blog Details Section -->
+              <div id="blog-details" class="blog-details section board-detail">
+                <div class="container">
+
+                  <article class="article">
+
+                    <div class="post-img">
+                      <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="img-fluid">
                     </div>
-                </nav>
-            </div><!-- End Page Title -->
 
-            <div class="container detail-container">
-                <div class="row">
+                    <h2 class="title" th:text="${board.boardTitle}"></h2>
 
-                    <div class="col-lg-8">
+                    <div class="meta-top">
+                      <ul>
+                        <li class="d-flex align-items-center"><i class="fa-regular fa-user"></i> <p th:text="${board.siteUser.userId}"></p></li>
+                        <li class="d-flex align-items-center"><i class="fa-regular fa-clock"></i> <p><time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time></p></li>
+    <!--                    <li class="d-flex align-items-center"><i class="fa-regular fa-heart"></i> <p th:text="${board.likeCount}"></p></li>-->
+                        <li class="d-flex align-items-center">
+                          <div class="heart-sec">
+                            <button class="heart-button" id="heartButton" th:attr="data-board-id=${board.listId}"><i class="fas fa-heart"></i></button>
+                            <p th:text="${board.likeCount}" class="heart-count"></p>
+                          </div>
+                        </li>
+                        <li class="right-group">
+                          <ul>
+                            <li class="d-flex align-items-center">
+                              <div th:if="${#authentication.name != board.siteUser.userId}">
+                                <a th:href="@{/authBoard/report/{id}(id=${board.listId})}" sec:authorize="isAuthenticated()"><i class="fa-solid fa-ban group-icon"></i></a>
+                              </div>
+                            </li>
+                            <li class="d-flex align-items-center">
+                              <div th:if="${#authentication.name == board.siteUser.userId}">
+                                <a th:href="@{/authBoard/modify/{id}(id=${board.listId})}"><i class="fa-solid fa-pen group-icon"></i></a>
+                              </div>
+                            </li>
+                            <li class="d-flex align-items-center">
+                              <div th:if="${#authentication.name == board.siteUser.userId}">
+                                <form th:id="${'deleteForm' + board.listId}" th:action="@{/authBoard/delete/{id}(id=${board.listId})}" method="post" onsubmit="return confirmDelete(this)">
+                                  <button type="submit" class="delete-button"><i class="fa-solid fa-trash-can group-icon"></i></button>
+                                </form>
+                              </div>
+                            </li>
+                          </ul>
+                        </li>
 
-                        <!-- Blog Details Section -->
-                        <div id="blog-details" class="blog-details section board-detail">
-                            <div class="container">
+                      </ul>
+                    </div><!-- End meta top -->
 
-                                <article class="article">
-
-                                    <div class="post-img">
-                                        <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="img-fluid">
-                                    </div>
-
-                                    <h2 class="title" th:text="${board.boardTitle}"></h2>
-
-                                    <div class="meta-top">
-                                        <ul>
-                                            <li class="d-flex align-items-center"><i class="fa-regular fa-user"></i> <p th:text="${board.siteUser.userId}"></p></li>
-                                            <li class="d-flex align-items-center"><i class="fa-regular fa-clock"></i> <p><time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time></p></li>
-                                            <!--                    <li class="d-flex align-items-center"><i class="fa-regular fa-heart"></i> <p th:text="${board.likeCount}"></p></li>-->
-                                            <li class="d-flex align-items-center">
-                                                <div class="heart-sec">
-                                                    <button class="heart-button" id="heartButton" th:attr="data-board-id=${board.listId}"><i class="fas fa-heart"></i></button>
-                                                    <p th:text="${board.likeCount}" class="heart-count"></p>
-                                                </div>
-                                            </li>
-                                            <li class="right-group">
-                                                <ul>
-                                                    <li class="d-flex align-items-center">
-                                                        <div th:if="${#authentication.name != board.siteUser.userId}">
-                                                            <a th:href="@{/authBoard/report/{id}(id=${board.listId})}" sec:authorize="isAuthenticated()"><i class="fa-solid fa-ban group-icon"></i></a>
-                                                        </div>
-                                                    </li>
-                                                    <li class="d-flex align-items-center">
-                                                        <div th:if="${#authentication.name == board.siteUser.userId}">
-                                                            <a th:href="@{/authBoard/modify/{id}(id=${board.listId})}"><i class="fa-solid fa-pen group-icon"></i></a>
-                                                        </div>
-                                                    </li>
-                                                    <li class="d-flex align-items-center">
-                                                        <div th:if="${#authentication.name == board.siteUser.userId}">
-                                                            <form th:id="${'deleteForm' + board.listId}" th:action="@{/authBoard/delete/{id}(id=${board.listId})}" method="post" onsubmit="return confirmDelete(this)">
-                                                                <button type="submit" class="delete-button"><i class="fa-solid fa-trash-can group-icon"></i></button>
-                                                            </form>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
-
-                                        </ul>
-                                    </div><!-- End meta top -->
-
-                                    <div class="content">
-                                        <p th:text="${board.boardContent}"></p>
-                                    </div><!-- End post content -->
-                                </article>
-
-                            </div>
-                        </div><!-- /Blog Details Section -->
-                    </div>
-                    <div class="col-lg-4 sidebar">
-                        <div class="widgets-container">
-                            <!-- Recent Posts Widget -->
-                            <div class="recent-posts-widget widget-item">
-                                <h3 class="widget-title">Recent Posts</h3>
-                                <div class="post-item" th:each="board, iterStat : ${boards}" th:if="${iterStat.count <= 5}">
-                                    <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="flex-shrink-0">
-                                    <div>
-                                        <h4><a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a></h4>
-                                        <time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time>
-                                    </div>
-                                </div><!-- End recent post item-->
-                            </div><!--/Recent Posts Widget -->
-                        </div>
-
-                    </div>
+                    <div class="content">
+                      <p th:text="${board.boardContent}"></p>
+                    </div><!-- End post content -->
+                  </article>
 
                 </div>
+              </div><!-- /Blog Details Section -->
+
             </div>
 
-        </body>
-    </div>
-    </main>
+            <div class="col-lg-4 sidebar">
+
+              <div class="widgets-container">
+
+                <!-- Recent Posts Widget -->
+                <div class="recent-posts-widget widget-item">
+
+                  <h3 class="widget-title">Recent Posts</h3>
+
+                  <div class="post-item" th:each="board, iterStat : ${boards}" th:if="${iterStat.count <= 5}">
+                      <img th:if="${board.image != null}" th:src="@{|/uploads/${board.image.filePath}|}" alt="" class="flex-shrink-0">
+                      <div>
+                        <h4><a th:href="@{/authBoard/detail/{id}(id=${board.listId})}" th:text="${board.boardTitle}"></a></h4>
+                        <time th:text="${#temporals.format(board.postCreateDate, 'd, MMM, yyyy')}"></time>
+                      </div>
+                  </div><!-- End recent post item-->
+
+                </div><!--/Recent Posts Widget -->
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </main>
+
+    </body>
+  </div>
 </layout:html>
