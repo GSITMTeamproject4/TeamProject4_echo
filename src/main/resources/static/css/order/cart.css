@@ -1,0 +1,113 @@
+.cart_main {
+    max-width: 1200px;
+    margin: 150px auto;
+    padding: 20px;
+    font-family: 'Noto Sans KR', sans-serif;
+    background-color: #f4f4f4;
+    color: #333;
+}
+.cart_title, .cart_subtitle {
+    color: #6200ee;
+    margin-bottom: 20px;
+}
+
+.cart_title {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.cart_table {
+    width: 100%;
+    border-collapse: collapse;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+}
+.cart_table th, .cart_table td {
+    padding: 15px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+.cart_table th {
+    background-color: #f8f8f8;
+    font-weight: bold;
+}
+.cart_product_image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+.cart_total_summary {
+    background-color: #f8f8f8;
+    padding: 15px;
+    text-align: right;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+.cart_checkout_btn {
+    background-color: #6200ee;
+    color: white;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 18px;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+    text-decoration: none;
+}
+.cart_checkout_btn:hover {
+    background-color: #3700b3;
+    color: white;
+}
+
+/* 수량 조절 버튼 스타일 */
+.quantity-control {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.quantity-btn {
+    width: 30px;
+    height: 30px;
+    background-color: #f0f0f0;
+    border: 1px solid #ddd;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.quantity-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+/* 삭제 버튼 스타일 */
+.delete-btn {
+    background-color: #ff4081;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.delete-btn:hover {
+    background-color: #e91e63;
+}

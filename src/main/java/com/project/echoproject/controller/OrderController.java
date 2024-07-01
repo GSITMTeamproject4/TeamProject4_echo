@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/orders")
@@ -72,7 +71,7 @@ public class OrderController {
         model.addAttribute("buyerAddr", siteUser.getStreetaddr());
         model.addAttribute("buyerPostcode", siteUser.getZipcode());
 
-        return "payment";
+        return "order/payment";
     }
 
 
@@ -83,6 +82,6 @@ public class OrderController {
             return "redirect:/error";
         }
         model.addAttribute("order", order);
-        return "order_success";
+        return "order/order_success";
     }
 }

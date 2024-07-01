@@ -8,6 +8,6 @@ public class ImageAnalysisController {
 
     @GetMapping("/analysis")
     public String index() {
-        return "imageAnalysisTest";
+        return "imageAnalysis";
     }
 }

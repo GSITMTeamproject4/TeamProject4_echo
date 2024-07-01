@@ -32,8 +32,8 @@
 
         <div class="payment-info">
           <h2>결제 정보</h2>
-          <p>상품금액: <span th:text="${#numbers.formatDecimal(order.totalAmount - 3000, 0, 'COMMA', 0, 'POINT')}">원</span></p>
-          <p>배송비: 3,000원</p>
+          <p>상품금액: <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')}">원</span></p>
+          <p>배송비: 0원</p>
           <p class="order_success_total">총 결제금액: <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')}">원</span></p>
         </div>
 

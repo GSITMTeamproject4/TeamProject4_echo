@@ -1,0 +1,114 @@
+/* 전체 컨테이너 스타일 */
+#container {
+    text-align: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    box-sizing: border-box;
+}
+
+/* 파일 업로드 및 분석 버튼 스타일 */
+#image-upload, #analyzeImage {
+    display: inline-block;
+    padding: 12px 24px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+#image-upload {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+#analyzeImage {
+    background-color: #4CAF50;
+    color: white;
+    margin-left: 10px;
+}
+
+#image-upload:hover, #analyzeImage:hover {
+    opacity: 0.8;
+}
+
+/* 이미지 미리보기 컨테이너 스타일 */
+#preview-container {
+    margin-top: 30px;
+    border: 2px dashed #ccc;
+    border-radius: 10px;
+    padding: 20px;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#image-preview {
+    max-width: 100%;
+    max-height: 400px;
+    object-fit: contain;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    border-radius: 5px;
+}
+
+#label-container {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+/* 결과 텍스트 스타일 */
+#label-container div {
+    font-size: 18px;
+    line-height: 1.6;
+    color: #333;
+}
+
+/* 재활용 방법 키 값 강조 스타일 */
+#label-container strong {
+    font-size: 24px;
+    color: #4CAF50;
+    display: block;
+    margin-bottom: 10px;
+}
+
+#image-placeholder {
+    font-size: 18px;
+    color: #888;
+}
+
+#preview-container {
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#image-upload {
+    margin-top: 20px;
+}
+
+#analyzeImage {
+    margin-top: 20px;
+}
+
+.file_container {
+    text-align: left;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    #container {
+        padding: 20px 10px;
+    }
+
+    #image-upload, #analyzeImage {
+        width: 100%;
+        margin: 10px 0;
+    }
+}

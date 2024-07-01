@@ -62,28 +62,26 @@ public class MypageServiceImpl implements MypageService {
     }
 
     @Override
-    public void updateUser(String userId, SiteUserEditForm updatedUser, MultipartFile file) throws IOException {
-        // userId로 사용자를 조회하고, 사용자가 존재하지 않으면 예외를 던집니다.
+    public void updateUser(String userId, SiteUserEditForm updatedUser) throws IOException {
         SiteUser user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new IllegalArgumentException("User not found"));
 
-        // SiteUserEditForm에서 SiteUser로 데이터 복사
-        user.setUserName(updatedUser.getUserName()); // 사용자의 이름 업데이트
+        user.setUserName(updatedUser.getUserName());
         user.setNickName(updatedUser.getNickName());
-        user.setEmail(updatedUser.getEmail()); // 사용자의 이메일 업데이트
-        user.setPhoneNum(updatedUser.getPhoneNum()); // 사용자의 전화번호 업데이트
-        user.setZipcode(updatedUser.getZipcode()); // 사용자의 주소 업데이트
+        user.setEmail(updatedUser.getEmail());
+        user.setPhoneNum(updatedUser.getPhoneNum());
+        user.setZipcode(updatedUser.getZipcode());
         user.setStreetaddr(updatedUser.getStreetaddr());
         user.setDetailaddr(updatedUser.getDetailaddr());
 
-        // 새로운 파일이 제공되었는지 확인
-        if (file != null && !file.isEmpty()) {
-            // 이미지를 저장하고 이미지 경로를 설정합니다.
-            Image image = imageService.saveImage(file);
-            user.setProfileImage(image);
+        if (updatedUser.getProfileImage() != null && !updatedUser.getProfileImage().isEmpty()) {
+            Image newImage = imageService.saveImage(updatedUser.getProfileImage());
+            if (user.getProfileImage() != null) {
+                imageService.deleteImage(user.getProfileImage());
+            }
+            user.setProfileImage(newImage);
         }
 
-        // 업데이트된 사용자 정보를 데이터베이스에 저장합니다.
         userRepository.save(user);
     }
 
