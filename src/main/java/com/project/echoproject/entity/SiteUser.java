@@ -1,5 +1,7 @@
 package com.project.echoproject.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,34 +13,59 @@ import java.util.List;
 @Setter
 @Entity
 public class SiteUser {
-
     @Id
     @Column(nullable = false)
     private String userId;
+
+    // 필수 입력 부분
     @Column(nullable = false)
     private String userName;
+
     @Column(nullable = false)
     private String password;
+
     @Column(nullable = false)
     private String email;
-    @Column(nullable = false)
+
+    private String nickName;
+
+    // 선택 입력 부분
     private String phoneNum;
-    @Column(nullable = false)
+
     private String gender;
 
-    private String imgUrl;
+    private String zipcode;
 
-    private String address;
+    private String streetaddr;
+
+    private String detailaddr;
+
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "profile_image_id")
+    private Image profileImage;
+
     @Column
     @Enumerated(EnumType.STRING)
     private UserRole role = UserRole.USER;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime createDate;
+
     private LocalDateTime modifyDate;
 
-    private Integer reportCnt=0;
+    private Integer reportCnt = 0;
 
-    private boolean couponUse=false;
+    private boolean couponUse = false;
+
+    // 소셜 로그인
+    private String provider;  // "google", "naver", "kakao", "local"
+
+    private String providerId;
+
+    private String resetToken;
+
+    private LocalDateTime resetTokenExpiry;
+
 
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<LikeBoard> likeBoards;
@@ -52,6 +79,7 @@ public class SiteUser {
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<Point> points;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Cart cart;
 
@@ -65,6 +93,5 @@ public class SiteUser {
         this.modifyDate = LocalDateTime.now();
     }
 
-    private Long currentPoint=0L;
-
+    private Long currentPoint = 0L;
 }

@@ -4,7 +4,7 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.service.LikeBoardService;
 import com.project.echoproject.service.SiteUserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
@@ -16,31 +16,40 @@ import java.util.Map;
 public class LikeBoardController {
 
     private final LikeBoardService likeBoardService;
-    private final SiteUserService siteUserService; // 유저 서비스 주입
+    private final SiteUserService siteUserService;
 
     @GetMapping("/likeBoard/count/{boardId}")
-    public Map<String, Object> getLikeCount(@PathVariable Long boardId) {
+    public ResponseEntity<Map<String, Object>> getLikeCount(@PathVariable Long boardId) {
         Map<String, Object> result = new HashMap<>();
         result.put("likeCount", likeBoardService.getLikeCount(boardId));
-        return result;
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/likeBoard/toggle/{boardId}")
-    public Map<String, Object> toggleLike(@PathVariable Long boardId, Principal principal) {
-        SiteUser siteUser = siteUserService.findByUserId(principal.getName()); // 유저 서비스로 SiteUser 조회
+    public ResponseEntity<?> toggleLike(@PathVariable Long boardId, Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
+        }
+
+        SiteUser siteUser = siteUserService.findByUserId(principal.getName());
         likeBoardService.toggleLike(boardId, siteUser);
+
         Map<String, Object> result = new HashMap<>();
         result.put("likeCount", likeBoardService.getLikeCount(boardId));
-        return result;
+        return ResponseEntity.ok(result);
     }
 
     @GetMapping("/likeBoard/status/{boardId}")
-    public Map<String, Object> getLikeStatus(@PathVariable Long boardId, Principal principal) {
+    public ResponseEntity<?> getLikeStatus(@PathVariable Long boardId, Principal principal) {
+        if (principal == null) {
+            return ResponseEntity.status(401).body("로그인이 필요합니다.");
+        }
+
         SiteUser siteUser = siteUserService.findByUserId(principal.getName());
         boolean isLiked = likeBoardService.isLikedByUser(boardId, siteUser);
+
         Map<String, Object> result = new HashMap<>();
         result.put("isLiked", isLiked);
-        return result;
+        return ResponseEntity.ok(result);
     }
-
 }

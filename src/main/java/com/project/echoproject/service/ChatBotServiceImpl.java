@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.Mac;
@@ -26,8 +27,11 @@ public class ChatBotServiceImpl implements ChatBotService {
 
     private static final Logger logger = Logger.getLogger(ChatBotServiceImpl.class.getName());
 
-    private static final String SECRET_KEY = "bW1MR2t2UXB3TGVwd0haek11cERWWXJYQVBJWkt2cE8=";
-    private static final String API_URL = "https://smq3jcnq8z.apigw.ntruss.com/custom/v1/14926/defff99821c528c2db0859fd49711c40aafa0c4c226bc7efa45bd6fbebd6d3ea";
+    @Value("${chatbot.secret-key}")
+    private String SECRET_KEY;
+
+    @Value("${chatbot.api-url}")
+    private String API_URL;
 
     @Override
     public String sendMessage(String chatMessage) throws IOException {

@@ -21,7 +21,7 @@
     <h1>마이페이지</h1>
 
     <div class="menu-item">
-        <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}">개인정보 수정</a>
+        <a th:href="@{/mypage/profile/{userId}(userId=${user.userId})}">개인정보 수정</a>
     </div>
 
     <div class="menu-item">
@@ -48,8 +48,13 @@
         </a>
     </div>
 
+    <div class="menu-item">
+        <a th:href="@{/mypage/my-posts/{userId}(userId=${user.userId})}">
+            나의 게시글 보기
+        </a>
+    </div>
+
 </div>
 </body>
 </html>
-
 

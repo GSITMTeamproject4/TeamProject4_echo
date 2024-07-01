@@ -1,4 +1,5 @@
 var stompClient = null;
+var isFirstConnect = true;
 
 function setConnected(connected) {
     $("#send").prop("disabled", !connected);
@@ -11,6 +12,9 @@ function setConnected(connected) {
 }
 
 function connect() {
+    if (stompClient && stompClient.connected) {
+        return; // 이미 연결되어 있으면 다시 연결하지 않음
+    }
     var socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, function (frame) {
@@ -20,9 +24,12 @@ function connect() {
             showMessage(message.body, 'received_message');
         });
 
-        var welcomeMessage = "안녕하세요!! 반갑습니다!!";
-        showMessage(welcomeMessage, 'sent_message');
-        stompClient.send("/app/sendMessage", {}, JSON.stringify(welcomeMessage));
+        if (isFirstConnect) {
+            var welcomeMessage = "안녕하세요!! 반갑습니다!!";
+            showMessage(welcomeMessage, 'sent_message');
+            stompClient.send("/app/sendMessage", {}, JSON.stringify(welcomeMessage));
+            isFirstConnect = false;
+        }
     });
 }
 
@@ -58,23 +65,37 @@ function handleKeyUpEvent(e) {
     }
 }
 
+function scrollToBottom() {
+    var mainContent = document.getElementById('communicate');
+    mainContent.scrollTop = mainContent.scrollHeight;
+}
+
 $(function () {
-    $(".form-inline").on('submit', function (e) {
+    $("#chatToggle").on('click', function() {
+        $("#chatContainer").toggle();
+        if ($("#chatContainer").is(":visible")) {
+            connect();
+        }
+    });
+
+    $("#chatClose").on('click', function() {
+        $("#chatContainer").hide();
+        // 연결 상태 유지, 창만 닫음
+    });
+
+    $(".chatbot-form").on('submit', function (e) {
         e.preventDefault();
     });
 
-    $("#send").off('click').on('click', function() { sendMessage(); });
-
-    // keyup 이벤트 리스너를 한 번만 등록
-    $("#msg").off('keyup').on('keyup', handleKeyUpEvent);
-
     // 채팅 시작 버튼을 누르면 자동으로 연결
-    $("#chatModal").on("shown.bs.modal", function () {
-        connect();
+    $("#send").off('click').on('click', function() {
+        sendMessage();
     });
 
     // 모달을 닫을 때 연결 해제
-    $("#chatModal").on("hidden.bs.modal", function () {
-        disconnect();
+    $("#msg").off('keyup').on('keyup', handleKeyUpEvent);
+
+    $('#chatContainer').on('shown', function () {
+        $('#msg').focus();
     });
 });
