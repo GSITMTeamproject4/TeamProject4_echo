@@ -75,6 +75,10 @@
     background: #f9f9f9;
 }
 
+.product_img {
+    width: 450px;
+}
+
 /* 추가적인 스타일 */
 .container {
     max-width: 1200px;

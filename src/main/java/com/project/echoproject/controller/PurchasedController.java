@@ -16,7 +16,7 @@ public class PurchasedController {
     private final PurchasedService purchasedService;
 
     @Autowired
-    public PurchasedController(  PurchasedService purchasedService) {
+    public PurchasedController(PurchasedService purchasedService) {
         this.purchasedService = purchasedService;
     }
 
@@ -24,6 +24,6 @@ public class PurchasedController {
     public String showOrderList(Model model) {
         List<Orders> orders = purchasedService.getAllOrders();
         model.addAttribute("orders", orders);
-        return "orderItem"; // order-list.html 템플릿을 반환
+        return "orderItem"; // orderItem.html 템플릿을 반환
     }
 }
