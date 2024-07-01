@@ -1,6 +1,7 @@
 package com.project.echoproject.service;
 
 import com.project.echoproject.entity.Product;
+import org.springframework.data.domain.Page;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -10,4 +11,6 @@ public interface ProductService {
     List<Product> getList();
     Product getProduct(Long id);
     Product addItem(String name, int price, MultipartFile file) throws IOException;
+
+    Page<Product> getProductPage(int page, int size);
 }
