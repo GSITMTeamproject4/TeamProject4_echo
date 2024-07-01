@@ -20,7 +20,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <img th:src="${product.productImage}" alt="제품 이미지" class="product-image">
+<!--                            <img th:src="${product.productImage}" alt="제품 이미지" class="product-image">-->
+                            <img th:if="${product.productImage != null}" th:src="@{|/uploads/${product.productImage.filePath}|}" alt="Board Image" id="preview" class="img-preview"/>
                         </div>
                         <div class="col-md-6">
                             <h1 class="product-title" th:text="${product.productName}">Carry On Cocktail Kit</h1>
@@ -56,7 +57,12 @@
                         </ul>
                         <div class="tab-content">
                             <div id="description" class="tab-pane fade show active">
-                                <p>제품 상세 설명...</p>
+                                <p>상품규격 :     28cm x 28cm x 9cm</p>
+                                <p>상품재질 :     10수 2합 캔버스</p>
+                                <p>상품색상 :     아이보리</p>
+                                <p>상품옵션 :     입구 지퍼, 내부 주머니, 도톰 손잡이, 내부 안감</p>
+                                <p> * 에코백은 환경 보호를 위해 일회용 플라스틱 봉투 대신 사용할 수 있는 재사용 가능한 가방입니다. </p>
+                                <p> 주로 천이나 지속 가능한 재료로 만들어져 있으며, 다양한 크기와 디자인으로 제공됩니다.</p>
                             </div>
                             <div id="reviews" class="tab-pane fade">
                                 <p>구매평 및 고객 리뷰...</p>

@@ -26,7 +26,7 @@
 
                 <!-- Section Title -->
                 <div class="container section-title" data-aos="fade-up">
-                    <h2>쿠폰 등록</h2>
+                    <h2>상품 등록</h2>
                 </div><!-- End Section Title -->
 
                 <div class="container" data-aos="fade-up" data-aos-delay="100">
@@ -50,14 +50,15 @@
 
                         <div class="col-lg-6">
 
-                            <form th:action="@{/admin/coupon}" method="post" class="php-email-form" enctype="multipart/form-data">
+                            <form th:action="@{/admin/item}" method="post" class="php-email-form" enctype="multipart/form-data">
                                 <div class="row gy-4">
+
                                     <div class="col-md-12">
-                                            <input type="text" name="name" class="form-control" placeholder="쿠폰명을 입력하세요" required>
+                                        <input type="text" name="name" class="form-control" placeholder="상품명을 입력하세요" required>
                                     </div>
 
                                     <div class="col-md-12">
-                                            <input type="text" name="point" class="form-control" placeholder="포인트를 입력하세요" required>
+                                        <input type="text" name="price" class="form-control" placeholder="가격을 입력하세요" required>
                                     </div>
                                     <input type="file" id="file" name="file" class="custom" accept="image/*" required>
                                     <div class="col-md-12 text-center">
@@ -69,7 +70,6 @@
 
                                 </div>
                             </form>
-
                         </div><!-- End Contact Form -->
 
                     </div>
