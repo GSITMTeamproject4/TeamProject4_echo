@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" enctype="multipart/form-data" th:object="${userEditForm}">
+                        <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" enctype="multipart/form-data" th:object="${userEditForm}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -108,7 +108,7 @@
                                 </div>
                             </div>
                             <div class="button-container">
-                                <button type="submit" class="btn btn-primary">수정</button>
+                                <button type="submit" class="btn btn-primary" onclick="confirmUpdate()">수정</button>
                                 <button type="button" class="btn btn-primary" onclick="changePassword()">비밀번호 변경</button>
                                 <button type="button" class="btn btn-danger" onclick="deleteUser()">탈퇴</button>
                             </div>
@@ -122,20 +122,16 @@
     <form id="deleteForm" th:action="@{/mypage/delete/{userId}(userId=${user.userId})}" method="post" style="display: none;">
     </form>
 
-
     <script th:inline="javascript">
-
-        function confirmUpdate(event) {
-            event.preventDefault();
+        
+        function confirmUpdate() {
             if (confirm("정말 수정하시겠습니까?")) {
                 document.getElementById("editForm").submit();
             }
         }
 
-        document.getElementById("editForm").addEventListener("submit", confirmUpdate);
-
         function changePassword() {
-            var userId = [[${user.userId}]];
+            var userId = /*[[${user.userId}]]*/ '';
             window.location.href = '/mypage/change-password/' + userId;
         }
 
@@ -145,17 +141,14 @@
             }
         }
 
-        document.getElementById('userId').addEventListener('keydown', function(event) {
-            alert('ID는 수정할 수 없습니다.');
-            event.preventDefault();
-        });
 
-        document.querySelectorAll('input[type="radio"][name="gender"]').forEach(function(radio) {
-            radio.addEventListener('click', function(event) {
-                alert('성별은 수정할 수 없습니다.');
+        var userIdElement = document.getElementById('userId');
+        if (userIdElement) {
+            userIdElement.addEventListener('keydown', function(event) {
+                alert('ID는 수정할 수 없습니다.');
                 event.preventDefault();
             });
-        });
+        }
 
         function execDaumPostcode() {
             new daum.Postcode({
@@ -177,15 +170,19 @@
                     document.getElementById("streetaddr").value = roadAddr;
                     document.getElementById("detailaddr").focus();
 
-                    if(roadAddr !== ''){
-                        document.getElementById("extraAddress").value = extraRoadAddr;
-                    } else {
-                        document.getElementById("extraAddress").value = '';
+                    // extraAddress 요소가 존재하는지 확인 후 처리
+                    var extraAddressElement = document.getElementById("extraAddress");
+                    if (extraAddressElement) {
+                        if(roadAddr !== ''){
+                            extraAddressElement.value = extraRoadAddr;
+                        } else {
+                            extraAddressElement.value = '';
+                        }
                     }
                 }
             }).open();
         }
+
     </script>
     </body>
-</div>
 </html>

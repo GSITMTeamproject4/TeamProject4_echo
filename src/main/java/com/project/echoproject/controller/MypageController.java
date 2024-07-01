@@ -72,9 +72,12 @@ public class MypageController {
         }
         SiteUser user = mypageService.getUserById(userId);
         SiteUserEditForm form = new SiteUserEditForm();
+
+        String userNickName = user.getNickName();
+        form.setNickName(userNickName);
+
         form.setUserId(user.getUserId());
         form.setUserName(user.getUserName());
-        user.setNickName(form.getNickName());
         form.setPhoneNum(user.getPhoneNum());
         form.setEmail(user.getEmail());
         form.setGender(user.getGender());
