@@ -133,7 +133,6 @@ public class AdminController {
             return "authBoard/authBoard_create";
         }
     }
-
     @GetMapping("/notice")
     public String notice() {
         return "admin/notice_list_admin";

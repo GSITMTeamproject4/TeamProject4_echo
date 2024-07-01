@@ -60,7 +60,7 @@
                                 <!-- 소셜 로그인 -->
 
                                 <div class="card-body">
-                                    <form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data">
+                                    <form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data" onclick="return idCheck(event)">
                                         <div class="mb-3">
                                             <input type="text" id="userId" th:field="*{userId}" class="form-control" placeholder="ID를 입력해주세요">
                                             <div class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
@@ -117,7 +117,18 @@
                                 document.getElementById("extraAddress").value = '';
                             }
                         }
+
                     }).open();
+                }
+                function idCheck(event) {
+                    var userId = document.getElementById('userId').value.trim(); // Get the value of userId input and trim whitespace
+                    if (userId === 'admin1234') {
+                        alert('ID가 허용되지 않습니다.'); // Optionally, provide a user-friendly message
+                        document.getElementById('userId').value = '';
+                        event.preventDefault(); // Prevent form submission
+                        return false; // Ensure form submission is halted
+                    }
+                    return true; // Proceed with form submission if userId is not 'admin1234'
                 }
             </script>
         </body>
