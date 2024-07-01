@@ -113,7 +113,7 @@
                                     <div class="card dashboard-card">
                                         <div class="card-body">
                                             <h5 class="card-title">현재 달 전기 사용량</h5>
-                                            <p class="card-text" th:text="${currentElectricity}">현재 달 전기 사용량</p>
+                                            <p class="card-text" th:text="${currentElectricity != null ? currentElectricity : '데이터 없음'}">데이터 없음</p>
                                         </div>
                                     </div>
                                 </div>
@@ -121,7 +121,14 @@
                                     <div class="card dashboard-card">
                                         <div class="card-body">
                                             <h5 class="card-title">전월 대비 전기 증감률</h5>
-                                            <p class="card-text" id="electricityDiffMsg" th:text="${electricityDiffMsg}">전기 사용량 증감률 메시지</p>
+                                            <p class="card-text" th:if="${electricityDiff != null and electricityDiff != 'N/A'}">
+                                                전기량을
+                                                <span th:with="diff=${#strings.replace(electricityDiff, '%', '')}"
+                                                      th:style="${#strings.startsWith(diff, '-')} ? 'color: blue;' : 'color: red;'"
+                                                      th:text="${#strings.startsWith(diff, '-') ? electricityDiff : '+' + electricityDiff}">0%</span>
+                                                <span th:text="${electricityDiffMsg != null ? #strings.substring(electricityDiffMsg, #strings.indexOf(electricityDiffMsg, '를') + 1) : ''}"></span>
+                                            </p>
+                                            <p class="card-text" th:unless="${electricityDiff != null and electricityDiff != 'N/A'}">데이터 없음</p>
                                         </div>
                                     </div>
                                 </div>
@@ -129,7 +136,7 @@
                                     <div class="card dashboard-card">
                                         <div class="card-body">
                                             <h5 class="card-title">현재 달 가스 사용량</h5>
-                                            <p class="card-text" id="currentGas" th:text="${currentGas}">현재 달 가스 사용량</p>
+                                            <p class="card-text" th:text="${currentGas != null ? currentGas : '데이터 없음'}">데이터 없음</p>
                                         </div>
                                     </div>
                                 </div>
@@ -137,7 +144,14 @@
                                     <div class="card dashboard-card">
                                         <div class="card-body">
                                             <h5 class="card-title">전월 대비 가스 증감률</h5>
-                                            <p class="card-text" id="gasDiffMsg" th:text="${gasDiffMsg}">가스 사용량 증감률 메시지</p>
+                                            <p class="card-text" th:if="${gasDiff != null and gasDiff != 'N/A'}">
+                                                가스량을
+                                                <span th:with="diff=${#strings.replace(gasDiff, '%', '')}"
+                                                      th:style="${#strings.startsWith(diff, '-')} ? 'color: blue;' : 'color: red;'"
+                                                      th:text="${#strings.startsWith(diff, '-') ? gasDiff : '+' + gasDiff}">0%</span>
+                                                <span th:text="${gasDiffMsg != null ? #strings.substring(gasDiffMsg, #strings.indexOf(gasDiffMsg, '를') + 1) : ''}"></span>
+                                            </p>
+                                            <p class="card-text" th:unless="${gasDiff != null and gasDiff != 'N/A'}">데이터 없음</p>
                                         </div>
                                     </div>
                                 </div>
