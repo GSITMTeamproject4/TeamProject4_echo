@@ -35,7 +35,7 @@ public class NoticeController {
             model.addAttribute("userName", userDetails.getUsername());
         }
         model.addAttribute("noticeList", noticeList);
-        return "notice_list";
+        return "notice/notice_list";
     }
 
     // 게시글 Detail 조회

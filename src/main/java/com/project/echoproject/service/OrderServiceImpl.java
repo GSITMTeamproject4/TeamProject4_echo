@@ -56,28 +56,24 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDTO getOrderDetails(String orderNumber) {
-        // 주문 정보를 데이터베이스에서 조회
         Orders orders = orderRepository.findByOrderNumber(orderNumber);
 
-        // Order가 null인 경우 처리
         if (orders == null) {
-            // 예외를 던지거나, 빈 OrderDTO를 반환하거나, 적절한 방법으로 처리
             throw new RuntimeException("Order not found for orderNumber: " + orderNumber);
         }
 
-        // Order 엔티티를 OrderDTO로 변환
         OrderDTO orderDTO = new OrderDTO();
         orderDTO.setOrderNumber(orders.getOrderNumber());
         orderDTO.setTotalAmount(orders.getTotalAmount());
 
         BuyerDTO buyerDTO = new BuyerDTO();
         buyerDTO.setUsername(orders.getBuyer().getUserId());
-        buyerDTO.setBuyerTel(orders.getBuyer().getPhoneNum());
-        buyerDTO.setBuyerAddr(orders.getBuyer().getStreetaddr());
-        buyerDTO.setBuyerPostcode(orders.getBuyer().getZipcode());
+        buyerDTO.setBuyerTel(orders.getBuyerTel());  // 수정된 부분
+        buyerDTO.setBuyerEmail(orders.getBuyerEmail());  // 수정된 부분
+        buyerDTO.setBuyerAddr(orders.getBuyerAddr());  // 수정된 부분
+        buyerDTO.setBuyerPostcode(orders.getBuyerPostcode());  // 수정된 부분
         orderDTO.setBuyer(buyerDTO);
 
-        // Items가 null이 아닌지 확인하고 변환
         if (orders.getItems() != null) {
             List<ItemDTO> itemDTOList = orders.getItems().stream().map(item -> {
                 ItemDTO itemDTO = new ItemDTO();
@@ -88,7 +84,6 @@ public class OrderServiceImpl implements OrderService {
             }).collect(Collectors.toList());
             orderDTO.setItems(itemDTOList);
         } else {
-            // Items가 null인 경우 빈 리스트로 설정
             orderDTO.setItems(Collections.emptyList());
         }
 
