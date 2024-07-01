@@ -40,6 +40,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
                         .requestMatchers("/challenge/add").authenticated()
                         .requestMatchers("/mall/buy/{id}").authenticated()
+                        .requestMatchers("/mypage/**").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
                         .requestMatchers("/authBoard/create", "/authBoard/modify/**", "/authBoard/delete/**", "/authBoard/report/**").authenticated()
                         .requestMatchers("/admin/admin/**").hasAuthority("ADMIN")
