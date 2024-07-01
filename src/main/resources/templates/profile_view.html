@@ -7,16 +7,15 @@
 
   <div class="container-fluid py-4">
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-8 profile-info-card">
         <div class="card">
           <div class="card-header pb-0">
             <div class="d-flex align-items-center">
-              <p class="mb-0">Profile Information</p>
-              <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}" class="btn btn-primary btn-sm ms-auto">Settings</a>
+              <p class="mb-0">프로필 정보</p>
+              <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}" class="btn btn-primary btn-sm ms-auto">수정</a>
             </div>
           </div>
           <div class="card-body">
-            <p class="text-uppercase text-sm">User Information</p>
             <div class="row">
               <div class="col-md-6">
                 <div class="form-group">
@@ -84,14 +83,14 @@
           </div>
         </div>
 
-        <div class="col-md-4 ">
+        <div class="col-md-4 profile-card">
           <div class="card card-profile">
             <img th:src="@{/img/profile-bg.jpg}" alt="Image placeholder" class="card-img-top">
             <div class="row justify-content-center">
               <div class="col-4 col-lg-4 order-lg-2">
-                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
-                  <img th:src="${user.profileImage != null ? '/uploads/' + user.profileImage.filePath : '/default-profile.png'}"
-                       class="rounded-circle img-fluid border border-2 border-white"
+                <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0 profile_card_img">
+                  <img th:src="${user.profileImage.filePath == '/img/default-profile.png' ? '/img/default-profile.png' : '/uploads/' + user.profileImage.filePath}"
+                       class="rounded-circle img-fluid border border-2 border-white  profile_img"
                        alt="Profile Image">
                 </div>
               </div>
