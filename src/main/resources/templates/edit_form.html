@@ -5,7 +5,6 @@
         <meta charset="UTF-8">
         <title>Edit Personal Info</title>
         <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-        <link rel="stylesheet" th:href="@{/css/common/argon-dashboard.min.css}">
         <style>
             .button-container {
                 display: flex;
@@ -15,6 +14,17 @@
             }
             .col-md-8{
                 margin: 0 auto;
+            }
+            .addr_btn {
+                margin-top: 10px;
+            }
+            .profile_img_btn {
+                display: flex;
+                flex-direction: column;
+            }
+            .profile_title {
+                font-size: larger;
+                font-weight: bold;
             }
         </style>
     </head>
@@ -26,11 +36,10 @@
                 <div class="card">
                     <div class="card-header pb-0">
                         <div class="d-flex align-items-center">
-                            <p class="mb-0">Edit Profile</p>
+                            <p class="mb-0 profile_title">프로필 수정</p>
                         </div>
                     </div>
                     <div class="card-body">
-                        <p class="text-uppercase text-sm">User Information</p>
                         <form th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" enctype="multipart/form-data" th:object="${userEditForm}">
                             <div class="row">
                                 <div class="col-md-6">
@@ -61,18 +70,6 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="form-control-label">성별</label><br>
-                                        <label>
-                                            <input type="radio" name="gender" value="M" th:field="*{gender}" onclick="return false">남성
-                                        </label>
-                                        <label>
-                                            <input type="radio" name="gender" value="F" th:field="*{gender}" onclick="return false">여성
-                                        </label>
-                                    </div>
-                                </div>
-
-                                <div class="col-md-6">
-                                    <div class="form-group">
                                         <label for="email" class="form-control-label">Email</label>
                                         <input class="form-control" type="email" id="email" th:field="*{email}">
                                         <span class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></span>
@@ -85,7 +82,7 @@
                                     <div class="mb-3">
                                         <label for="zipcode" class="form-label">우편번호</label>
                                         <input type="text" id="zipcode" th:field="*{zipcode}" class="form-control">
-                                        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"><br>
+                                        <input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" class="addr_btn"><br>
                                     </div>
                                 </div>
 
@@ -104,7 +101,7 @@
                                 </div>
 
                                 <div class="col-md-6">
-                                    <div class="form-group">
+                                    <div class="form-group profile_img_btn">
                                         <label for="profileImage">프로필 이미지</label>
                                         <input type="file" id="profileImage" name="profileImage" class="form-control-file">
                                     </div>
