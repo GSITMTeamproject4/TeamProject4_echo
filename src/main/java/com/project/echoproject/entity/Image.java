@@ -23,8 +23,7 @@ public class Image {
     @Transient
     private String base64;
 
-    @OneToOne(mappedBy = "profileImage")
-    private SiteUser siteUser;
+    private boolean isDefaultImage;
 
     @OneToOne(mappedBy = "productImage")
     private Product product;
