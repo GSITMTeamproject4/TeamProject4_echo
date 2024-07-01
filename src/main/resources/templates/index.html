@@ -59,7 +59,7 @@
                                             </div>
                                             <div class="user-profile-actions mt-4">
                                                 <a th:href="@{/mypage/profile/{userId}(userId=${user.userId})}" class="btn btn-primary btn-sm user-profile-btn">
-                                                    프로필 수정
+                                                    프로필 보기
                                                 </a>
                                                 <a th:href="@{/mypage/my-posts/{userId}(userId=${user.userId})}" class="btn btn-secondary btn-sm user-profile-btn">
                                                     나의 게시글 보기
@@ -105,7 +105,7 @@
                                                 <a th:href="@{/user/login}" class="btn btn-primary btn-sm">
                                                     로그인
                                                 </a>
-                                                <a th:href="@{/user/signup}" class="btn btn-info btn-sm">
+                                                <a th:href="@{/user/signup}" class="btn btn-info btn-sm guest-btn-second">
                                                     회원가입
                                                 </a>
                                             </div>
