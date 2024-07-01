@@ -58,7 +58,7 @@
                                 <!-- 소셜 로그인 -->
 
                                 <div class="card-body">
-                                    <form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data" onclick="return idCheck(event)">
+                                    <form th:action="@{/user/signup}" th:object="${siteUserCreateForm}" method="post" enctype="multipart/form-data">
                                         <div class="mb-3">
                                             <input type="text" id="userId" th:field="*{userId}" class="form-control" placeholder="ID를 입력해주세요">
                                             <div class="text-danger" th:if="${#fields.hasErrors('userId')}" th:errors="*{userId}"></div>
