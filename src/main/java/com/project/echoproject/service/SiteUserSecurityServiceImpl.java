@@ -39,4 +39,6 @@ public class SiteUserSecurityServiceImpl implements SiteUserSecurityService {
         // User 객체 생성, 이 객체는 스프링 시큐리티에서 사용하며 User 생성자에는 id, password, 권한 리스트가 전달된다.
         return new User(siteUser.getUserId(), siteUser.getPassword(), authorities);
     }
+
+
 }
