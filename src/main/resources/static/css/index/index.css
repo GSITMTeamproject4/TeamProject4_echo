@@ -93,6 +93,16 @@ h5 {
     border-color: #5e72e4;
 }
 
+.btn-secondary{
+    background-color: #a27cff;
+    border-color: #a27cff;
+}
+
+.btn-third{
+    background-color: #009bab;
+    border-color: #009bab;
+}
+
 .btn-info {
     background-color: #11cdef;
     border-color: #11cdef;

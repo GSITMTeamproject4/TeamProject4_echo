@@ -1,23 +1,86 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>아이디 찾기</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+        }
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #555;
+        }
+        input[type="email"] {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1rem;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 0.75rem;
+            background-color: #4CAF50;  /* 녹색 계열로 변경 */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #45a049;  /* 호버 시 더 진한 녹색 */
+        }
+        .alert {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 0.75rem;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+    </style>
 </head>
 <body>
-<div class="container my-3">
-    <form th:action="@{user/findlogin}" method="post">
-        <div th:if="${param.error}">
-            <div class="alert alert-danger">
-                사용자ID 또는 비밀번호를 확인해 주세요.
-            </div>
+<div class="container">
+    <h1>아이디 찾기</h1>
+    <form th:action="@{/user/findlogin}" method="post">
+        <div th:if="${message}" class="alert alert-success">
+            [[${message}]]
         </div>
-        <div class="mb-3">
-            <label for="username" class="form-label">이메일</label>
-            <input type="email" name="username" id="username" class="form-control">
+        <div th:if="${error}" class="alert alert-danger">
+            [[${error}]]
         </div>
-
-        <button type="submit" class="btn btn-primary">이메일 확인하기</button>
+        <div class="form-group">
+            <label for="username">이메일</label>
+            <input type="email" name="email" id="username" required>
+        </div>
+        <button type="submit">이메일 확인하기</button>
     </form>
 </div>
 </body>
