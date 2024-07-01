@@ -98,14 +98,26 @@ h5 {
     border-color: #a27cff;
 }
 
+.btn-secondary:hover{
+    background-color: #a27cff;
+}
+
 .btn-third{
     background-color: #009bab;
     border-color: #009bab;
 }
 
+.btn-third:hover{
+    background-color: #009bab;
+}
+
 .btn-info {
     background-color: #11cdef;
     border-color: #11cdef;
+}
+
+.btn-info:hover{
+    color: white;
 }
 
 .btn-success {
@@ -194,6 +206,10 @@ h5 {
 }
 
 .usage_btn {
+    color: white;
+}
+
+.guest-btn-second{
     color: white;
 }
 
