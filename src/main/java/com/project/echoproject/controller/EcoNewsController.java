@@ -21,6 +21,6 @@ public class EcoNewsController {
 
         model.addAttribute("newsList", newsList);
 
-        return "ecoNews";
+        return "eco_news";
     }
 }

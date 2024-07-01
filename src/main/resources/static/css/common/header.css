@@ -1,0 +1,6 @@
+.header .logo .logo_img {
+    width: 200px;
+    margin-left: 10px;
+    max-height: none !important; /* 부트스트랩 규칙 무시 */
+
+}

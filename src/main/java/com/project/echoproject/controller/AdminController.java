@@ -1,12 +1,10 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.dto.ReportDTO;
 import com.project.echoproject.entity.AuthBoard;
 import com.project.echoproject.entity.Challenge;
 import com.project.echoproject.entity.ReportBoard;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.exception.NoChallengeFoundException;
-import com.project.echoproject.repository.ReportBoardRepository;
 import com.project.echoproject.service.AuthBoardService;
 import com.project.echoproject.service.ChallengeService;
 import com.project.echoproject.service.ReportBoardService;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/admin")

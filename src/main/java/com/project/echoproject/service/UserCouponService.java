@@ -4,9 +4,11 @@ import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UserCoupon;
 import com.project.echoproject.repository.UserCouponRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
