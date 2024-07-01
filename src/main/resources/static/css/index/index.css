@@ -107,6 +107,34 @@ h5 {
     opacity: 0.9;
 }
 
+.user-profile-name {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.user-profile-points-coupons {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.user-profile-points, .user-profile-coupons {
+    margin-right: 1rem;
+}
+
+.user-profile-info p {
+    margin-bottom: 0.5rem;
+}
+
+.user-profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.user-profile-btn {
+    margin: 0.25rem;
+}
+
 /*----비로그인-----*/
 .guest-profile {
     overflow: hidden;
