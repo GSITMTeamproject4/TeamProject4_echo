@@ -93,9 +93,9 @@ public class ChallengeService {
 
     public List<Challenge> getChallengAll() {
         List<Challenge> challenges = challengeRepository.findAllByOrderByChallengeDate();
-        if(challenges.isEmpty()) {
-            throw new NoChallengeFoundException("확인할 챌린지가 없습니다.");
-        }
+//        if(challenges.isEmpty()) {
+//            throw new NoChallengeFoundException("확인할 챌린지가 없습니다.");
+//        }
         return challenges;
     }
 
