@@ -41,6 +41,7 @@ public class MypageServiceImpl implements MypageService {
 
         // 사용자 정보를 업데이트합니다.
         updateInfo.setUserName(updatedUser.getUserName());
+        updateInfo.setNickName(updatedUser.getNickName());
         updateInfo.setEmail(updatedUser.getEmail());
         updateInfo.setPhoneNum(updatedUser.getPhoneNum());
         updateInfo.setZipcode(updatedUser.getZipcode());
