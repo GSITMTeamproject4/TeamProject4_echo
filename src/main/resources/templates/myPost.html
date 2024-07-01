@@ -16,6 +16,15 @@
             background-color: white;
             padding-bottom: 100px;
         }
+
+        .board-title-link {
+            color: blue;
+            text-decoration: none;
+        }
+
+        .board-title-link:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -49,7 +58,10 @@
                 <tr th:each="post, iterStat : ${myPosts}">
                     <td th:text="${totalItems - (currentPage * size) - iterStat.index}"></td>
                     <td>
-                        <a th:href="@{/authBoard/detail/{id}(id=${post.listId})}" th:text="${post.boardTitle}"></a>
+                        <a th:href="@{/authBoard/detail/{id}(id=${post.listId})}"
+                           th:text="${post.boardTitle}"
+                           class="board-title-link">
+                        </a>
                     </td>
                     <td th:text="${#temporals.format(post.postCreateDate, 'yyyy-MM-dd HH:mm')}"></td>
                 </tr>

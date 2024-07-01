@@ -56,7 +56,11 @@ public class MypageController {
             return "redirect:/";
         }
         SiteUser user = mypageService.getUserById(userId);
+
         model.addAttribute("user", user);
+        model.addAttribute("year", LocalDate.now().getYear());
+        model.addAttribute("couponCount", user.getUserCoupons().size());
+
         return "profile_view";
     }
 
@@ -176,7 +180,6 @@ public class MypageController {
 
         return "redirect:/";
     }
-
 
     @GetMapping("/input-useamount/{userId}")
     public String showUsageForm(@PathVariable String userId, Model model, Principal principal) {
