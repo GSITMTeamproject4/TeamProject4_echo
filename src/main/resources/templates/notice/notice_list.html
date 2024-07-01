@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<layout:html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml"
+             xmlns:layout="http://www.w3.org/1999/xhtml" layout:decorate="~{layout}">
+
+    <th:block layout:fragment="css">
+        <link rel="stylesheet" th:href="@{/css/notice/notice_list.css}">
+    </th:block>
+
+    <div layout:fragment="content">
+        <body class="blog-page">
+
+            <!--타이틀-->
+            <main class="main">
+                <div class="page-title notice_header" data-aos="fade">
+                    <div class="heading">
+                        <div class="container">
+                            <div class="row d-flex justify-content-center text-center">
+                                <div class="col-lg-8">
+                                    <h1>공지사항</h1>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <div class="container mt-4">
+                <table class="table table-hover notice_table">
+                    <thead>
+                    <tr>
+                        <th scope="col">번호</th>
+                        <th scope="col" style="width: 50%">제목</th>
+                        <th scope="col">작성자</th>
+                        <th scope="col">작성일시</th>
+                    </tr>
+                    </thead>
+                    <tbody class="noticeList-tbody">
+                    <!-- noticeList를 반복하여 테이블 행 생성 -->
+                    <tr th:each="notice, loop : ${noticeList}">
+                        <td th:text="${loop.count}"></td>
+                        <td>
+                            <a th:href="@{|/notice/detail/${notice.notice_id}|}" th:text="${notice.notice_title}"></a>
+                        </td>
+                        <td>
+                            <span th:if="${notice.siteUser != null}" th:text="${notice.siteUser.userId}"></span>
+                        </td>
+                        <td th:text="${#temporals.format(notice.createDate,'yyyy-MM-dd HH:mm')}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <!--            <a th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>-->
+
+                <!-- 버튼 우측정렬 수정된 부분 시작 -->
+                <div class="d-flex justify-content-end">
+                    <!--                <a th:href="@{/notice/create}" class="btn btn-primary btn-create">게시글 등록하기</a>-->
+                    <!--id가 admin1234 이고 로그인 한 상태 일때만 보이도록 버튼 수정       -->
+                    <a sec:authorize="isAuthenticated() and principal.username == 'admin1234'" th:href="@{/notice/create}" class="btn btn-primary btn-create notice_btn">게시글 등록하기</a>
+
+                </div>
+                <!-- 수정된 부분 끝 -->
+
+            </div>
+
+        </body>
+    </div>
+</layout:html>

@@ -31,7 +31,7 @@
                     </div>
                     <div class="card-body">
                         <p class="text-uppercase text-sm">User Information</p>
-                        <form id="editForm" th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" th:object="${userEditForm}" enctype="multipart/form-data">
+                        <form th:action="@{/mypage/edit/{userId}(userId=${user.userId})}" method="post" enctype="multipart/form-data" th:object="${userEditForm}">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -105,8 +105,8 @@
 
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="profileImage" class="form-control-label">이미지 업로드</label>
-                                        <input type="file" id="profileImage" name="file" class="form-control-file" onchange="previewImage(event)" th:object="${user}">
+                                        <label for="profileImage">프로필 이미지</label>
+                                        <input type="file" id="profileImage" name="profileImage" class="form-control-file">
                                     </div>
                                 </div>
                             </div>

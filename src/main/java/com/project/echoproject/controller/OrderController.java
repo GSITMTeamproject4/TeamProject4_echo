@@ -1,20 +1,18 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.entity.Cart;
-import com.project.echoproject.entity.CartItem;
-import com.project.echoproject.entity.Orders;
-import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.dto.order.OrderDTO;
+import com.project.echoproject.entity.*;
 import com.project.echoproject.repository.CartRepository;
 import com.project.echoproject.repository.SiteUserRepository;
-import com.project.echoproject.service.CartService;
 import com.project.echoproject.service.OrderService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/orders")
@@ -22,16 +20,11 @@ public class OrderController {
 
     private final SiteUserRepository siteUserRepository;
     private final CartRepository cartRepository;
-    private final CartService cartService;
     private final OrderService orderService;
 
-    public OrderController(SiteUserRepository siteUserRepository,
-                           CartRepository cartRepository,
-                           CartService cartService,
-                           OrderService orderService) {
+    public OrderController(SiteUserRepository siteUserRepository, CartRepository cartRepository, OrderService orderService) {
         this.siteUserRepository = siteUserRepository;
         this.cartRepository = cartRepository;
-        this.cartService = cartService;
         this.orderService = orderService;
     }
 
@@ -51,7 +44,6 @@ public class OrderController {
         List<Long> productIds = new ArrayList<>();
         List<Integer> prices = new ArrayList<>();
         int totalAmount = 0;
-
         for (CartItem item : cartItems) {
             productNames.add(item.getProduct().getProductName());
             quantities.add(item.getQuantity());
@@ -72,17 +64,34 @@ public class OrderController {
         model.addAttribute("buyerAddr", siteUser.getStreetaddr());
         model.addAttribute("buyerPostcode", siteUser.getZipcode());
 
-        return "payment";
+        return "order/payment";
     }
 
+    @PostMapping("/checkout/{userId}")
+    public ResponseEntity<?> processOrder(@PathVariable String userId, @RequestBody Map<String, Object> orderData) {
+        try {
+            String orderNumber = (String) orderData.get("orderNumber");
+            String buyerTel = (String) orderData.get("buyerTel");
+            String buyerEmail = (String) orderData.get("buyerEmail");
+            String buyerAddr = (String) orderData.get("buyerAddr");
+            String buyerPostcode = (String) orderData.get("buyerPostcode");
+            int totalAmount = (Integer) orderData.get("totalAmount");
+
+            Orders createdOrder = orderService.createOrder(orderNumber, buyerTel, buyerEmail, buyerAddr, buyerPostcode, totalAmount, userId);
+
+            return ResponseEntity.ok(createdOrder);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Order processing failed: " + e.getMessage());
+        }
+    }
 
     @GetMapping("/success/{orderNumber}")
     public String orderSuccess(@PathVariable String orderNumber, Model model) {
-        Orders order = orderService.getOrderByOrderNumber(orderNumber);
-        if (order == null) {
+        OrderDTO orderDTO = orderService.getOrderDetails(orderNumber);
+        if (orderDTO == null) {
             return "redirect:/error";
         }
-        model.addAttribute("order", order);
-        return "order_success";
+        model.addAttribute("order", orderDTO);
+        return "order/order_success";
     }
 }

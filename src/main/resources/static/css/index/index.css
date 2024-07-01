@@ -1,0 +1,79 @@
+.divBox1{
+    margin: 100px 0;
+    display: flex;
+}
+
+.user-login-div1{
+    width: 600px;
+    padding-bottom: 330px;
+    position: relative;
+    right: 2%;
+}
+
+.user-login-div2{
+    margin: 0 auto;
+    padding-bottom: 20%;
+}
+
+.user-login-div3{
+    width: 300px;
+    position: relative;
+    right: 40%;
+    line-height: 2;
+}
+
+.user-login-div4{
+    margin-top: 20px;
+}
+
+.user-login-div5{
+    text-align: left;
+}
+
+
+.user-null-div1{
+    margin: 0 auto;
+    width: 600px;
+    padding-bottom: 55%;
+}
+.user-null-a{
+    margin-top: 30px;
+}
+
+
+.dashboard-div1{
+    flex-grow:2;
+}
+.dashboard-div2{
+    height: 200px;
+}
+.dashboard-div3{
+    height: 119px;
+}
+
+
+.divBox2{
+    margin: 70px 0;
+    height: 600px;
+    text-align: center;
+}
+.divBox2-h6{
+    font-size: 1.5em;
+    font-weight: 600;
+    margin-bottom: 30px;
+}
+
+.divBox3{
+    display: flex;
+    width: 250px;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+.label{
+    font-size: 1.3em;
+    margin:0;
+}
+#usageChart{
+    max-height: 625px;
+    max-width: 1250px;
+}

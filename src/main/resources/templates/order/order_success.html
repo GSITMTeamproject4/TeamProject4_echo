@@ -9,53 +9,46 @@
 
   <div layout:fragment="content">
     <body>
-      <main class="main order_success_main">
+    <main class="main order_success_main">
       <h1 class="order_success_title">주문 완료</h1>
       <div th:if="${order != null}">
         <div class="order-info">
           <h2 class="order_success_info_title">주문 정보</h2>
           <p>주문번호: <span th:text="${order.orderNumber}"></span></p>
-          <p>주문일: <span th:text="${#temporals.format(order.orderDate, 'yyyy.MM.dd')}"></span></p>
         </div>
-
         <div class="order-items">
           <h2>주문 상품</h2>
           <div th:each="item : ${order.items}" class="order_success_item">
-            <img th:src="${item.product.productImage}" alt="Product Image">
             <div class="item-info">
-              <p>상품명: <span th:text="${item.product.productName}"></span></p>
+              <p>상품명: <span th:text="${item.productName}"></span></p>
               <p>수량: <span th:text="${item.quantity}"></span></p>
-              <p>가격: <span th:text="${#numbers.formatDecimal(item.product.price, 0, 'COMMA', 0, 'POINT')}">원</span></p>
+              <p>가격: <span th:text="${#numbers.formatDecimal(item.price, 0, 'COMMA', 0, 'POINT')}">원</span></p>
             </div>
           </div>
         </div>
-
         <div class="payment-info">
           <h2>결제 정보</h2>
-          <p>상품금액: <span th:text="${#numbers.formatDecimal(order.totalAmount - 3000, 0, 'COMMA', 0, 'POINT')}">원</span></p>
-          <p>배송비: 3,000원</p>
+          <p>상품금액: <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')}">원</span></p>
+          <p>배송비: 0원</p>
           <p class="order_success_total">총 결제금액: <span th:text="${#numbers.formatDecimal(order.totalAmount, 0, 'COMMA', 0, 'POINT')}">원</span></p>
         </div>
-
         <div class="delivery-info">
           <h2>배송 정보</h2>
-          <p>수령인: <span th:text="${order.buyer.userName}"></span></p>
-          <p>연락처: <span th:text="${order.buyerTel}"></span></p>
-          <p>이메일: <span th:text="${order.buyerEmail}"></span></p>
-          <p>주소: <span th:text="${order.buyerAddr}"></span></p>
-          <p>우편번호: <span th:text="${order.buyerPostcode}"></span></p>
+          <p>수령인: <span th:text="${order.buyer.username}"></span></p>
+          <p>연락처: <span th:text="${order.buyer.buyerTel}"></span></p>
+          <p>이메일: <span th:text="${order.buyer.buyerEmail}"></span></p>
+          <p>주소: <span th:text="${order.buyer.buyerAddr}"></span></p>
+          <p>우편번호: <span th:text="${order.buyer.buyerPostcode}"></span></p>
         </div>
       </div>
-
       <div th:if="${order == null}">
         <p>주문 정보를 찾을 수 없습니다.</p>
       </div>
-
       <div class="order_success_actions">
         <a href="/" class="order_success_btn">홈으로 돌아가기</a>
-        <a href="/orders" class="order_success_btn">내 주문 보기</a>
+        <a href="/mypage/my-posts" class="order_success_btn">내 주문 보기</a>
       </div>
-      </main>
+    </main>
     </body>
   </div>
 </layout:html>

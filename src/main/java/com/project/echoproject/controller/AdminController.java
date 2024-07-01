@@ -1,19 +1,20 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.entity.AuthBoard;
-import com.project.echoproject.entity.Challenge;
-import com.project.echoproject.entity.ReportBoard;
-import com.project.echoproject.entity.SiteUser;
+import com.project.echoproject.dto.ReportDTO;
+import com.project.echoproject.entity.*;
 import com.project.echoproject.exception.NoChallengeFoundException;
-import com.project.echoproject.service.AuthBoardService;
-import com.project.echoproject.service.ChallengeService;
-import com.project.echoproject.service.ReportBoardService;
-import com.project.echoproject.service.SiteUserService;
+import com.project.echoproject.repository.ReportBoardRepository;
+import com.project.echoproject.service.*;
+import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
+import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/admin")
@@ -29,6 +30,9 @@ public class AdminController {
 
     @Autowired
     private AuthBoardService authBoardService;
+
+    @Autowired
+    private CouponService couponService;
 
     @GetMapping("")
     public String admin() {
@@ -101,5 +105,32 @@ public class AdminController {
     @GetMapping("/")
     public String index() {
         return "admin";
+    }
+
+    @GetMapping("coupon")
+    public String adminCouponManage() {
+        return "admin/coupon";
+    }
+
+    @PostMapping("/coupon")
+    @Builder
+    public String createPost(@RequestParam("name") String name,
+                             @RequestParam("point") Long point,
+                             @RequestParam("file") MultipartFile file,
+                             Principal principal,
+                             Model model) {
+
+        try {
+            if (principal == null) {
+                // 인증되지 않은 경우 접근 거부 예외 발생
+                return "redirect:/access_denied";
+            }
+
+            couponService.addCoupon(name,point,file);
+            return "redirect:/mall";
+        } catch (IOException e) {
+            model.addAttribute("error", "파일 업로드 중 오류가 발생했습니다: " + e.getMessage());
+            return "authBoard/authBoard_create";
+        }
     }
 }
