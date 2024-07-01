@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>내 구매내역</title>
+    <style>
+        .order-history-container {
+            padding: 3rem 0;
+        }
+        .order-history-title {
+            color: #2c3e50;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            font-size: 2.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .order-history-table {
+            background-color: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        .order-history-table th {
+            background-color: #27ae60;
+            color: white;
+            font-weight: 500;
+            text-transform: uppercase;
+            padding: 1.2rem 1rem;
+            font-size: 0.9rem;
+        }
+        .order-history-table td {
+            padding: 1.2rem 1rem;
+            vertical-align: middle;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        .order-history-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        .order-history-table tbody tr:hover {
+            background-color: #e8f5e9;
+        }
+        .product-names {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 500;
+            color: #2c3e50;
+        }
+        .order-number {
+            font-family: monospace;
+            font-size: 0.9rem;
+            color: #27ae60;
+        }
+        .total-amount {
+            font-weight: 600;
+            color: #27ae60;
+        }
+        .order-date {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+<div layout:fragment="content">
+    <main class="main">
+        <!-- Page Title -->
+        <div class="page-title" data-aos="fade">
+            <div class="heading">
+                <div class="container">
+                    <div class="row d-flex justify-content-center text-center">
+                        <div class="col-lg-8">
+                            <h1>내 구매목록</h1>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="order-history-container">
+            <div class="container">
+                <div class="order-history-table">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                        <tr>
+                            <th style="width: 40%">상품</th>
+                            <th style="width: 20%">주문번호</th>
+                            <th style="width: 20%">총액</th>
+                            <th style="width: 20%">주문날짜</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="order : ${orders}">
+                            <td>
+                                <div class="product-names" th:title="${#strings.listJoin(order.items.![productName], ', ')}">
+                                    <span th:text="${#strings.listJoin(order.items.![productName], ', ')}"></span>
+                                </div>
+                            </td>
+                            <td>
+                                <a th:href="@{/orders/success/{orderNumber}(orderNumber=${order.orderNumber})}" class="order-number" th:text="${order.orderNumber}"></a>
+                            </td>
+                            <td>
+                                <span class="total-amount" th:text="${#numbers.formatCurrency(order.totalAmount)}"></span>
+                            </td>
+                            <td>
+                                <span class="order-date" th:text="${#temporals.format(order.orderDate, 'yyyy-MM-dd HH:mm')}"></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+</body>
+</html>

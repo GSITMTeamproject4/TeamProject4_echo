@@ -71,18 +71,24 @@
                           <ul>
                             <li class="d-flex align-items-center">
                               <div th:if="${#authentication.name != board.siteUser.userId}">
-                                <a th:href="@{/authBoard/report/{id}(id=${board.listId})}" sec:authorize="isAuthenticated()"><i class="fa-solid fa-ban group-icon"></i></a>
+                                <a th:href="@{/authBoard/report/{id}(id=${board.listId})}" sec:authorize="isAuthenticated()" class="board_detail">
+                                  <p class="board_detail_btn">신고</p>
+                                </a>
                               </div>
                             </li>
                             <li class="d-flex align-items-center">
                               <div th:if="${#authentication.name == board.siteUser.userId}">
-                                <a th:href="@{/authBoard/modify/{id}(id=${board.listId})}"><i class="fa-solid fa-pen group-icon"></i></a>
+                                <a th:href="@{/authBoard/modify/{id}(id=${board.listId})}" class="board_detail">
+                                  <p class="board_detail_btn">수정</p>
+                                </a>
                               </div>
                             </li>
                             <li class="d-flex align-items-center">
                               <div th:if="${#authentication.name == board.siteUser.userId}">
                                 <form th:id="${'deleteForm' + board.listId}" th:action="@{/authBoard/delete/{id}(id=${board.listId})}" method="post" onsubmit="return confirmDelete(this)">
-                                  <button type="submit" class="delete-button"><i class="fa-solid fa-trash-can group-icon"></i></button>
+                                  <button type="submit" class="delete-button board_detail">
+                                    <p class="board_detail_btn">삭제</p>
+                                  </button>
                                 </form>
                               </div>
                             </li>

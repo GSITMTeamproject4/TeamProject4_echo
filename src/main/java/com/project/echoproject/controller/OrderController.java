@@ -6,6 +6,8 @@ import com.project.echoproject.repository.CartRepository;
 import com.project.echoproject.repository.SiteUserRepository;
 import com.project.echoproject.service.OrderService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -93,5 +95,13 @@ public class OrderController {
         }
         model.addAttribute("order", orderDTO);
         return "order/order_success";
+    }
+
+    @GetMapping("/history")
+    public String orderHistory(@AuthenticationPrincipal UserDetails userDetails, Model model) {
+        String userId = userDetails.getUsername();
+        List<OrderDTO> orders = orderService.getOrderHistoryForUser(userId);
+        model.addAttribute("orders", orders);
+        return "order/orderItem";
     }
 }
