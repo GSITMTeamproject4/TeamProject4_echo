@@ -250,7 +250,9 @@ public class SiteUserServiceImpl implements SiteUserService {
             return Collections.emptyList();
         }
         return users.stream()
-                .map(user -> user.getProvider() + " (" + user.getUserId() + ")")
+                .map(user -> user.getProvider())
                 .collect(Collectors.toList());
     }
+
+
 }
