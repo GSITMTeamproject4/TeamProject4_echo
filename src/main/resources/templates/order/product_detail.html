@@ -20,7 +20,8 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-md-6">
-                            <img th:src="${product.productImage}" alt="제품 이미지" class="product-image">
+<!--                            <img th:src="${product.productImage}" alt="제품 이미지" class="product-image">-->
+                            <img th:if="${product.productImage != null}" th:src="@{|/uploads/${product.productImage.filePath}|}" alt="Board Image" id="preview" class="img-preview"/>
                         </div>
                         <div class="col-md-6">
                             <h1 class="product-title" th:text="${product.productName}">Carry On Cocktail Kit</h1>
