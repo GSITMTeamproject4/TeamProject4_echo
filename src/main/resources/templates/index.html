@@ -26,10 +26,11 @@
                                     <img th:src="@{/img/profile-bg.jpg}" alt="Image placeholder" class="card-img-top">
                                     <div class="row justify-content-center">
                                         <div class="col-4 col-lg-4 order-lg-2">
-                                            <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
-                                                <img th:src="${user.profileImage != null ? '/uploads/' + user.profileImage.filePath : '/default-profile.png'}"
-                                                     class="rounded-circle img-fluid border border-2 border-white"
+                                            <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0 profile_card_img">
+                                                <img th:src="${user.profileImage.filePath == '/img/default-profile.png' ? '/img/default-profile.png' : '/uploads/' + user.profileImage.filePath}"
+                                                     class="rounded-circle img-fluid border border-2 border-white profile_img"
                                                      alt="Profile Image">
+
                                             </div>
                                         </div>
                                     </div>
@@ -87,9 +88,9 @@
                                     <img th:src="@{/img/profile-bg.jpg}" alt="Image placeholder" class="card-img-top">
                                     <div class="row justify-content-center">
                                         <div class="col-4 col-lg-4 order-lg-2">
-                                            <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0">
-                                                <img src="/default-profile.png"
-                                                     class="rounded-circle img-fluid border border-2 border-white"
+                                            <div class="mt-n4 mt-lg-n6 mb-4 mb-lg-0 profile_card_img">
+                                                <img th:src="@{/img/default-profile.png}"
+                                                     class="rounded-circle img-fluid border border-2 border-white profile_img"
                                                      alt="Default Profile Image">
                                             </div>
                                         </div>

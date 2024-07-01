@@ -25,6 +25,22 @@ public class ImageServiceImpl implements ImageService {
     private static final String UPLOAD_DIR = "uploads/";
 
     @Override
+    public Image getOrCreateDefaultImage() {
+        // 기본 이미지가 이미 존재하는지 확인
+        Image defaultImage = imageRepository.findByFileName("default-profile.png")
+                .orElseGet(() -> {
+                    // 기본 이미지가 없으면 새로 생성
+                    Image newImage = new Image();
+                    newImage.setFileName("default-profile.png");
+                    newImage.setFilePath("/img/default-profile.png");
+                    newImage.setFileType("image/png");
+                    newImage.setUploadTime(LocalDateTime.now());
+                    return imageRepository.save(newImage);
+                });
+        return defaultImage;
+    }
+
+    @Override
     public Image saveImage(MultipartFile file) throws IOException {
         if (file.isEmpty()) {
             throw new IOException("File is empty");

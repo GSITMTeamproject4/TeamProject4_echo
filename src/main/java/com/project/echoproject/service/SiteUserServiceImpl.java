@@ -77,6 +77,10 @@ public class SiteUserServiceImpl implements SiteUserService {
 
         siteUser.setPassword(passwordEncoder.encode(password));
 
+        // 기본 이미지 설정
+        Image defaultImage = imageService.getOrCreateDefaultImage();
+        siteUser.setProfileImage(defaultImage);
+
         if (file != null && !file.isEmpty()) {
             Image image = imageService.saveImage(file);
             siteUser.setProfileImage(image);
