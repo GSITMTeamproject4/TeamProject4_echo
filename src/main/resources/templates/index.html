@@ -35,31 +35,41 @@
                                     </div>
                                     <div class="card-body pt-0">
                                         <div class="text-center mt-4">
-                                            <h5 th:text="${user.userName}">사용자 이름</h5>
-                                            <div class="user-info">
-                                                <div class="user-info">
-                                                    <p th:if="${user.email != null and !user.email.isEmpty()}">
-                                                        <i class="fas fa-envelope mr-2"></i>
-                                                        <span th:text="${user.email}">사용자 이메일</span>
-                                                    </p>
-                                                    <p th:if="${user.phoneNum != null and !user.phoneNum.isEmpty()}">
-                                                        <i class="fas fa-phone mr-2"></i>
-                                                        <span th:text="${user.phoneNum}">전화번호</span>
-                                                    </p>
-                                                    <p th:if="${user.streetaddr != null and !user.streetaddr.isEmpty()}">
-                                                        <i class="fas fa-map-marker-alt mr-2"></i>
-                                                        <span th:text="${user.streetaddr}">주소</span>
-                                                    </p>
-                                                </div>
+                                            <h5 th:text="${user.userName}" class="user-profile-name">사용자 이름</h5>
+                                            <div class="user-profile-points-coupons">
+                                                <a th:href="@{/mypage/point-status/{userId}(userId=${user.userId})}">
+                                                    <span class="user-profile-points" th:text="'보유 포인트: ' + ${user.currentPoint}"></span>
+                                                </a>
+                                                <a th:href="@{/user/coupons}"><span class="user-profile-coupons" th:text="'보유 쿠폰: ' + ${couponCount}"></span></a>
                                             </div>
-                                            <div class="user-actions mt-4">
-                                                <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}" class="btn btn-primary btn-sm">
+                                            <div class="user-profile-info">
+                                                <p th:if="${user.email != null and !user.email.isEmpty()}">
+                                                    <i class="fas fa-envelope mr-2"></i>
+                                                    <span th:text="${user.email}">사용자 이메일</span>
+                                                </p>
+                                                <p th:if="${user.phoneNum != null and !user.phoneNum.isEmpty()}">
+                                                    <i class="fas fa-phone mr-2"></i>
+                                                    <span th:text="${user.phoneNum}">전화번호</span>
+                                                </p>
+                                                <p th:if="${user.streetaddr != null and !user.streetaddr.isEmpty()}">
+                                                    <i class="fas fa-map-marker-alt mr-2"></i>
+                                                    <span th:text="${user.streetaddr}">주소</span>
+                                                </p>
+                                            </div>
+                                            <div class="user-profile-actions mt-4">
+                                                <a th:href="@{/mypage/edit/{userId}(userId=${user.userId})}" class="btn btn-primary btn-sm user-profile-btn">
                                                     프로필 수정
                                                 </a>
-                                                <a th:href="@{/mypage/useamount-detail/{userId}(userId=${user.userId}, year=${year})}" class="btn btn-info btn-sm usage_btn">
+                                                <a th:href="@{/mypage/my-posts/{userId}(userId=${user.userId})}" class="btn btn-secondary btn-sm user-profile-btn">
+                                                    나의 게시글 보기
+                                                </a>
+                                                <a th:href="@{/order}" class="btn btn-secondary btn-sm user-profile-btn">
+                                                    나의 구매목록 보기
+                                                </a>
+                                                <a th:href="@{/mypage/useamount-detail/{userId}(userId=${user.userId}, year=${year})}" class="btn btn-info btn-sm user-profile-btn usage_btn">
                                                     사용량 보기
                                                 </a>
-                                                <a th:href="@{/challenge}" class="btn btn-success btn-sm">
+                                                <a th:href="@{/challenge}" class="btn btn-success btn-sm user-profile-btn">
                                                     챌린지 현황
                                                 </a>
                                             </div>

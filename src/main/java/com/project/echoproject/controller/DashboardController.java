@@ -2,6 +2,7 @@ package com.project.echoproject.controller;
 
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UseAmount;
+import com.project.echoproject.repository.SiteUserRepository;
 import com.project.echoproject.service.MypageService;
 import com.project.echoproject.service.SiteUserServiceImpl;
 import com.project.echoproject.service.UseAmountService;
@@ -23,6 +24,9 @@ public class DashboardController {
     private final SiteUserServiceImpl siteUserServiceImpl;
     private final MypageService mypageService;
 
+    private SiteUserRepository siteUserRepository;
+
+
     @Autowired
     public DashboardController(UseAmountService useAmountService,
                                SiteUserServiceImpl siteUserServiceImpl,
@@ -30,6 +34,7 @@ public class DashboardController {
         this.useAmountService = useAmountService;
         this.siteUserServiceImpl = siteUserServiceImpl;
         this.mypageService = mypageService;
+        this.siteUserRepository = siteUserRepository;
     }
 
 
@@ -47,6 +52,7 @@ public class DashboardController {
             // 사용자 정보 가져오기
             SiteUser user = mypageService.getUserById(userId);
             model.addAttribute("user", user);
+            model.addAttribute("couponCount", user.getUserCoupons().size());
 
             // 현재 날짜와 시간 정보 설정
             LocalDate now = LocalDate.now();

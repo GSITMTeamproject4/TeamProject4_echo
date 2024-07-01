@@ -50,7 +50,7 @@ public class NoticeController {
         } else {
             model.addAttribute("currentUserId", null);
         }
-        return "notice_detail";
+        return "notice/notice_detail";
     }
 
     // 게시글 CREATE GET
@@ -63,7 +63,7 @@ public class NoticeController {
     @PostMapping("/create")
     public String createNotice(@Valid NoticeFormDTO noticeFormDTO, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "notice_form";
+            return "notice/notice_form";
         }
         String userId = principal.getName();
         SiteUser siteUser = siteUserService.findByUserId(userId);
@@ -87,14 +87,14 @@ public class NoticeController {
         model.addAttribute("noticeFormDTO", noticeFormDTO);
         model.addAttribute("noticeId", id);
 
-        return "notice_form";
+        return "notice/notice_form";
     }
 
     // 게시글 수정 POST 로 수정값 넘김
     @PostMapping("/modify/{id}")
     public String noticeModify(@PathVariable("id") Long id, @Valid NoticeFormDTO noticeFormDTO, BindingResult bindingResult, Principal principal) {
         if (bindingResult.hasErrors()) {
-            return "notice_form";
+            return "notice/notice_form";
         }
 
         Notice notice = this.noticeService.checkNotice(id);
@@ -108,7 +108,7 @@ public class NoticeController {
     //DELETE
     //게시글 삭제
     @GetMapping("/delete/{id}")
-    //사용자 정보와 id정보받음
+    //사용자 정보와 id 정보받음
     public String questionDelete(Principal principal, @PathVariable("id") Long id) {
         Notice notice = this.noticeService.checkNotice(id);
         //이름확인해서 하나라도 일치하지 않으면 삭제권한없다고 띄우고
