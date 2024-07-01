@@ -54,14 +54,16 @@ public class AdminController {
 
     @GetMapping("point")
     public String adminPointManage(Model model) {
-        try {
+//        try {
             List<Challenge> challenges = challengeService.getChallengAll();
             model.addAttribute("challenges", challenges);
             return "admin/pointManage";
-        } catch (NoChallengeFoundException e) {
-            model.addAttribute("errorMessage", "확인할 챌린지가 없습니다.");
-            return "admin/noChallenge";
-        }
+//        }
+//        catch (NoChallengeFoundException e) {
+//            model.addAttribute("errorMessage", "확인할 챌린지가 없습니다.");
+//            return "admin/noChallenge";
+//        }
+
     }
 
     @PostMapping("point")
@@ -138,10 +140,10 @@ public class AdminController {
             return "authBoard/authBoard_create";
         }
     }
-    @GetMapping("/notice")
-    public String notice() {
-        return "admin/notice_list_admin";
-    }
+//    @GetMapping("/notice")
+//    public String notice() {
+//        return "admin/notice_list_admin";
+//    }
 
     @GetMapping("/item")
     public String item() {
