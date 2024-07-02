@@ -126,7 +126,7 @@ public class MypageController {
         SiteUser user = mypageService.getUserById(userId);
         model.addAttribute("user", user);
         model.addAttribute("year", LocalDate.now().getYear());
-        return "mypage";
+        return "profile_view";
     }
 
     // 비밀번호 변경 폼을 표시하는 메서드
@@ -163,7 +163,7 @@ public class MypageController {
             return "changepw_form";
         }
 
-        return "redirect:/mypage/" + userId;
+        return "redirect:/mypage/profile/" + userId;
     }
 
 
