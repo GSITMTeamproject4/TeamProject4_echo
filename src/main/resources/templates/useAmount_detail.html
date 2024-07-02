@@ -19,33 +19,33 @@
             }
             .table th, .table td {
                 vertical-align: middle;
-                border: 1px solid #dee2e6;
             }
 
             .year-detail {
-                margin-bottom: 70px;
+                margin-top: 20px;
+                margin-bottom: 30px;
             }
+
         </style>
     </head>
     <body class="useamount-detail">
     <div style="background-color: white; padding-bottom: 100px;">
-        <!--타이틀-->
-        <main class="main">
-            <div class="page-title" data-aos="fade">
-                <div class="heading">
-                    <div class="container">
+        <div class="container my-3">
+            <!--타이틀-->
+            <main class="main">
+                <div class="page-title" data-aos="fade">
+                    <div class="heading">
                         <div class="row d-flex justify-content-center text-center">
                             <div class="col-lg-8">
-                                <h1>전기/가스 사용량</h1>
+                                <h1 class="mb-2">전기/가스 사용량</h1>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </main>
+            </main>
 
         <div class="container my-3">
-            <h2 class="year-detail" th:text="${year} + '년 전기/가스 사용량 상세'"></h2>
+            <h2 class="year-detail  mt-2" th:text="${year} + '년 전기/가스 사용량 상세'"></h2>
 
             <table class="table table-bordered">
                 <thead>
@@ -57,9 +57,12 @@
                 </thead>
                 <tbody>
                 <tr th:each="month : ${#numbers.sequence(1, 12)}">
-                    <td th:text="${month} + '월'"></td>
-                    <td th:text="${useAmounts.containsKey(month) ? useAmounts.get(month).useElectricity : '-'}"></td>
-                    <td th:text="${useAmounts.containsKey(month) ? useAmounts.get(month).useGas : '-'}"></td>
+                    <td th:text="${month} + '월'"
+                        th:style="${month == 12} ? 'border-left: 1px solid #dee2e6 !important; border-right: 1px solid #dee2e6 !important;' : ''"></td>
+                    <td th:text="${useAmounts.containsKey(month) ? useAmounts.get(month).useElectricity : '-'}"
+                        th:style="${month == 12} ? 'border-left: 1px solid #dee2e6 !important; border-right: 1px solid #dee2e6 !important;' : ''"></td>
+                    <td th:text="${useAmounts.containsKey(month) ? useAmounts.get(month).useGas : '-'}"
+                        th:style="${month == 12} ? 'border-left: 1px solid #dee2e6 !important; border-right: 1px solid #dee2e6 !important;' : ''"></td>
                 </tr>
                 </tbody>
             </table>

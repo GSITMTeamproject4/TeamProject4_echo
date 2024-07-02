@@ -1,8 +1,10 @@
 package com.project.echoproject.oauth;
 
+import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.entity.UserRole;
 import com.project.echoproject.repository.SiteUserRepository;
+import com.project.echoproject.service.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,14 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService {
     private final SiteUserRepository siteUserRepository;
     private final PasswordEncoder passwordEncoder;
 
+    private final ImageService imageService;
+
     @Autowired
-    public CustomOAuth2UserServiceImpl(SiteUserRepository siteUserRepository, PasswordEncoder passwordEncoder) {
+    public CustomOAuth2UserServiceImpl(SiteUserRepository siteUserRepository, PasswordEncoder passwordEncoder,
+                                       ImageService imageService) {
         this.siteUserRepository = siteUserRepository;
         this.passwordEncoder = passwordEncoder;
+        this.imageService = imageService;
     }
 
     private String generateTemporaryPassword() {
@@ -84,6 +90,13 @@ public class CustomOAuth2UserServiceImpl extends DefaultOAuth2UserService {
             siteUserRepository.save(siteUser);
 
             // TODO: 임시 비밀번호를 사용자에게 안전하게 전달하는 로직 추가 (예: 이메일 발송)
+        }
+
+        // 프로필 이미지가 없으면 기본 이미지 설정
+        if (siteUser.getProfileImage() == null) {
+            Image defaultImage = imageService.getOrCreateDefaultImage();
+            siteUser.setProfileImage(defaultImage);
+            siteUserRepository.save(siteUser);
         }
 
         if (siteUser.getUserId() != null) {

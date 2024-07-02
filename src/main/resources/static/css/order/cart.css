@@ -1,13 +1,20 @@
+.heading{
+    border-top: none !important;
+}
+
 .cart_main {
     max-width: 1200px;
     margin: 150px auto;
     padding: 20px;
     font-family: 'Noto Sans KR', sans-serif;
-    background-color: #f4f4f4;
+    background-color: white;
     color: #333;
 }
+.img-max-width{
+    max-width: 300px;
+}
 .cart_title, .cart_subtitle {
-    color: #6200ee;
+    color:black;
     margin-bottom: 20px;
 }
 
@@ -45,7 +52,7 @@
     margin-bottom: 30px;
 }
 .cart_checkout_btn {
-    background-color: #6200ee;
+    background-color: #4CAF50;
     color: white;
     padding: 15px 30px;
     border: none;
@@ -59,7 +66,7 @@
     text-decoration: none;
 }
 .cart_checkout_btn:hover {
-    background-color: #3700b3;
+    background-color:#4CAF50;
     color: white;
 }
 

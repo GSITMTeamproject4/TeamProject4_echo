@@ -40,7 +40,7 @@ public class SiteUser {
 
     private String detailaddr;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "profile_image_id")
     private Image profileImage;
 
@@ -78,6 +78,23 @@ public class SiteUser {
 
     @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
     private List<Point> points;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<AuthBoard> authBoards;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<Challenge> challenges;
+
+    @OneToMany(mappedBy = "buyer", cascade = CascadeType.REMOVE)
+    private List<Orders> orders;
+
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<Notice> notices;
+
+    @OneToMany(mappedBy = "siteUser", cascade = CascadeType.REMOVE)
+    private List<ReportBoard> reportBoards;
+
 
     @JsonIgnore
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)

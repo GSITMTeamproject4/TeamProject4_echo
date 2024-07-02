@@ -13,132 +13,170 @@
 
     <div layout:fragment="content">
         <body>
-            <meta name="_csrf" th:content="${_csrf.token}"/>
-            <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+        <meta name="_csrf" th:content="${_csrf.token}"/>
+        <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 
-            <main class="product-detail">
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <img th:src="${product.productImage}" alt="제품 이미지" class="product-image">
-                        </div>
-                        <div class="col-md-6">
-                            <h1 class="product-title" th:text="${product.productName}">Carry On Cocktail Kit</h1>
-                            <p class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'">24,000원</p>
-                            <div class="product-quantity">
-                                <label for="product-detail-quantity">수량</label>
-                                <div class="product-detail-quantity-control">
-                                    <button class="product-detail-quantity-btn product-detail-minus">-</button>
-                                    <input type="number" id="product-detail-quantity" name="quantity" value="1" min="1">
-                                    <button class="product-detail-quantity-btn product-detail-plus">+</button>
-                                </div>
-                            </div>
-                            <div class="product-total">
-                                <p>총 상품금액(<span id="product-detail-count">1</span>개)</p>
-                                <p id="product-detail-total-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'">24,000원</p>
-                            </div>
-                            <div class="product-actions">
-                                <button class="btn btn-primary" id="product-detail-purchase">구매하기</button>
-                                <!-- 장바구니 추가 버튼 -->
-                                <form th:action="@{/cart/add}" method="post" onsubmit="return addToCart(event);" style="display:inline;">
-                                    <input type="hidden" name="productId" th:value="${product.id}" />
-                                    <input type="hidden" name="quantity" id="product-detail-cart-quantity" value="1" />
-                                    <button type="submit" class="btn btn-primary">장바구니에 추가</button>
-                                </form>
-                            </div>
-                        </div>
+        <main class="product-detail main">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <img th:if="${product.productImage != null}" th:src="@{|/uploads/${product.productImage.filePath}|}" alt="Board Image" id="preview" class="img-preview product_img"/>
                     </div>
-                    <div class="product-tabs">
-                        <ul class="nav nav-tabs">
-                            <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description">상세정보</a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#reviews">구매평/고객</a></li>
-                            <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#qna">Q&A</a></li>
-                        </ul>
-                        <div class="tab-content">
-                            <div id="description" class="tab-pane fade show active">
-                                <p>제품 상세 설명...</p>
+                    <div class="col-md-6">
+                        <h1 class="product-title" th:text="${product.productName}"></h1>
+                        <p class="product-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'"></p>
+                        <div class="product-quantity">
+                            <label for="product-detail-quantity">수량</label>
+                            <div class="product-detail-quantity-control">
+                                <button class="product-detail-quantity-btn product-detail-minus">-</button>
+                                <input type="number" id="product-detail-quantity" name="quantity" value="1" min="1">
+                                <button class="product-detail-quantity-btn product-detail-plus">+</button>
                             </div>
-                            <div id="reviews" class="tab-pane fade">
-                                <p>구매평 및 고객 리뷰...</p>
-                            </div>
-                            <div id="qna" class="tab-pane fade">
-                                <p>Q&A 내용...</p>
-                            </div>
+                        </div>
+                        <div class="product-total">
+                            <p>총 상품금액(<span id="product-detail-count">1</span>개)</p>
+                            <p id="product-detail-total-price" th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 0, 'POINT')} + '원'">24,000원</p>
+                        </div>
+                        <div class="product-actions">
+                            <!-- 장바구니 추가 버튼 -->
+                            <form th:action="@{/cart/add}" method="post" onsubmit="return addToCart(event);" style="display:inline;">
+                                <input type="hidden" name="productId" th:value="${product.id}" />
+                                <input type="hidden" name="quantity" id="product-detail-cart-quantity" value="1" />
+                                <button type="submit" class="btn btn-primary">장바구니에 추가</button>
+                            </form>
                         </div>
                     </div>
                 </div>
-            </main>
+                <div class="product-tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#description">상세정보</a></li>
+                    </ul>
+                    <div class="tab-content">
+                        <div id="description" class="tab-pane fade show active eco-product-detail-info">
+                            <h3 class="eco-detail-title"><i class="fas fa-info-circle"></i> 상품 상세 정보</h3>
+                            <div class="eco-detail-section">
+                                <h4 class="eco-section-title"><i class="fas fa-leaf"></i> 제품 스펙</h4>
+                                <p class="eco-detail-item">
+                                    <i class="fas fa-expand"></i>
+                                    <strong>상품규격</strong>
+                                    <span>28cm x 28cm x 9cm</span>
+                                </p>
+                                <p class="eco-detail-item">
+                                    <i class="fas fa-tshirt"></i>
+                                    <strong>상품재질</strong>
+                                    <span>10수 2합 캔버스</span>
+                                </p>
+                                <p class="eco-detail-item">
+                                    <i class="fas fa-palette"></i>
+                                    <strong>상품색상</strong>
+                                    <span>아이보리</span>
+                                </p>
+                                <p class="eco-detail-item">
+                                    <i class="fas fa-list"></i>
+                                    <strong>상품옵션</strong>
+                                    <span>입구 지퍼, 내부 주머니, 도톰 손잡이, 내부 안감</span>
+                                </p>
+                            </div>
+                            <div class="eco-detail-section">
+                                <h4 class="eco-section-title"><i class="fas fa-leaf"></i> 친환경 에코백</h4>
+                                <p class="eco-detail-description">에코백은 환경 보호를 위한 지속 가능한 선택입니다. 일회용 플라스틱 봉투 대신 사용함으로써 환경 오염을 줄이고 자원을 절약할 수 있습니다.</p>
+                                <p class="eco-detail-description">본 제품은 내구성이 뛰어난 10수 2합 캔버스 소재를 사용하여 오랫동안 사용할 수 있으며, 세탁이 용이하여 위생적으로 관리할 수 있습니다.</p>
+                            </div>
+                            <div class="eco-detail-section">
+                                <h4 class="eco-section-title"><i class="fas fa-leaf"></i> 제품 특징</h4>
+                                <ul class="eco-detail-features">
+                                    <li><i class="fas fa-check"></i> 넉넉한 수납공간으로 일상 용품을 편리하게 보관</li>
+                                    <li><i class="fas fa-check"></i> 도톰한 손잡이로 무게를 분산시켜 편안한 착용감</li>
+                                    <li><i class="fas fa-check"></i> 내부 주머니로 소지품을 체계적으로 정리</li>
+                                    <li><i class="fas fa-check"></i> 지퍼 잠금 장치로 내용물을 안전하게 보관</li>
+                                </ul>
+                            </div>
+                            <div class="eco-detail-section">
+                                <h4 class="eco-section-title"><i class="fas fa-exclamation-circle"></i> 주의사항</h4>
+                                <p class="eco-detail-description">첫 사용 전 반드시 세탁해 주시기 바랍니다. 30도 이하의 물에서 중성세제를 사용하여 손세탁하시면 제품을 오래 사용하실 수 있습니다.</p>
+                            </div>
+                        </div>
+                        <div id="reviews" class="tab-pane fade">
+                            <p>구매평 및 고객 리뷰...</p>
+                        </div>
+                        <div id="qna" class="tab-pane fade">
+                            <p>Q&A 내용...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
 
-            <script th:inline="javascript">
-                document.addEventListener('DOMContentLoaded', function() {
-                    const quantityInput = document.getElementById('product-detail-quantity');
-                    const cartQuantityInput = document.getElementById('product-detail-cart-quantity');
-                    const totalPriceElement = document.getElementById('product-detail-total-price');
-                    const countElement = document.getElementById('product-detail-count');
-                    const price = [[${product.price}]];
+        <script th:inline="javascript">
+            document.addEventListener('DOMContentLoaded', function() {
+                const quantityInput = document.getElementById('product-detail-quantity');
+                const cartQuantityInput = document.getElementById('product-detail-cart-quantity');
+                const totalPriceElement = document.getElementById('product-detail-total-price');
+                const countElement = document.getElementById('product-detail-count');
+                const price = [[${product.price}]];
 
-                    function updateQuantity() {
-                        const quantity = parseInt(quantityInput.value);
-                        cartQuantityInput.value = quantity;
-                        const totalPrice = price * quantity;
-                        totalPriceElement.textContent = totalPrice.toLocaleString() + '원';
-                        countElement.textContent = quantity;
-                    }
+                function updateQuantity() {
+                    const quantity = parseInt(quantityInput.value);
+                    cartQuantityInput.value = quantity;
+                    const totalPrice = price * quantity;
+                    totalPriceElement.textContent = totalPrice.toLocaleString() + '원';
+                    countElement.textContent = quantity;
+                }
 
-                    quantityInput.addEventListener('change', updateQuantity);
+                quantityInput.addEventListener('change', updateQuantity);
 
-                    document.querySelector('.product-detail-minus').addEventListener('click', function() {
-                        if (parseInt(quantityInput.value) > 1) {
-                            quantityInput.value = parseInt(quantityInput.value) - 1;
-                            updateQuantity();
-                        }
-                    });
-
-                    document.querySelector('.product-detail-plus').addEventListener('click', function() {
-                        quantityInput.value = parseInt(quantityInput.value) + 1;
+                document.querySelector('.product-detail-minus').addEventListener('click', function() {
+                    if (parseInt(quantityInput.value) > 1) {
+                        quantityInput.value = parseInt(quantityInput.value) - 1;
                         updateQuantity();
-                    });
+                    }
+                });
 
-                    // 초기 총 가격 설정
+                document.querySelector('.product-detail-plus').addEventListener('click', function() {
+                    quantityInput.value = parseInt(quantityInput.value) + 1;
                     updateQuantity();
                 });
 
-                function addToCart(event) {
-                    event.preventDefault();
+                // 초기 총 가격 설정
+                updateQuantity();
+            });
 
-                    const form = event.target;
-                    const formData = new FormData(form);
-                    const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
-                    const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+            function addToCart(event) {
+                event.preventDefault();
 
-                    fetch(form.action, {
-                        method: form.method,
-                        body: formData,
-                        headers: {
-                            [csrfHeader]: csrfToken
+                const form = event.target;
+                const formData = new FormData(form);
+                const csrfHeader = document.querySelector('meta[name="_csrf_header"]').content;
+                const csrfToken = document.querySelector('meta[name="_csrf"]').content;
+
+                fetch(form.action, {
+                    method: form.method,
+                    body: formData,
+                    headers: {
+                        [csrfHeader]: csrfToken
+                    }
+                })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(data => {
+                        if (data === "success") {
+                            alert('장바구니에 추가되었습니다');
+                        } else {
+                            alert(data);
                         }
                     })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.text();
-                        })
-                        .then(data => {
-                            if (data === "success") {
-                                alert('장바구니에 추가되었습니다');
-                            } else {
-                                alert(data);
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('장바구니 추가에 실패했습니다');
-                        });
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('장바구니 추가에 실패했습니다');
+                    });
 
-                    return false;
-                }
-            </script>
+                return false;
+            }
+        </script>
         </body>
     </div>
 

@@ -93,9 +93,31 @@ h5 {
     border-color: #5e72e4;
 }
 
+.btn-secondary{
+    background-color: #a27cff;
+    border-color: #a27cff;
+}
+
+.btn-secondary:hover{
+    background-color: #a27cff;
+}
+
+.btn-third{
+    background-color: #009bab;
+    border-color: #009bab;
+}
+
+.btn-third:hover{
+    background-color: #009bab;
+}
+
 .btn-info {
     background-color: #11cdef;
     border-color: #11cdef;
+}
+
+.btn-info:hover{
+    color: white;
 }
 
 .btn-success {
@@ -105,6 +127,44 @@ h5 {
 
 .btn:hover {
     opacity: 0.9;
+}
+
+.user-profile-name {
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.user-profile-points-coupons {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.user-profile-points, .user-profile-coupons {
+    margin-right: 1rem;
+}
+
+.user-profile-info p {
+    margin-bottom: 0.5rem;
+}
+
+.user-profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.user-profile-btn {
+    margin: 0.25rem;
+}
+
+.profile_card_img {
+    width: 140px;
+    height: 140px;
+}
+
+.profile_img {
+    width: 100% !important;
+    height: 100% !important;
 }
 
 /*----비로그인-----*/
@@ -146,6 +206,10 @@ h5 {
 }
 
 .usage_btn {
+    color: white;
+}
+
+.guest-btn-second{
     color: white;
 }
 

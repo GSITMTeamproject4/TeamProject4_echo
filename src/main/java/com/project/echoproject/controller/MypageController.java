@@ -56,7 +56,11 @@ public class MypageController {
             return "redirect:/";
         }
         SiteUser user = mypageService.getUserById(userId);
+
         model.addAttribute("user", user);
+        model.addAttribute("year", LocalDate.now().getYear());
+        model.addAttribute("couponCount", user.getUserCoupons().size());
+
         return "profile_view";
     }
 
@@ -68,9 +72,12 @@ public class MypageController {
         }
         SiteUser user = mypageService.getUserById(userId);
         SiteUserEditForm form = new SiteUserEditForm();
+
+        String userNickName = user.getNickName();
+        form.setNickName(userNickName);
+
         form.setUserId(user.getUserId());
         form.setUserName(user.getUserName());
-        user.setNickName(form.getNickName());
         form.setPhoneNum(user.getPhoneNum());
         form.setEmail(user.getEmail());
         form.setGender(user.getGender());
@@ -176,7 +183,6 @@ public class MypageController {
 
         return "redirect:/";
     }
-
 
     @GetMapping("/input-useamount/{userId}")
     public String showUsageForm(@PathVariable String userId, Model model, Principal principal) {
