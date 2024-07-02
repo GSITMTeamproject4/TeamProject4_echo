@@ -1,0 +1,30 @@
+.div-box2{
+    justify-content: space-around;
+}
+
+.div-box3{
+    justify-content: space-evenly !important;
+}
+
+#couponName{
+    width: 400px;
+}
+#couponPoint{
+    width: 400px;
+}
+#labelName{
+    /*width: 60px;*/
+    padding-top:12px;
+    text-align: center;
+    font-size: 1em;
+}
+#labelPoint{
+
+    padding-top:12px;
+    text-align: center;
+    font-size: 1em;
+    margin-left: -25px;
+}
+#custom{
+    margin-bottom: 100px;
+}

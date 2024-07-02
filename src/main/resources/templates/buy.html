@@ -5,23 +5,8 @@
 
     <th:block layout:fragment="css">
         <link rel="stylesheet" th:href="@{/css/authBoard/authBoard_create.css}">
-        <style>
-            #couponName{
-                width: 400px;
-            }
-            #couponPoint{
-                width: 400px;
-            }
-            #labelName{
-                width: 60px;
-            }
-            #labelPoint{
-                width: 60px;
-            }
-            #custom{
-                margin-bottom: 100px;
-            }
-        </style>
+        <link rel=stylesheet th:href="@{/css/common/fontStyle.css}"/>
+        <link rel=stylesheet th:href="@{/css/coupon/buy.css}"/>
     </th:block>
 
     <th:block layout:fragment="script">
@@ -44,12 +29,12 @@
 
                 <div class="container" data-aos="fade-up" data-aos-delay="100">
 
-                    <div class="row gy-4">
+                    <div class="row gy-4 div-box-main">
 
                         <div class="col-lg-6">
 
                             <div class="row gy-4">
-                                <div class="col-md-6">
+                                <div class="col-md-6 div-box2">
                                     <div class="info-item" data-aos="fade" data-aos-delay="200" >
                                         <div class="post-img">
                                             <img th:if="${buyCoupon.image != null}" th:src="@{|/uploads/${buyCoupon.image.filePath}|}" alt="Board Image" id="preview" class="img-preview"/>
@@ -66,14 +51,14 @@
                             <form th:action="@{{id}(id=${buyCoupon.couponId})}" method="post" class="php-email-form" enctype="multipart/form-data" onsubmit="return payCheck(event)">
                                 <div class="row gy-4">
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 div-box3">
                                         <label for="couponName" id="labelName" class="form-label">쿠폰명</label>
                                         <input type="text" id="couponName" readonly="readonly" class="form-control" th:field="*{buyCoupon.couponName}">
                                     </div>
 
-                                    <div class="col-md-12">
+                                    <div class="col-md-12 div-box3">
                                         <label for="couponPoint" id="labelPoint" class="form-label">필요포인트</label>
-                                        <input type="text" id="couponPoint" th:field="*{buyCoupon.couponPoint}" readonly="readonly" class="form-control">
+                                        <input type="text" id="couponPoint"  th:field="*{buyCoupon.couponPoint}" readonly="readonly" class="form-control">
                                     </div>
 <!--                                    <input type="file" id="file" name="file" accept="image/*"  required>-->
                                     <div id="custom" class="col-md-12 text-center">
