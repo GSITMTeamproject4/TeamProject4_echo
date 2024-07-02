@@ -45,11 +45,6 @@ public class AdminController {
         return "admin/admin"; // /templates/admin/admin.html 을 의미합니다.
     }
 
-    @GetMapping("/access-denied")
-    public String accessDenied() {
-        return "error/access_denied"; // accessDenied.html 페이지로 이동
-    }
-
     @GetMapping("/memberList")
     public String adminMemberList(Model model) {
         List<SiteUser> users = siteUserService.getAllUsers();
