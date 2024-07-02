@@ -22,7 +22,8 @@ public class Notice {
     @Column(nullable = false)
     private String notice_title;
 
-    @Column(nullable = false)
+
+    @Column(nullable = false, columnDefinition = "LONGTEXT")
     private String notice_content;
 
     private LocalDateTime createDate;

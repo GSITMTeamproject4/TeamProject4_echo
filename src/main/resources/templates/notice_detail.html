@@ -42,14 +42,15 @@
                         <span th:text="'게시글 번호: ' + ${notice.notice_id}">게시글 번호</span>
                     </div>
                 </div>
-                <!--                    <div class="eco-notice-content" th:utext="${notice.notice_content}">-->
-                <!--                        공지사항 내용-->
-                <!--                    </div>-->
-                <!--       07.01_hyewon_ 게시글 내용띄어쓰기 안되어서 코드 pre로 수정             -->
-                <pre class="eco-notice-content" th:text="${notice.notice_content}">
-                        공지사항 내용
-                    </pre>
 
+                <div class="eco-notice-content-wrapper">
+                    <h3 class="eco-notice-section-title">
+                        <i class="fas fa-bullhorn"></i> 공지사항 내용
+                    </h3>
+                    <div class="eco-notice-content-text" th:utext="${notice.notice_content}">
+                        <!-- 공지사항 내용 -->
+                    </div>
+                </div>
 
                 <div class="eco-notice-footer">
                     <div sec:authorize="isAuthenticated() and principal.username == 'admin1234'">
