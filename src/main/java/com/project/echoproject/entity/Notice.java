@@ -19,10 +19,10 @@ public class Notice {
     @JoinColumn(name = "userId")
     private SiteUser siteUser;
 
-    @Column(length = 50 , nullable = false)
+    @Column(nullable = false)
     private String notice_title;
 
-    @Column(length = 500 , nullable = false)
+    @Column(nullable = false)
     private String notice_content;
 
     private LocalDateTime createDate;
