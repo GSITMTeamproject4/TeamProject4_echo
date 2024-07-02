@@ -33,6 +33,7 @@
                   <h5>신고 사유</h5>
                 </div>
                 <div class="card-body">
+                  <div th:if="${alertMessage}" th:text="${alertMessage}" class="error-message"></div>
                   <form th:action="@{/authBoard/report/{id}(id=${board.listId})}" method="post" onsubmit="return confirmReport(event)">
                     <div class="form-check form-check-info text-start">
                       <input class="form-check-input" name="reason" type="radio" value="성적인 콘텐츠" id="sexual_content">
@@ -69,7 +70,7 @@
                       <button type="button" class="cancel-btn" id="cancelButton" th:data-url="@{/authBoard/detail/{id}(id=${board.listId})}">취소</button>
                     </div>
                   </form>
-                  <div th:if="${alertMessage}" th:text="${alertMessage}" class="error-message"></div>
+
                 </div>
               </div>
             </div>
