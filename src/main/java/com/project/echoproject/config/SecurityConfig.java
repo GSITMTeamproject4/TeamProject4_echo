@@ -41,14 +41,17 @@ public class SecurityConfig {
                         .accessDeniedPage("/access_denied")
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+
                         .requestMatchers("/challenge/add").authenticated()
                         .requestMatchers("/mall/buy/{id}").authenticated()
+                        .requestMatchers("/mypage/**").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
                         .requestMatchers("/authBoard/create", "/authBoard/modify/**", "/authBoard/delete/**", "/authBoard/report/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().permitAll()
 
                 )
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/user/login")
                         .loginProcessingUrl("/user/login")

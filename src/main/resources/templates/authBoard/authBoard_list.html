@@ -52,7 +52,10 @@
                     </h2>
                   </a>
                   <div class="d-flex align-items-center">
-                    <img th:src="${board.siteUser.profileImage.filePath != null ? '/uploads/' + board.siteUser.profileImage.filePath : '/default-profile.png'}" class="img-fluid post-author-img flex-shrink-0 auth_profile_img">
+                    <img th:src="${board.siteUser != null && board.siteUser.profileImage != null && board.siteUser.profileImage.filePath != null ?
+                        '/uploads/' + board.siteUser.profileImage.filePath : '/img/default-profile.png'}"
+                           class="img-fluid post-author-img flex-shrink-0 auth_profile_img"
+                           onerror="this.src='/img/default-profile.png';">
                     <div class="post-meta">
                       <p th:text="${board.siteUser.userName}" class="post-author"></p>
                       <p class="post-date">
@@ -78,14 +81,14 @@
           <div class="container">
             <div class="d-flex justify-content-center">
               <ul>
-                <li th:if="${currentPage > 0}">
+                <li th:if="${currentPage > 1}">
                   <a th:href="@{/authBoard/list(page=${currentPage - 1})}"><i class="fa-solid fa-chevron-left"></i></a>
                 </li>
-                <li th:each="pageNum : ${#numbers.sequence(0, totalPages - 1)}"
+                <li th:each="pageNum : ${#numbers.sequence(startPage, endPage)}"
                     th:classappend="${pageNum == currentPage} ? 'active'">
-                  <a th:href="@{/authBoard/list(page=${pageNum})}" th:text="${pageNum + 1}"></a>
+                  <a th:href="@{/authBoard/list(page=${pageNum})}" th:text="${pageNum}"></a>
                 </li>
-                <li th:if="${currentPage < totalPages - 1}">
+                <li th:if="${currentPage < totalPages}">
                   <a th:href="@{/authBoard/list(page=${currentPage + 1})}"><i class="fa-solid fa-chevron-right"></i></a>
                 </li>
               </ul>

@@ -1,10 +1,12 @@
 package com.project.echoproject.service;
 
-import com.project.echoproject.entity.Coupon;
 import com.project.echoproject.entity.Image;
 import com.project.echoproject.entity.Product;
 import com.project.echoproject.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +36,7 @@ public class ProductServiceImpl implements ProductService {
         }
     }
 
+    @Override
     public Product addItem(String name, int price, MultipartFile file) throws IOException {
         Product product = new Product();
 
@@ -47,5 +50,11 @@ public class ProductServiceImpl implements ProductService {
             product.setCheckImg(image.getFilePath()); // checkImg 필드 설정
         }
         return productRepository.save(product);
+    }
+
+    @Override
+    public Page<Product> getProductPage(int page, int size) {
+        Pageable pageable = PageRequest.of(page, size);
+        return productRepository.findAll(pageable);
     }
 }

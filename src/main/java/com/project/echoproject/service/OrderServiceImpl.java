@@ -102,4 +102,34 @@ public class OrderServiceImpl implements OrderService {
     public Orders getOrderByOrderNumber(String orderNumber) {
         return orderRepository.findByOrderNumber(orderNumber);
     }
+
+    @Override
+    public List<OrderDTO> getOrderHistoryForUser(String userId) {
+        List<Orders> orders = orderRepository.findByBuyerUserId(userId);
+        return orders.stream().map(this::convertToDTO).collect(Collectors.toList());
+    }
+
+    private OrderDTO convertToDTO(Orders order) {
+        OrderDTO dto = new OrderDTO();
+        dto.setOrderNumber(order.getOrderNumber());
+        dto.setTotalAmount(order.getTotalAmount());
+        dto.setOrderDate(order.getOrderDate());
+
+        BuyerDTO buyerDTO = new BuyerDTO();
+        buyerDTO.setUsername(order.getBuyer().getUserId());
+        dto.setBuyer(buyerDTO);
+
+        List<ItemDTO> itemDTOs = order.getItems().stream()
+                .map(item -> {
+                    ItemDTO itemDTO = new ItemDTO();
+                    itemDTO.setProductName(item.getProduct().getProductName());
+                    itemDTO.setQuantity(item.getQuantity());
+                    itemDTO.setPrice(item.getProduct().getPrice());
+                    return itemDTO;
+                })
+                .collect(Collectors.toList());
+        dto.setItems(itemDTOs);
+
+        return dto;
+    }
 }

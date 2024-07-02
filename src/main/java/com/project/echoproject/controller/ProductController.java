@@ -3,11 +3,13 @@ package com.project.echoproject.controller;
 import com.project.echoproject.entity.Product;
 import com.project.echoproject.service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -19,9 +21,14 @@ public class ProductController {
     private final ProductService productService;
 
     @GetMapping("")
-    public String productHome(Model model) {
-        List<Product> productList = this.productService.getList();
-        model.addAttribute("productList", productList);
+    public String productHome(Model model, @RequestParam(defaultValue = "0") int page) {
+        int size = 9; // 한 페이지에 보여줄 제품 수
+        Page<Product> productPage = productService.getProductPage(page, size);
+
+        model.addAttribute("productList", productPage.getContent());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", productPage.getTotalPages());
+
         return "order/product";
     }
 
