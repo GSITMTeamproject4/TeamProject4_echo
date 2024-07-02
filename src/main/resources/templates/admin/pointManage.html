@@ -7,10 +7,14 @@
 
         <!-- 부트스트랩 CSS 링크 -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+        <th:block layout:fragment="script">
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        </th:block>
     </head>
-    <body class="blog-page">
     <div layout:fragment="content">
+    <body class="blog-page">
+
         <!--타이틀-->
         <main class="main">
             <div class="page-title" data-aos="fade">
@@ -33,7 +37,7 @@
                                         <td><a th:href="@{/admin/showChallenge/{id}(id=${item.challengeId})}" th:text="${item.challengeInfo}">신고게시글 제목</a></td>
                                         <td th:text="${item.siteUser.userId}">신고인</td>
                                         <td>
-                                            <form th:action="@{/admin/point}" method="post" onsubmit="givePoint(event)">
+                                            <form th:action="@{/admin/point}" method="post" onsubmit="return giveCheck(event)">
                                                 <input type="hidden" name="id" th:value="${item.challengeId}">
                                                 <input type="hidden" name="userId" th:value="${item.siteUser.userId}">
                                                 <input type="hidden" name="challengeInfo" th:value="${item.challengeInfo}">
@@ -49,12 +53,24 @@
                     </div>
                 </div>
             </div>
+
         </main>
 
-    </div>
+
 
     <!-- 부트스트랩 JS 및 필수 JavaScript 추가 -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+
+    <!-- JavaScript 함수 추가 -->
+    <script th:inline="javascript">
+        function giveCheck(event) {
+            if (confirm("지급하시겠습니까?")) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    </script>
     </body>
+    </div>
 </layout:html>

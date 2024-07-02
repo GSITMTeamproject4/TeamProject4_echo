@@ -24,7 +24,7 @@ public class UseAmountServiceImplTest {
 
     @Test
     @Commit
-    public void testInsertUseAmountAndLogin() throws Exception {
+    public void testInsertUseAmount() throws Exception {
         // 기존 사용자 조회
         SiteUser user = siteUserRepository.findByUserId("testUser")
                 .orElseThrow(() -> new RuntimeException("User not found"));
