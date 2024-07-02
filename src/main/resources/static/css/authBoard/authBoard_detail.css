@@ -30,6 +30,10 @@
     color: var(--accent-color);
 }
 
+.board_detail:hover .board_detail_btn{
+    color: var(--accent-color);
+}
+
 .heart-button {
     background-color: transparent;
     padding: 0;
