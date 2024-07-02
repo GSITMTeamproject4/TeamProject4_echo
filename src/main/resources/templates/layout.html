@@ -47,7 +47,8 @@
   <link rel="stylesheet" th:href="@{/css/chatbot/chatbot.css}">
 
   <!-- 개별 css 삽입 -->
-  <th:block layout:fragment="css"></th:block>
+  <th:block layout:fragment="css">
+  </th:block>
 
 </head>
 
@@ -72,6 +73,9 @@
           <li><a th:href="@{/product}">에코 쇼핑 mall</a></li>
           <li><a th:href="@{/mall}">그린쿠폰 mall</a></li>
           <li><a th:href="@{/notice/list}">공지사항</a></li>
+          <div id="admin" sec:authorize="isAuthenticated() and principal.username == 'admin1234'">
+            <li><a th:href="@{/admin}">관리자 바로가기</a></li>
+          </div>
         </ul>
         <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
       </nav>
