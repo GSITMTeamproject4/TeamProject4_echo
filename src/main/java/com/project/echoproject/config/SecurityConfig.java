@@ -31,6 +31,11 @@ public class SecurityConfig {
     @Lazy
     private CustomAuthenticationFailureHandler customAuthenticationFailureHandler;
 
+
+    @Autowired
+    private CustomAccessDeniedHandler accessDeniedHandler;
+
+
     @Autowired
     private AuthProviderConfig authProviderConfig;
 
@@ -38,8 +43,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, @Lazy CustomOAuth2UserServiceImpl customOAuth2UserService) throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
-
-
+                        .requestMatchers("/admin/access-denied").permitAll()  // 접근 허용
                         .requestMatchers("/challenge/add").authenticated()
                         .requestMatchers("/mall/buy/{id}").authenticated()
                         .requestMatchers("/mypage/**").authenticated()
@@ -47,8 +51,8 @@ public class SecurityConfig {
                         .requestMatchers("/authBoard/create", "/authBoard/modify/**", "/authBoard/delete/**", "/authBoard/report/**").authenticated()
                         .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().permitAll()
-
                 )
+
                 .formLogin(formLogin -> formLogin
                         .loginPage("/user/login")
                         .loginProcessingUrl("/user/login")
@@ -63,7 +67,7 @@ public class SecurityConfig {
                         .invalidateHttpSession(true)
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/access-denied")
+                        .accessDeniedHandler(accessDeniedHandler)
                 )
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/user/login")
