@@ -37,6 +37,9 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, @Lazy CustomOAuth2UserServiceImpl customOAuth2UserService) throws Exception {
         http
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .accessDeniedPage("/access_denied")
+                )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
 
 
@@ -61,9 +64,7 @@ public class SecurityConfig {
                         .logoutSuccessUrl("/index")
                         .invalidateHttpSession(true)
                 )
-                .exceptionHandling(exceptionHandling -> exceptionHandling
-                        .accessDeniedPage("/access-denied")
-                )
+
                 .oauth2Login(oauth2 -> oauth2
                         .loginPage("/user/login")
                         .userInfoEndpoint(userInfo -> userInfo
