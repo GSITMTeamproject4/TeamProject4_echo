@@ -42,7 +42,6 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
 
-
                         .requestMatchers("/challenge/add").authenticated()
                         .requestMatchers("/mall/buy/{id}").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
