@@ -4,10 +4,8 @@ package com.project.echoproject.service;
 
 
 import com.project.echoproject.entity.Image;
-import com.project.echoproject.entity.UseAmount;
 import com.project.echoproject.entity.SiteUser;
 import com.project.echoproject.repository.ImageRepository;
-import com.project.echoproject.repository.UseAmountRepository;
 import com.project.echoproject.repository.SiteUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +14,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
-
 @SpringBootTest
 @Transactional
-public class SiteUserControllerTest {
+public class SiteUserServiceTest {
 
 
     @Autowired
@@ -33,7 +29,7 @@ public class SiteUserControllerTest {
 
     @Test
     @Commit
-    public void testInsertPreviousAndCurrentMonthUseAmount() {
+    public void testSiteUserService() {
         // 테스트용 SiteUser 생성 및 저장
         SiteUser user = new SiteUser();
         Image image = new Image();
