@@ -52,7 +52,7 @@ class AuthBoardServiceImplTest {
         testUser.setProfileImage(profileImage);
     }
 
-    @RepeatedTest(9)
+    @RepeatedTest(10)
     @Commit
     void createBoard() throws IOException {
         // Given

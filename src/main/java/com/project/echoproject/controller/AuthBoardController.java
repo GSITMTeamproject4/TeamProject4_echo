@@ -31,13 +31,21 @@ public class AuthBoardController {
 
     @GetMapping("/list")
     public String authBoardList(@AuthenticationPrincipal UserDetails userDetails, Model model,
-                                @RequestParam(defaultValue = "0") int page) {
+                                @RequestParam(defaultValue = "1") int page) {
 
         int size = 9; // 한 페이지에 보여줄 게시글 수
-        Page<AuthBoard> authBoardPage = authBoardService.getAuthBoards(page, size);
+        Page<AuthBoard> authBoardPage = authBoardService.getAuthBoards(page - 1, size); // 0부터 시작하도록 조정
         model.addAttribute("boards", authBoardPage.getContent());
         model.addAttribute("currentPage", page);
         model.addAttribute("totalPages", authBoardPage.getTotalPages());
+
+        // 페이지 그룹 계산
+        int pageGroupSize = 10;
+        int startPage = ((page - 1) / pageGroupSize) * pageGroupSize + 1;
+        int endPage = Math.min(startPage + pageGroupSize - 1, authBoardPage.getTotalPages());
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
 
         // 로그인한 유저 데이터 보내기
         if (userDetails != null) {
@@ -47,6 +55,7 @@ public class AuthBoardController {
         }
         return "authBoard/authBoard_list";
     }
+
 
     @GetMapping("/create")
     public String createPost() {
