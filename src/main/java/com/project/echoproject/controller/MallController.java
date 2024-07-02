@@ -40,18 +40,11 @@ public class MallController {
     @GetMapping("/buy/{id}")
     public String buyCoupon(@PathVariable Long id, Model model, Principal principal) {
         Coupon coupon = couponService.getCoupon(id);
-        model.addAttribute("coupon", coupon);
+//        model.addAttribute("coupon", coupon);
 
         SiteUser siteUser = siteUserService.findByUserId(principal.getName());
 
-        CouponDTO buyCoupon = new CouponDTO();
-        buyCoupon.setCouponId(coupon.getCouponId());
-        buyCoupon.setCouponPoint(coupon.getCouponPoint());
-        buyCoupon.setCouponName(coupon.getCouponName());
-        buyCoupon.setCurrentPoint(siteUser.getCurrentPoint());
-        buyCoupon.setBalance(0L);
-
-        model.addAttribute("buyCoupon", buyCoupon);
+        model.addAttribute("buyCoupon", coupon);
         return "buy";
     }
 
