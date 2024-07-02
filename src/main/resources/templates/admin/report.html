@@ -7,10 +7,14 @@
 
         <!-- 부트스트랩 CSS 링크 -->
         <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-
+        <th:block layout:fragment="script">
+            <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        </th:block>
     </head>
-    <body class="blog-page">
     <div layout:fragment="content">
+    <body class="blog-page">
+
         <!--타이틀-->
         <main class="main">
             <div class="page-title" data-aos="fade">
@@ -31,7 +35,7 @@
                                         <td><a th:href="@{/admin/reportDetail/{id}(id=${item.authBoard.listId})}" th:text="${item.authBoard.boardTitle}">신고게시글 제목</a></td>
                                         <td th:text="${item.SiteUser.userId}">신고인</td>
                                         <td>
-                                            <form th:action="@{/admin/report}" method="post" onclick="deleteBoard(event)">
+                                            <form th:action="@{/admin/report}" method="post" onclick="return deleteBoard(event)">
                                                 <input type="hidden" name="id" th:value="${item.authBoard.listId}">
                                                 <input type="hidden" name="userId" th:value="${item.authBoard.SiteUser.userId}">
                                                 <button class="btn btn-primary btn-create" type="submit">글삭제</button>
@@ -48,10 +52,19 @@
             </div>
         </main>
 
-    </div>
+
 
     <!-- 부트스트랩 JS 및 필수 JavaScript 추가 -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+        <script th:inline="javascript">
+            function deleteBoard(event) {
+                if (confirm("삭제하시겠습니까?")) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        </script>
     </body>
+    </div>
 </layout:html>
