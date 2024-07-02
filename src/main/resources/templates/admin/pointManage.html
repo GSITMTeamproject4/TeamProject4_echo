@@ -13,7 +13,7 @@
         </th:block>
     </head>
     <div layout:fragment="content">
-    <body class="blog-page">
+        <body class="blog-page">
 
         <!--타이틀-->
         <main class="main">
@@ -41,7 +41,10 @@
                                                 <input type="hidden" name="id" th:value="${item.challengeId}">
                                                 <input type="hidden" name="userId" th:value="${item.siteUser.userId}">
                                                 <input type="hidden" name="challengeInfo" th:value="${item.challengeInfo}">
-                                                <button class="btn btn-primary btn-create" type="submit">포인트지급</button>
+<!--                                                <button class="btn btn-primary btn-create" type="submit">포인트지급</button>-->
+                                                <button class="btn btn-primary btn-create" th:type="${item.received ?  'button' : 'submit'}">
+                                                    <span th:text="${item.received ? '지급완료' : '포인트지급'}"></span>
+                                                </button>
                                             </form>
                                         </td>
                                     </tr>
@@ -58,19 +61,20 @@
 
 
 
-    <!-- 부트스트랩 JS 및 필수 JavaScript 추가 -->
+        <!-- 부트스트랩 JS 및 필수 JavaScript 추가 -->
 
 
-    <!-- JavaScript 함수 추가 -->
-    <script th:inline="javascript">
-        function giveCheck(event) {
-            if (confirm("지급하시겠습니까?")) {
-                return true;
-            } else {
-                return false;
+        <!-- JavaScript 함수 추가 -->
+        <script th:inline="javascript">
+            function giveCheck(event) {
+                if (confirm("지급하시겠습니까?")) {
+
+                    return true;
+                } else {
+                    return false;
+                }
             }
-        }
-    </script>
-    </body>
+        </script>
+        </body>
     </div>
 </layout:html>

@@ -31,4 +31,6 @@ public class Challenge {
 
     @Column(columnDefinition = "TEXT")
     private String challengeContent;
+
+    private boolean isReceived=false;
 }

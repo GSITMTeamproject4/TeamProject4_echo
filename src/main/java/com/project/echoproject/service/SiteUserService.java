@@ -26,7 +26,7 @@ public interface SiteUserService {
 
     List<SiteUser> getAllUsers();
 
-    void addPointByAdmin(String userId, Long point, String challengeInfo);
+    void addPointByAdmin(String userId, Long point, String challengeInfo, Long id);
 
     String findUserIdByEmail(String email);
 

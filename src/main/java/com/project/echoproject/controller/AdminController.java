@@ -1,12 +1,8 @@
 package com.project.echoproject.controller;
 
-import com.project.echoproject.dto.ReportDTO;
 import com.project.echoproject.entity.*;
-import com.project.echoproject.exception.NoChallengeFoundException;
 import com.project.echoproject.repository.ProductRepository;
-import com.project.echoproject.repository.ReportBoardRepository;
 import com.project.echoproject.service.*;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,7 +11,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RequestMapping("/admin")
@@ -41,9 +36,12 @@ public class AdminController {
     private ProductRepository productRepository;
 
     @GetMapping("")
-    public String admin() {
-        return "admin/admin"; // /templates/admin/admin.html 을 의미합니다.
+    public String admin(Principal principal) {
+            return "admin/admin";
+
     }
+
+
 
     @GetMapping("/memberList")
     public String adminMemberList(Model model) {
@@ -72,7 +70,7 @@ public class AdminController {
                                 @RequestParam("userId") String userId,
                                 @RequestParam("challengeInfo") String challengeInfo){
         SiteUser siteUser = siteUserService.findByUserId(userId);
-        siteUserService.addPointByAdmin(userId,500L,challengeInfo);
+        siteUserService.addPointByAdmin(userId,500L,challengeInfo,id);
         return "redirect:/admin/point";
     }
 
