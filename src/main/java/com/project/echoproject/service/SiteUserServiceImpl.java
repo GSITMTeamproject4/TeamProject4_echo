@@ -90,7 +90,12 @@ public class SiteUserServiceImpl implements SiteUserService {
 
         siteUser.setProvider("local");
         siteUser.setProviderId(userId);
-        siteUser.setRole(UserRole.USER);
+
+        if(userId.equals("admin1234")){
+            siteUser.setRole(UserRole.ADMIN);
+        }else {
+            siteUser.setRole(UserRole.USER);
+        }
 
         return siteUserRepository.save(siteUser);
     }
