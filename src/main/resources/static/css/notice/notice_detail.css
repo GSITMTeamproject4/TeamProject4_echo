@@ -59,3 +59,55 @@
 .eco-btn-delete:hover {
     background-color: #c0392b;
 }
+.eco-notice-content-wrapper {
+    margin: 30px 0;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.eco-notice-section-title {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.eco-notice-section-title i {
+    margin-right: 10px;
+    color: #27ae60;
+}
+
+.eco-notice-content-text {
+    font-size: 16px;
+    line-height: 1.8;
+    color: #555;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.eco-notice-content-text p {
+    margin-bottom: 15px;
+}
+
+.eco-notice-content-text ul,
+.eco-notice-content-text ol {
+    margin-left: 20px;
+    margin-bottom: 15px;
+}
+
+.eco-notice-content-text li {
+    margin-bottom: 5px;
+}
+
+.eco-notice-content-text a {
+    color: #2980b9;
+    text-decoration: none;
+}
+
+.eco-notice-content-text a:hover {
+    text-decoration: underline;
+}

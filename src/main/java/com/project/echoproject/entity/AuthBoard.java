@@ -18,7 +18,7 @@ public class AuthBoard {
     @Column(length = 200, nullable = false)
     private String boardTitle;
 
-    @Column(columnDefinition = "TEXT")
+    @Column(columnDefinition = "LONGTEXT")
     private String boardContent;
 
     @Column(length = 200, nullable = false)
