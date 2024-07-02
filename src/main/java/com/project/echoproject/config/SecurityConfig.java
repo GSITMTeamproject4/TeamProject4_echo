@@ -38,13 +38,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, @Lazy CustomOAuth2UserServiceImpl customOAuth2UserService) throws Exception {
         http
                 .authorizeHttpRequests(authorizeRequests -> authorizeRequests
+
+
                         .requestMatchers("/challenge/add").authenticated()
                         .requestMatchers("/mall/buy/{id}").authenticated()
                         .requestMatchers("/mypage/**").authenticated()
                         .requestMatchers("/payment/validation/**").authenticated()
                         .requestMatchers("/authBoard/create", "/authBoard/modify/**", "/authBoard/delete/**", "/authBoard/report/**").authenticated()
-                        .requestMatchers("/admin/admin/**").hasAuthority("ADMIN")
+                        .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                         .anyRequest().permitAll()
+
                 )
                 .formLogin(formLogin -> formLogin
                         .loginPage("/user/login")
