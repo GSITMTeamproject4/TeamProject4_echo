@@ -1,10 +1,8 @@
 package com.project.echoproject.service;
 
 import com.project.echoproject.email.EmailService;
-import com.project.echoproject.entity.Image;
-import com.project.echoproject.entity.Point;
-import com.project.echoproject.entity.SiteUser;
-import com.project.echoproject.entity.UserRole;
+import com.project.echoproject.entity.*;
+import com.project.echoproject.repository.ChallengeRepository;
 import com.project.echoproject.repository.SiteUserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -36,6 +34,7 @@ public class SiteUserServiceImpl implements SiteUserService {
 
     private static final Logger logger = LoggerFactory.getLogger(SiteUserServiceImpl.class);
     private final PointService pointService;
+    private  final ChallengeRepository challengeRepository;
 
     // 사용자 ID로 사용자 정보 조회
     @Override
@@ -207,7 +206,7 @@ public class SiteUserServiceImpl implements SiteUserService {
     }
 
     // 관리자가 사용자에게 포인트 추가하는 메서드
-    public void addPointByAdmin(String userId, Long point, String challengeInfo) {
+    public void addPointByAdmin(String userId, Long point, String challengeInfo,Long id) {
         SiteUser siteUser = findByUserId(userId);
         siteUser.setCurrentPoint(siteUser.getCurrentPoint() + point); // 현재 포인트에 point를 추가
         siteUserRepository.save(siteUser);
@@ -218,7 +217,14 @@ public class SiteUserServiceImpl implements SiteUserService {
         addPoint.setPoint(500L); // 임의의 포인트 값 설정 (참고용으로 남겼습니다)
         addPoint.setPointInfo(challengeInfo);
         addPoint.setInsertDate(now);
+
+        Challenge challenge = challengeRepository.findById(id).get();
+        challenge.setReceived(true);
+        challengeRepository.save(challenge);
+
         pointService.addPointHistory(addPoint); // 포인트 히스토리 추가
+
+
     }
 
     // 이메일로 아이디 찾기
