@@ -7,6 +7,10 @@
         <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
         <link th:href="@{css/common/argon-dashboard.min.css}"/>
         <link rel="stylesheet" th:href="@{/css/index/index.css}">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+        <link rel=stylesheet th:href="@{/css/common/fontStyle.css}"/>
     </head>
 
     <th:block layout:fragment="script">
@@ -34,9 +38,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-body pt-0">
+                                    <div class="card-body pt-0 font-NotoSans">
                                         <div class="text-center mt-4">
-                                            <h5 th:text="${user.userName}" class="user-profile-name">사용자 이름</h5>
+                                            <h5 th:text="${user.userName}" class="user-profile-name font-NotoSans">사용자 이름</h5>
                                             <div class="user-profile-points-coupons">
                                                 <a th:href="@{/mypage/point-status/{userId}(userId=${user.userId})}">
                                                     <span class="user-profile-points" th:text="'보유 포인트: ' + ${user.currentPoint}"></span>
@@ -95,9 +99,9 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="card-body pt-0">
+                                    <div class="card-body pt-0 font-NotoSans">
                                         <div class="text-center mt-4">
-                                            <h5>게스트</h5>
+                                            <h5 font-NotoSans>게스트</h5>
                                             <div class="user-info">
                                                 <p>로그인하여 서비스를 이용해보세요.</p>
                                             </div>
@@ -123,21 +127,22 @@
                                 <div class="col-md-3">
                                     <div class="card dashboard-card">
                                         <div class="card-body">
-                                            <h5 class="card-title">현재 달 전기 사용량</h5>
-                                            <p class="card-text" th:text="${currentElectricity != null ? currentElectricity : '데이터 없음'}">데이터 없음</p>
+                                            <h5 class="card-title font-NotoSans">현재 달 전기 사용량</h5>
+                                            <p class="card-text font-NotoSans" th:text="${currentElectricity != null ? currentElectricity : '데이터 없음'}">데이터 없음</p>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="card dashboard-card">
                                         <div class="card-body">
-                                            <h5 class="card-title">전월 대비 전기 증감률</h5>
-                                            <p class="card-text" th:if="${electricityDiff != null and electricityDiff != 'N/A'}">
+                                            <h5 class="card-title font-NotoSans">전월 대비 전기 증감률</h5>
+                                            <p class="card-text font-NotoSans" th:if="${electricityDiff != null and electricityDiff != 'N/A'}">
                                                 전기량을
                                                 <span th:with="diff=${#strings.replace(electricityDiff, '%', '')}"
                                                       th:style="${#strings.startsWith(diff, '-')} ? 'color: blue;' : 'color: red;'"
-                                                      th:text="${#strings.startsWith(diff, '-') ? electricityDiff : '+' + electricityDiff}">0%</span>
-                                                <span th:text="${electricityDiffMsg != null ? #strings.substring(electricityDiffMsg, #strings.indexOf(electricityDiffMsg, '를') + 1) : ''}"></span>
+                                                      th:text="${#strings.startsWith(diff, '-') ? electricityDiff : '+' + electricityDiff}"
+                                                class="font-NotoSans">0%</span>
+                                                <span th:text="${electricityDiffMsg != null ? #strings.substring(electricityDiffMsg, #strings.indexOf(electricityDiffMsg, '를') + 1) : ''}" class="font-NotoSans"></span>
                                             </p>
                                             <p class="card-text" th:unless="${electricityDiff != null and electricityDiff != 'N/A'}">데이터 없음</p>
                                         </div>
